@@ -3,8 +3,6 @@ new_session: true
 before_chapter_script: _common.R
 delete_merged_file: true
 output_dir: "docs"
-view: https://github.com/rstudio/bookdown-demo/blob/master/%s
-edit: https://github.com/rstudio/bookdown-demo/edit/master/%s
 language:
   ui:
     chapter_name: "Chapter "

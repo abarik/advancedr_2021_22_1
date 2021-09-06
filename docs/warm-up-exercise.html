@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 2 Warm-up exercise | Advanced R</title>
+<meta name="author" content="Kálmán Abari">
+<meta name="description" content="Loftus, S. C. (2021). Basic Statistics with R: Reaching Decisions with Data. Retrieved from https://books.google.hu/books?id=vTASEAAAQBAJ  2.1 Data structures  2.1.1 Problems Consider the...">
+<meta name="generator" content="bookdown 0.23 with bs4_book()">
+<meta property="og:title" content="Chapter 2 Warm-up exercise | Advanced R">
+<meta property="og:type" content="book">
+<meta property="og:description" content="Loftus, S. C. (2021). Basic Statistics with R: Reaching Decisions with Data. Retrieved from https://books.google.hu/books?id=vTASEAAAQBAJ  2.1 Data structures  2.1.1 Problems Consider the...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 2 Warm-up exercise | Advanced R">
+<meta name="twitter:description" content="Loftus, S. C. (2021). Basic Statistics with R: Reaching Decisions with Data. Retrieved from https://books.google.hu/books?id=vTASEAAAQBAJ  2.1 Data structures  2.1.1 Problems Consider the...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.10.6/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.5.1/tabs.js"></script><script src="libs/bs3compat-0.2.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><link rel="stylesheet" href="bs4_style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Advanced R</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html"><span class="header-section-number">1</span> Introduction</a></li>
+<li><a class="active" href="warm-up-exercise.html"><span class="header-section-number">2</span> Warm-up exercise</a></li>
+<li><a class="" href="rmarkdown.html"><span class="header-section-number">3</span> RMarkdown</a></li>
+<li><a class="" href="advanced-data-manipulation.html"><span class="header-section-number">4</span> Advanced data manipulation</a></li>
+<li><a class="" href="modern-graphics.html"><span class="header-section-number">5</span> Modern graphics</a></li>
+<li><a class="" href="tidyverse-r.html"><span class="header-section-number">6</span> Tidyverse R</a></li>
+<li><a class="" href="bioconductor.html"><span class="header-section-number">7</span> Bioconductor</a></li>
+<li><a class="" href="rna-seq-an-example.html"><span class="header-section-number">8</span> RNA-Seq (an example)</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/abarik/advancedr_2021_22_1">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="warm-up-exercise" class="section level1" number="2">
+<h1>
+<span class="header-section-number">2</span> Warm-up exercise<a class="anchor" aria-label="anchor" href="#warm-up-exercise"><i class="fas fa-link"></i></a>
+</h1>
+<blockquote>
+<p>Loftus, S. C. (2021). Basic Statistics with R: Reaching Decisions with Data. Retrieved from <a href="https://books.google.hu/books?id=vTASEAAAQBAJ" class="uri">https://books.google.hu/books?id=vTASEAAAQBAJ</a></p>
+</blockquote>
+<div id="data-structures" class="section level2" number="2.1">
+<h2>
+<span class="header-section-number">2.1</span> Data structures<a class="anchor" aria-label="anchor" href="#data-structures"><i class="fas fa-link"></i></a>
+</h2>
+<div id="problems" class="section level3" number="2.1.1">
+<h3>
+<span class="header-section-number">2.1.1</span> Problems<a class="anchor" aria-label="anchor" href="#problems"><i class="fas fa-link"></i></a>
+</h3>
+<p>Consider the following set of attributes about the American Film Institute’s top-five movies ever from their 2007 list.</p>
+<ol style="list-style-type: decimal">
+<li>What code would you use to create a vector named <code>Movie</code> with the values <code>Citizen Kane</code>, <code>The Godfather</code>, <code>Casablanca</code>, <code>Raging Bull</code>, and <code>Singing in the Rain</code>? (Hints: <code>object &lt;- c()</code>, Working with character in R)</li>
+<li>What code would you use to create a vector — giving the year that the movies in Problem 1 were made — named <code>Year</code> with the values 1941, 1972, 1942, 1980, and 1952?</li>
+<li>What code would you use to create a vector — giving the run times in minutes of the movies in Problem 1 — named <code>RunTime</code> with the values 119, 177, 102, 129, and 103?</li>
+<li>What code would you use to find the run times of the movies in hours and save them in a vector called <code>RunTimeHours</code>? (Hints: Numeric tranformation)</li>
+<li>What code would you use to create a data frame named <code>MovieInfo</code> containing the vectors created in Problem 1, Problem 2, and Problem 3? (Hints: <code><a href="https://rdrr.io/r/base/data.frame.html">data.frame()</a></code>)</li>
+</ol>
+</div>
+</div>
+<div id="manipulation" class="section level2" number="2.2">
+<h2>
+<span class="header-section-number">2.2</span> Manipulation<a class="anchor" aria-label="anchor" href="#manipulation"><i class="fas fa-link"></i></a>
+</h2>
+<div id="problems-1" class="section level3" number="2.2.1">
+<h3>
+<span class="header-section-number">2.2.1</span> Problems<a class="anchor" aria-label="anchor" href="#problems-1"><i class="fas fa-link"></i></a>
+</h3>
+<p>Suppose we have the following data frame named <code>colleges</code> (<a href="data/colleges.xlsx">download here</a>):</p>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr class="header">
+<th align="left">College</th>
+<th align="right">Employees</th>
+<th align="right">TopSalary</th>
+<th align="right">MedianSalary</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">William and Mary</td>
+<td align="right">2104</td>
+<td align="right">425000</td>
+<td align="right">56496</td>
+</tr>
+<tr class="even">
+<td align="left">Christopher Newport</td>
+<td align="right">922</td>
+<td align="right">381486</td>
+<td align="right">47895</td>
+</tr>
+<tr class="odd">
+<td align="left">George Mason</td>
+<td align="right">4043</td>
+<td align="right">536714</td>
+<td align="right">63029</td>
+</tr>
+<tr class="even">
+<td align="left">James Madison</td>
+<td align="right">2833</td>
+<td align="right">428400</td>
+<td align="right">53080</td>
+</tr>
+<tr class="odd">
+<td align="left">Longwood</td>
+<td align="right">746</td>
+<td align="right">328268</td>
+<td align="right">52000</td>
+</tr>
+<tr class="even">
+<td align="left">Norfolk State</td>
+<td align="right">919</td>
+<td align="right">295000</td>
+<td align="right">49605</td>
+</tr>
+<tr class="odd">
+<td align="left">Old Dominion</td>
+<td align="right">2369</td>
+<td align="right">448272</td>
+<td align="right">54416</td>
+</tr>
+<tr class="even">
+<td align="left">Radford</td>
+<td align="right">1273</td>
+<td align="right">312080</td>
+<td align="right">51000</td>
+</tr>
+<tr class="odd">
+<td align="left">Mary Washington</td>
+<td align="right">721</td>
+<td align="right">449865</td>
+<td align="right">53045</td>
+</tr>
+<tr class="even">
+<td align="left">Virginia</td>
+<td align="right">7431</td>
+<td align="right">561099</td>
+<td align="right">60048</td>
+</tr>
+<tr class="odd">
+<td align="left">Virginia Commonwealth</td>
+<td align="right">5825</td>
+<td align="right">503154</td>
+<td align="right">55000</td>
+</tr>
+<tr class="even">
+<td align="left">Virginia Military Institute</td>
+<td align="right">550</td>
+<td align="right">364269</td>
+<td align="right">44999</td>
+</tr>
+<tr class="odd">
+<td align="left">Virginia Tech</td>
+<td align="right">7303</td>
+<td align="right">500000</td>
+<td align="right">51656</td>
+</tr>
+<tr class="even">
+<td align="left">Virginia State</td>
+<td align="right">761</td>
+<td align="right">356524</td>
+<td align="right">55925</td>
+</tr>
+</tbody>
+</table></div>
+<ol style="list-style-type: decimal">
+<li>What code would you use to select the first, third, tenth, and twelfth entries in the <code>TopSalary</code> vector from the <code>Colleges</code> data frame? (Hints: Indexing with <code>[]</code> operator)</li>
+<li>What code would you use to select the elements of the <code>MedianSalary</code> vector where the <code>TopSalary</code> is greater than $400,000? (Hints: <code>d$MedianSalary[d$TopSalary&gt;400000]</code>)</li>
+<li>What code would you use to select the rows of the data frame for colleges with less than or equal to 1000 employees? (Hints: <code>d[condition, ]</code>)</li>
+<li>What code would you use to select a sample of 5 colleges from this data frame (there are 14 rows)? (Hints: <code>d[sample(x = 1:14, size = 5, replace = F),]</code>)</li>
+</ol>
+<p>Suppose we have the following data frame named Countries (<a href="data/countries.xlsx">download here</a>):</p>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr class="header">
+<th align="left">Nation</th>
+<th align="left">Region</th>
+<th align="right">Population</th>
+<th align="right">PctIncrease</th>
+<th align="right">GDPcapita</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">China</td>
+<td align="left">Asia</td>
+<td align="right">1409517397</td>
+<td align="right">0.4</td>
+<td align="right">8582</td>
+</tr>
+<tr class="even">
+<td align="left">India</td>
+<td align="left">Asia</td>
+<td align="right">1339180127</td>
+<td align="right">1.1</td>
+<td align="right">1852</td>
+</tr>
+<tr class="odd">
+<td align="left">United States</td>
+<td align="left">North America</td>
+<td align="right">324459463</td>
+<td align="right">0.7</td>
+<td align="right">57467</td>
+</tr>
+<tr class="even">
+<td align="left">Indonesia</td>
+<td align="left">Asia</td>
+<td align="right">263991379</td>
+<td align="right">1.1</td>
+<td align="right">3895</td>
+</tr>
+<tr class="odd">
+<td align="left">Brazil</td>
+<td align="left">South America</td>
+<td align="right">209288278</td>
+<td align="right">0.8</td>
+<td align="right">10309</td>
+</tr>
+<tr class="even">
+<td align="left">Pakistan</td>
+<td align="left">Asia</td>
+<td align="right">197015955</td>
+<td align="right">2.0</td>
+<td align="right">1629</td>
+</tr>
+<tr class="odd">
+<td align="left">Nigeria</td>
+<td align="left">Africa</td>
+<td align="right">190886311</td>
+<td align="right">2.6</td>
+<td align="right">2640</td>
+</tr>
+<tr class="even">
+<td align="left">Bangladesh</td>
+<td align="left">Asia</td>
+<td align="right">164669751</td>
+<td align="right">1.1</td>
+<td align="right">1524</td>
+</tr>
+<tr class="odd">
+<td align="left">Russia</td>
+<td align="left">Europe</td>
+<td align="right">143989754</td>
+<td align="right">0.0</td>
+<td align="right">10248</td>
+</tr>
+<tr class="even">
+<td align="left">Mexico</td>
+<td align="left">North America</td>
+<td align="right">129163276</td>
+<td align="right">1.3</td>
+<td align="right">8562</td>
+</tr>
+</tbody>
+</table></div>
+<ol start="5" style="list-style-type: decimal">
+<li>What could would you use to select the rows of the data frame that have GDP per capita less than 10000 and are not in the Asia region?</li>
+<li>What code would you use to select a sample of three nations from this data frame (There are 10 rows)?</li>
+<li>What code would you use to select which nations saw a population percent increase greater that 1.5%?</li>
+</ol>
+<p>Suppose we have the following data frame named Olympics (<a href="data/olympics.xlsx">download here</a>):</p>
+<div class="inline-table"><table class="table table-sm">
+<thead><tr class="header">
+<th align="right">Year</th>
+<th align="left">Type</th>
+<th align="left">Host</th>
+<th align="right">Competitors</th>
+<th align="right">Events</th>
+<th align="right">Nations</th>
+<th align="left">Leader</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">1992</td>
+<td align="left">Summer</td>
+<td align="left">Spain</td>
+<td align="right">9356</td>
+<td align="right">257</td>
+<td align="right">169</td>
+<td align="left">Unified Team</td>
+</tr>
+<tr class="even">
+<td align="right">1992</td>
+<td align="left">Winter</td>
+<td align="left">France</td>
+<td align="right">1801</td>
+<td align="right">57</td>
+<td align="right">64</td>
+<td align="left">Germany</td>
+</tr>
+<tr class="odd">
+<td align="right">1994</td>
+<td align="left">Winter</td>
+<td align="left">Norway</td>
+<td align="right">1737</td>
+<td align="right">61</td>
+<td align="right">67</td>
+<td align="left">Russia</td>
+</tr>
+<tr class="even">
+<td align="right">1996</td>
+<td align="left">Summer</td>
+<td align="left">United States</td>
+<td align="right">10318</td>
+<td align="right">271</td>
+<td align="right">197</td>
+<td align="left">United States</td>
+</tr>
+<tr class="odd">
+<td align="right">1998</td>
+<td align="left">Winter</td>
+<td align="left">Japan</td>
+<td align="right">2176</td>
+<td align="right">68</td>
+<td align="right">72</td>
+<td align="left">Germany</td>
+</tr>
+<tr class="even">
+<td align="right">2000</td>
+<td align="left">Summer</td>
+<td align="left">Australia</td>
+<td align="right">10651</td>
+<td align="right">300</td>
+<td align="right">199</td>
+<td align="left">United States</td>
+</tr>
+<tr class="odd">
+<td align="right">2002</td>
+<td align="left">Winter</td>
+<td align="left">United States</td>
+<td align="right">2399</td>
+<td align="right">78</td>
+<td align="right">78</td>
+<td align="left">Norway</td>
+</tr>
+<tr class="even">
+<td align="right">2004</td>
+<td align="left">Summer</td>
+<td align="left">Greece</td>
+<td align="right">10625</td>
+<td align="right">301</td>
+<td align="right">201</td>
+<td align="left">United States</td>
+</tr>
+<tr class="odd">
+<td align="right">2006</td>
+<td align="left">Winter</td>
+<td align="left">Italy</td>
+<td align="right">2508</td>
+<td align="right">84</td>
+<td align="right">80</td>
+<td align="left">Germany</td>
+</tr>
+<tr class="even">
+<td align="right">2008</td>
+<td align="left">Summer</td>
+<td align="left">China</td>
+<td align="right">10942</td>
+<td align="right">302</td>
+<td align="right">204</td>
+<td align="left">China</td>
+</tr>
+<tr class="odd">
+<td align="right">2010</td>
+<td align="left">Winter</td>
+<td align="left">Canada</td>
+<td align="right">2566</td>
+<td align="right">86</td>
+<td align="right">82</td>
+<td align="left">Canada</td>
+</tr>
+<tr class="even">
+<td align="right">2012</td>
+<td align="left">Summer</td>
+<td align="left">United Kingdom</td>
+<td align="right">10768</td>
+<td align="right">302</td>
+<td align="right">204</td>
+<td align="left">United States</td>
+</tr>
+<tr class="odd">
+<td align="right">2014</td>
+<td align="left">Winter</td>
+<td align="left">Russia</td>
+<td align="right">2873</td>
+<td align="right">98</td>
+<td align="right">88</td>
+<td align="left">Russia</td>
+</tr>
+<tr class="even">
+<td align="right">2016</td>
+<td align="left">Summer</td>
+<td align="left">Brazil</td>
+<td align="right">11238</td>
+<td align="right">306</td>
+<td align="right">207</td>
+<td align="left">United States</td>
+</tr>
+<tr class="odd">
+<td align="right">2018</td>
+<td align="left">Winter</td>
+<td align="left">South Korea</td>
+<td align="right">2922</td>
+<td align="right">102</td>
+<td align="right">92</td>
+<td align="left">Norway</td>
+</tr>
+</tbody>
+</table></div>
+<ol start="8" style="list-style-type: decimal">
+<li>What code would you use to select the rows of the data frame where the host nation was also the medal leader?</li>
+<li>What code would you use to select the rows of the data frame where the number of competitors per event is greater than 35?</li>
+<li>What code would you use to select the rows of the data frame where the number of competing nations in the Winter Olympics is at least 80?</li>
+</ol>
+</div>
+</div>
+<div id="packages" class="section level2" number="2.3">
+<h2>
+<span class="header-section-number">2.3</span> Packages<a class="anchor" aria-label="anchor" href="#packages"><i class="fas fa-link"></i></a>
+</h2>
+<div id="problems-2" class="section level3" number="2.3.1">
+<h3>
+<span class="header-section-number">2.3.1</span> Problems<a class="anchor" aria-label="anchor" href="#problems-2"><i class="fas fa-link"></i></a>
+</h3>
+<ol style="list-style-type: decimal">
+<li>Install the <strong>Ecdat</strong> package. (Hints: <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages()</a></code>)</li>
+<li>Say that we previously installed the <strong>Ecdat</strong> library into R and wanted to call the library to access datasets from it. What code would we use to call the library? (Hints: <code><a href="https://rdrr.io/r/base/library.html">library()</a></code>)</li>
+<li>Say that we then wanted to call the dataset <code>Diamond</code> from the <strong>Ecdat</strong> library. What code would we use to load this dataset into R? (Hints: <code><a href="https://rdrr.io/r/utils/data.html">data()</a></code>)</li>
+</ol>
+</div>
+</div>
+<div id="frequency-and-numerical-exploratory-analyses" class="section level2" number="2.4">
+<h2>
+<span class="header-section-number">2.4</span> Frequency and numerical exploratory analyses<a class="anchor" aria-label="anchor" href="#frequency-and-numerical-exploratory-analyses"><i class="fas fa-link"></i></a>
+</h2>
+<div id="problems-3" class="section level3" number="2.4.1">
+<h3>
+<span class="header-section-number">2.4.1</span> Problems<a class="anchor" aria-label="anchor" href="#problems-3"><i class="fas fa-link"></i></a>
+</h3>
+<p>Load the <code>leuk</code> dataset from the <em>MASS</em> library. This dataset is the survival times (<code>time</code>), white blood cell count (<code>wbc</code>), and the presence of a morphologic characteristic of white blood cells (<code>ag</code>).</p>
+<ol style="list-style-type: decimal">
+<li>Generate the frequency table for the presence of the morphologic characteristic.</li>
+<li>Find the median and mean for survival time.</li>
+<li>Find the range, IQR, variance, and standard deviation for white blood cell count.</li>
+<li>Find the correlation between white blood cell count and survival time.</li>
+</ol>
+<p>Load the <code>survey</code> dataset from the <em>MASS</em> library. This dataset contains the survey responses of a class of college students.</p>
+<ol start="5" style="list-style-type: decimal">
+<li>Create the contingency table of whether or not the student smoked (<code>Smoke</code>) and the student’s exercise regimen (<code>Exer</code>). (Hints: <code><a href="https://rdrr.io/r/base/table.html">table()</a></code>, <code><a href="https://andrisignorell.github.io/DescTools/reference/Desc.html">DescTools::Desc()</a></code>)</li>
+<li>Find the mean and median of the student’s heart rate (<code>Pulse</code>). (Hints: <code><a href="https://rdrr.io/r/base/summary.html">summary()</a></code>, <code><a href="https://andrisignorell.github.io/DescTools/reference/Desc.html">DescTools::Desc()</a></code>, <code><a href="https://rdrr.io/pkg/psych/man/describe.html">psych::describe()</a></code>)</li>
+<li>Find the range, IQR, variance, and standard deviation for student age (<code>Age</code>).</li>
+<li>Find the correlation between the span of the student’s writing hand (<code>Wr.Hnd</code>) and nonwriting hand (<code>NW.Hnd</code>). (Hints: <code><a href="https://rdrr.io/r/stats/cor.html">cor()</a></code>, <code><a href="https://andrisignorell.github.io/DescTools/reference/Desc.html">DescTools::Desc()</a></code>)</li>
+</ol>
+<p>Load the <code>Housing</code> dataset from the <em>Ecdat</em> library. This dataset looks at the variables that affect the sales price of houses.</p>
+<ol start="9" style="list-style-type: decimal">
+<li>Create the contingency table of whether or not the house has a recreation room (<code>recroom</code>) and whether or not the house had a full basement (<code>fullbase</code>).</li>
+<li>Find the mean and median of the house’s lot size (<code>lotsize</code>).</li>
+<li>Find the range, IQR, variance, and standard deviation for the sales price (<code>price</code>).</li>
+<li>Find the correlation between the sales price of the house (<code>price</code>) and the number of bedrooms (<code>bedrooms</code>).</li>
+</ol>
+</div>
+</div>
+<div id="graphical-exploratory-analyses" class="section level2" number="2.5">
+<h2>
+<span class="header-section-number">2.5</span> Graphical exploratory analyses<a class="anchor" aria-label="anchor" href="#graphical-exploratory-analyses"><i class="fas fa-link"></i></a>
+</h2>
+<p>Load the <code>Star</code> dataset from the <em>Ecdat</em> library. This dataset looks at the affect on class sizes on student learning.</p>
+<ol style="list-style-type: decimal">
+<li>Generate the scatterplot of the student’s math score <code>tmathssk</code> and reading score <code>treadssk</code>. (Hints: <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code>, <code>ggplot() + geom_point()</code>)</li>
+<li>Generate the histogram of the years of teaching experience <code>totexpk</code>. (Hints: <code><a href="https://rdrr.io/r/graphics/hist.html">hist()</a></code>, <code>ggplot() + geom_histogram()</code>)</li>
+<li>Create a new variable in the <code>Star</code> dataset called <code>totalscore</code> that is the sum of the student’s math score <code>tmathssk</code> and reading score <code>treadssk</code>. (Hints: tranformation)</li>
+<li>Generate a boxplot of the student’s total score <code>totalscore</code> split out by the class size type <code>classk</code>. (Hints: <code><a href="https://rdrr.io/r/graphics/boxplot.html">boxplot()</a></code>, <code>ggplot() + geom_boxplot()</code>)</li>
+</ol>
+<p>Load the <code>survey</code> dataset from the <em>MASS</em> library. This dataset contains the survey responses of a class of college students.</p>
+<ol start="5" style="list-style-type: decimal">
+<li>Generate the scatterplot of the student’s height <code>Height</code> and writing hand span <code>Wr.Hnd</code>.</li>
+<li>Generate the histogram of student age <code>Age</code>.</li>
+<li>Generate a boxplot of the student’s heart rate <code>Pulse</code> split out by the student’s exercise regimen <code>Exer</code>.</li>
+</ol>
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="index.html"><span class="header-section-number">1</span> Introduction</a></div>
+<div class="next"><a href="rmarkdown.html"><span class="header-section-number">3</span> RMarkdown</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#warm-up-exercise"><span class="header-section-number">2</span> Warm-up exercise</a></li>
+<li>
+<a class="nav-link" href="#data-structures"><span class="header-section-number">2.1</span> Data structures</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#problems"><span class="header-section-number">2.1.1</span> Problems</a></li></ul>
+</li>
+<li>
+<a class="nav-link" href="#manipulation"><span class="header-section-number">2.2</span> Manipulation</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#problems-1"><span class="header-section-number">2.2.1</span> Problems</a></li></ul>
+</li>
+<li>
+<a class="nav-link" href="#packages"><span class="header-section-number">2.3</span> Packages</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#problems-2"><span class="header-section-number">2.3.1</span> Problems</a></li></ul>
+</li>
+<li>
+<a class="nav-link" href="#frequency-and-numerical-exploratory-analyses"><span class="header-section-number">2.4</span> Frequency and numerical exploratory analyses</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#problems-3"><span class="header-section-number">2.4.1</span> Problems</a></li></ul>
+</li>
+<li><a class="nav-link" href="#graphical-exploratory-analyses"><span class="header-section-number">2.5</span> Graphical exploratory analyses</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/abarik/advancedr_2021_22_1/blob/master/01-warmup.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/abarik/advancedr_2021_22_1/edit/master/01-warmup.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Advanced R</strong>" was written by Kálmán Abari. It was last built on 2021-09-06.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+</body>
+</html>

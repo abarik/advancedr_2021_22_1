@@ -1,0 +1,391 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{book}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={Advanced R},
+  pdfauthor={Kálmán Abari},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\usepackage{booktabs}
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\usepackage[]{natbib}
+\bibliographystyle{apalike}
+
+\title{Advanced R}
+\author{Kálmán Abari}
+\date{2021-09-06}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{1}
+\tableofcontents
+}
+\hypertarget{introduction}{%
+\chapter{Introduction}\label{introduction}}
+
+Welcome to the second book in R Fundamentals series! This second book takes you through how to do manipulation of tabular data and how to create modern graphics in R. We'll primarily be using capabilities from the set of packages called the tidyverse within the book. The book is aimed at beginners to R who understand the basics (check out the \href{https://abarik.github.io/basicr_2020_21_2/}{Basic R}).
+
+\hypertarget{warm-up-exercise}{%
+\chapter{Warm-up exercise}\label{warm-up-exercise}}
+
+\begin{quote}
+Loftus, S. C. (2021). Basic Statistics with R: Reaching Decisions with Data. Retrieved from \url{https://books.google.hu/books?id=vTASEAAAQBAJ}
+\end{quote}
+
+\hypertarget{data-structures}{%
+\section{Data structures}\label{data-structures}}
+
+\hypertarget{problems}{%
+\subsection{Problems}\label{problems}}
+
+Consider the following set of attributes about the American Film Institute's top-five movies ever from their 2007 list.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  What code would you use to create a vector named \texttt{Movie} with the values \texttt{Citizen\ Kane}, \texttt{The\ Godfather}, \texttt{Casablanca}, \texttt{Raging\ Bull}, and \texttt{Singing\ in\ the\ Rain}? (Hints: \texttt{object\ \textless{}-\ c()}, Working with character in R)
+\item
+  What code would you use to create a vector --- giving the year that the movies in Problem 1 were made --- named \texttt{Year} with the values 1941, 1972, 1942, 1980, and 1952?
+\item
+  What code would you use to create a vector --- giving the run times in minutes of the movies in Problem 1 --- named \texttt{RunTime} with the values 119, 177, 102, 129, and 103?
+\item
+  What code would you use to find the run times of the movies in hours and save them in a vector called \texttt{RunTimeHours}? (Hints: Numeric tranformation)
+\item
+  What code would you use to create a data frame named \texttt{MovieInfo} containing the vectors created in Problem 1, Problem 2, and Problem 3? (Hints: \texttt{data.frame()})
+\end{enumerate}
+
+\hypertarget{manipulation}{%
+\section{Manipulation}\label{manipulation}}
+
+\hypertarget{problems-1}{%
+\subsection{Problems}\label{problems-1}}
+
+Suppose we have the following data frame named \texttt{colleges} (\href{data/colleges.xlsx}{download here}):
+
+\begin{tabular}{l|r|r|r}
+\hline
+College & Employees & TopSalary & MedianSalary\\
+\hline
+William and Mary & 2104 & 425000 & 56496\\
+\hline
+Christopher Newport & 922 & 381486 & 47895\\
+\hline
+George Mason & 4043 & 536714 & 63029\\
+\hline
+James Madison & 2833 & 428400 & 53080\\
+\hline
+Longwood & 746 & 328268 & 52000\\
+\hline
+Norfolk State & 919 & 295000 & 49605\\
+\hline
+Old Dominion & 2369 & 448272 & 54416\\
+\hline
+Radford & 1273 & 312080 & 51000\\
+\hline
+Mary Washington & 721 & 449865 & 53045\\
+\hline
+Virginia & 7431 & 561099 & 60048\\
+\hline
+Virginia Commonwealth & 5825 & 503154 & 55000\\
+\hline
+Virginia Military Institute & 550 & 364269 & 44999\\
+\hline
+Virginia Tech & 7303 & 500000 & 51656\\
+\hline
+Virginia State & 761 & 356524 & 55925\\
+\hline
+\end{tabular}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  What code would you use to select the first, third, tenth, and twelfth entries in the \texttt{TopSalary} vector from the \texttt{Colleges} data frame? (Hints: Indexing with \texttt{{[}{]}} operator)
+\item
+  What code would you use to select the elements of the \texttt{MedianSalary} vector where the \texttt{TopSalary} is greater than \$400,000? (Hints: \texttt{d\$MedianSalary{[}d\$TopSalary\textgreater{}400000{]}})
+\item
+  What code would you use to select the rows of the data frame for colleges with less than or equal to 1000 employees? (Hints: \texttt{d{[}condition,\ {]}})
+\item
+  What code would you use to select a sample of 5 colleges from this data frame (there are 14 rows)? (Hints: \texttt{d{[}sample(x\ =\ 1:14,\ size\ =\ 5,\ replace\ =\ F),{]}})
+\end{enumerate}
+
+Suppose we have the following data frame named Countries (\href{data/countries.xlsx}{download here}):
+
+\begin{tabular}{l|l|r|r|r}
+\hline
+Nation & Region & Population & PctIncrease & GDPcapita\\
+\hline
+China & Asia & 1409517397 & 0.4 & 8582\\
+\hline
+India & Asia & 1339180127 & 1.1 & 1852\\
+\hline
+United States & North America & 324459463 & 0.7 & 57467\\
+\hline
+Indonesia & Asia & 263991379 & 1.1 & 3895\\
+\hline
+Brazil & South America & 209288278 & 0.8 & 10309\\
+\hline
+Pakistan & Asia & 197015955 & 2.0 & 1629\\
+\hline
+Nigeria & Africa & 190886311 & 2.6 & 2640\\
+\hline
+Bangladesh & Asia & 164669751 & 1.1 & 1524\\
+\hline
+Russia & Europe & 143989754 & 0.0 & 10248\\
+\hline
+Mexico & North America & 129163276 & 1.3 & 8562\\
+\hline
+\end{tabular}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{4}
+\tightlist
+\item
+  What could would you use to select the rows of the data frame that have GDP per capita less than 10000 and are not in the Asia region?
+\item
+  What code would you use to select a sample of three nations from this data frame (There are 10 rows)?
+\item
+  What code would you use to select which nations saw a population percent increase greater that 1.5\%?
+\end{enumerate}
+
+Suppose we have the following data frame named Olympics (\href{data/olympics.xlsx}{download here}):
+
+\begin{tabular}{r|l|l|r|r|r|l}
+\hline
+Year & Type & Host & Competitors & Events & Nations & Leader\\
+\hline
+1992 & Summer & Spain & 9356 & 257 & 169 & Unified Team\\
+\hline
+1992 & Winter & France & 1801 & 57 & 64 & Germany\\
+\hline
+1994 & Winter & Norway & 1737 & 61 & 67 & Russia\\
+\hline
+1996 & Summer & United States & 10318 & 271 & 197 & United States\\
+\hline
+1998 & Winter & Japan & 2176 & 68 & 72 & Germany\\
+\hline
+2000 & Summer & Australia & 10651 & 300 & 199 & United States\\
+\hline
+2002 & Winter & United States & 2399 & 78 & 78 & Norway\\
+\hline
+2004 & Summer & Greece & 10625 & 301 & 201 & United States\\
+\hline
+2006 & Winter & Italy & 2508 & 84 & 80 & Germany\\
+\hline
+2008 & Summer & China & 10942 & 302 & 204 & China\\
+\hline
+2010 & Winter & Canada & 2566 & 86 & 82 & Canada\\
+\hline
+2012 & Summer & United Kingdom & 10768 & 302 & 204 & United States\\
+\hline
+2014 & Winter & Russia & 2873 & 98 & 88 & Russia\\
+\hline
+2016 & Summer & Brazil & 11238 & 306 & 207 & United States\\
+\hline
+2018 & Winter & South Korea & 2922 & 102 & 92 & Norway\\
+\hline
+\end{tabular}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{7}
+\tightlist
+\item
+  What code would you use to select the rows of the data frame where the host nation was also the medal leader?
+\item
+  What code would you use to select the rows of the data frame where the number of competitors per event is greater than 35?
+\item
+  What code would you use to select the rows of the data frame where the number of competing nations in the Winter Olympics is at least 80?
+\end{enumerate}
+
+\hypertarget{packages}{%
+\section{Packages}\label{packages}}
+
+\hypertarget{problems-2}{%
+\subsection{Problems}\label{problems-2}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Install the \textbf{Ecdat} package. (Hints: \texttt{install.packages()})
+\item
+  Say that we previously installed the \textbf{Ecdat} library into R and wanted to call the library to access datasets from it. What code would we use to call the library? (Hints: \texttt{library()})
+\item
+  Say that we then wanted to call the dataset \texttt{Diamond} from the \textbf{Ecdat} library. What code would we use to load this dataset into R? (Hints: \texttt{data()})
+\end{enumerate}
+
+\hypertarget{frequency-and-numerical-exploratory-analyses}{%
+\section{Frequency and numerical exploratory analyses}\label{frequency-and-numerical-exploratory-analyses}}
+
+\hypertarget{problems-3}{%
+\subsection{Problems}\label{problems-3}}
+
+Load the \texttt{leuk} dataset from the \emph{MASS} library. This dataset is the survival times (\texttt{time}), white blood cell count (\texttt{wbc}), and the presence of a morphologic characteristic of white blood cells (\texttt{ag}).
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Generate the frequency table for the presence of the morphologic characteristic.
+\item
+  Find the median and mean for survival time.
+\item
+  Find the range, IQR, variance, and standard deviation for white blood cell count.
+\item
+  Find the correlation between white blood cell count and survival time.
+\end{enumerate}
+
+Load the \texttt{survey} dataset from the \emph{MASS} library. This dataset contains the survey responses of a class of college students.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{4}
+\tightlist
+\item
+  Create the contingency table of whether or not the student smoked (\texttt{Smoke}) and the student's exercise regimen (\texttt{Exer}). (Hints: \texttt{table()}, \texttt{DescTools::Desc()})
+\item
+  Find the mean and median of the student's heart rate (\texttt{Pulse}). (Hints: \texttt{summary()}, \texttt{DescTools::Desc()}, \texttt{psych::describe()})
+\item
+  Find the range, IQR, variance, and standard deviation for student age (\texttt{Age}).
+\item
+  Find the correlation between the span of the student's writing hand (\texttt{Wr.Hnd}) and nonwriting hand (\texttt{NW.Hnd}). (Hints: \texttt{cor()}, \texttt{DescTools::Desc()})
+\end{enumerate}
+
+Load the \texttt{Housing} dataset from the \emph{Ecdat} library. This dataset looks at the variables that affect the sales price of houses.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{8}
+\tightlist
+\item
+  Create the contingency table of whether or not the house has a recreation room (\texttt{recroom}) and whether or not the house had a full basement (\texttt{fullbase}).
+\item
+  Find the mean and median of the house's lot size (\texttt{lotsize}).
+\item
+  Find the range, IQR, variance, and standard deviation for the sales price (\texttt{price}).
+\item
+  Find the correlation between the sales price of the house (\texttt{price}) and the number of bedrooms (\texttt{bedrooms}).
+\end{enumerate}
+
+\hypertarget{graphical-exploratory-analyses}{%
+\section{Graphical exploratory analyses}\label{graphical-exploratory-analyses}}
+
+Load the \texttt{Star} dataset from the \emph{Ecdat} library. This dataset looks at the affect on class sizes on student learning.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Generate the scatterplot of the student's math score \texttt{tmathssk} and reading score \texttt{treadssk}. (Hints: \texttt{plot()}, \texttt{ggplot()\ +\ geom\_point()})
+\item
+  Generate the histogram of the years of teaching experience \texttt{totexpk}. (Hints: \texttt{hist()}, \texttt{ggplot()\ +\ geom\_histogram()})
+\item
+  Create a new variable in the \texttt{Star} dataset called \texttt{totalscore} that is the sum of the student's math score \texttt{tmathssk} and reading score \texttt{treadssk}. (Hints: tranformation)
+\item
+  Generate a boxplot of the student's total score \texttt{totalscore} split out by the class size type \texttt{classk}. (Hints: \texttt{boxplot()}, \texttt{ggplot()\ +\ geom\_boxplot()})
+\end{enumerate}
+
+Load the \texttt{survey} dataset from the \emph{MASS} library. This dataset contains the survey responses of a class of college students.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{4}
+\tightlist
+\item
+  Generate the scatterplot of the student's height \texttt{Height} and writing hand span \texttt{Wr.Hnd}.
+\item
+  Generate the histogram of student age \texttt{Age}.
+\item
+  Generate a boxplot of the student's heart rate \texttt{Pulse} split out by the student's exercise regimen \texttt{Exer}.
+\end{enumerate}
+
+\hypertarget{rmarkdown}{%
+\chapter{RMarkdown}\label{rmarkdown}}
+
+\hypertarget{advanced-data-manipulation}{%
+\chapter{Advanced data manipulation}\label{advanced-data-manipulation}}
+
+\hypertarget{modern-graphics}{%
+\chapter{Modern graphics}\label{modern-graphics}}
+
+\hypertarget{tidyverse-r}{%
+\chapter{Tidyverse R}\label{tidyverse-r}}
+
+\hypertarget{bioconductor}{%
+\chapter{Bioconductor}\label{bioconductor}}
+
+\hypertarget{rna-seq-an-example}{%
+\chapter{RNA-Seq (an example)}\label{rna-seq-an-example}}
+
+  \bibliography{book.bib,packages.bib}
+
+\end{document}
