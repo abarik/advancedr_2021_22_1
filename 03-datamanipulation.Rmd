@@ -1,5 +1,975 @@
 # Advanced data manipulation
 
+This chapter focuses exclusively on advanced data manipulation. I therefore assume a basic level of comfort with data manipulation.
+
+## Importing data
+
+Most of the data used for analysis is found in the outside world and needs to be imported into R. Data comes in different formats.
+
+-   **Delimited text files** are the most common way of transferring data between systems in general. They are files that store tabular data using special characters (known as delimiters) to indicate rows and columns. These delimiters include commas, tabs, space, semicolons (;), pipes (\|), etc. The function `read.table()` is used to read delimited text files. It accepts as argument, the file path of the file and returns as output a data frame.
+
+-   **Binary files** are more complex than plain text files and accessing the information in binary files requires the use of special software. Some examples of binary files that we will frequently see include Microsoft Excel spreadsheets, SAS data sets, Stata data sets, and SPSS data set. The **foreign** package contains functions that may be used to import SAS data sets and Stata data sets, and is installed by default when you install R on your computer. We can use the **readxl** package to import Microsoft Excel files, and the **haven** package to import SAS and Stata data sets. We aren't going to use these packages in this chapter. Instead, we're going to use the best **rio** package to import data in the examples below.
+
+```{r}
+# Description of gapminder:
+# help(gapminder, package = "gapminder")
+
+# importing the gapminder dataset - Delimited text files - ANSI (CP1250)
+gapminder_cp1250 <- read.table(file = "data/gapminder_ext_CP1250.txt", header = T, sep = "\t", dec = ",", fileEncoding = "latin2")
+
+# importing the gapminder dataset - Delimited text files - UTF-8
+gapminder_utf8 <- read.table(file = "data/gapminder_ext_UTF-8.txt", header = T, sep = "\t", dec = ",", fileEncoding = "UTF-8")
+
+# importing the gapminder dataset - Binary files
+library(rio)
+gapminder_xlsx <- import(file = "data/gapminder_ext.xlsx")
+
+# checking class
+class(gapminder_xlsx)
+```
+
+### Import files directly from the web
+
+The functions `read.table()` and `rio::import()` accept a URL in the place of a dataset and downloads the dataset directly.
+
+```{r}
+# NCHS - Death rates and life expectancy at birth: 
+# https://data.cdc.gov/NCHS/NCHS-Death-rates-and-life-expectancy-at-birth/w9j2-ggv5
+
+# storing URL
+data_url <- 'https://data.cdc.gov/api/views/w9j2-ggv5/rows.csv?accessType=DOWNLOAD'
+
+# reading in data from the URL - Delimited text file
+life_expectancy <- read.table(data_url, header = T, sep = ",", dec = ".")
+
+head(life_expectancy, 3)
+nrow(life_expectancy)
 
 
+# Description of Potthoff-Roy data: 
+# help(potthoffroy, package = "mice")
 
+# storing URL
+data_url <- "https://raw.github.com/abarik/rdata/master/r_alapok/pothoff2.xlsx"
+library(rio)
+pothoff <- import(file = data_url)
+str(pothoff)
+```
+
+## Exporting data
+
+The function `write.table()` are used to export data to delimited text file. The function `rio::export()` is used to export data to worksheets in an Excel file (or other binary file). The type of the binary file will depend on the extension given to the file name.
+
+```{r}
+# exporting the gapminder dataset - Delimited text files - ANSI (CP1250)
+write.table(x = gapminder_xlsx, file = "output/data/gapminder_CP1250.csv", quote = F, sep = ";", dec = ",", row.names = F, fileEncoding = "latin2")
+
+# exporting the gapminder dataset - Delimited text files - UTF-8
+write.table(x = gapminder_xlsx, file = "output/data/gapminder_UTF-8.csv", quote = F, sep = ";", dec = ",", row.names = F, fileEncoding = "UTF-8")
+
+# exporting the gapminder dataset - Binary files
+library(rio)
+export(x = gapminder_xlsx, file = "output/data/gapminder.xlsx", overwrite = T)
+export(x = gapminder_xlsx, file = "output/data/gapminder.sav")
+```
+
+## Inspecting a data frame
+
+We use the following functions to inspect a data frame:
+
+-   `dim()` returns dimensions
+-   `nrow()` returns number of rows
+-   `ncol()` returns number of columns
+-   `str()` returns column names and their data types plus some first few values
+-   `head()` returns the first six rows by default but can be changed using the argument `n`
+-   `tail()` returns the last six rows by default but can be changed using the argument `n`
+
+```{r}
+dim(gapminder_xlsx)
+nrow(gapminder_xlsx)
+ncol(gapminder_xlsx)
+str(gapminder_xlsx)
+head(gapminder_xlsx)
+tail(gapminder_xlsx, n = 4)
+```
+
+## Manipulating Columns
+
+### Changing column type
+
+After importing data, column types can be changed by assigning new data types to them.
+
+```{r}
+str(gapminder_xlsx)
+
+# changing column type
+gapminder_xlsx$country <- factor(gapminder_xlsx$country)
+gapminder_xlsx$continent <- factor(gapminder_xlsx$continent)
+gapminder_xlsx$country_hun <- factor(gapminder_xlsx$country_hun)
+gapminder_xlsx$continent_hun <- factor(gapminder_xlsx$continent_hun)
+
+str(gapminder_xlsx)
+```
+
+### Renaming columns
+
+After importing data, columns can be renamed by assigning new names to them.
+
+```{r}
+names(gapminder_utf8)
+names(gapminder_utf8)[1] <- "orszag"
+names(gapminder_utf8)[2] <- "kontinens"
+names(gapminder_utf8)
+
+names(gapminder_utf8)
+names(gapminder_utf8)[7:8] <- c("orszag_hun", "kontinens_hun")
+names(gapminder_utf8)
+```
+
+### Insert and derive new columns
+
+```{r}
+# Here's a data set of 1,000 most popular movies on IMDB in the last 10 years. 
+# https://www.kaggle.com/PromptCloudHQ/imdb-data/version/1
+mov <- read.table(file = "data/IMDB-Movie-Data.csv", header = T, sep = ",", dec = ".", fileEncoding = "UTF-8", quote = "\"",
+                  comment.char = "")
+str(mov)
+names(mov) <- c('Rank', 'Title', 'Genre', 'Description', 'Director', 'Actors', 'Year', 
+                'Runtime', 'Rating', 'Votes', 'Revenue', 'Metascore')
+```
+
+### Inserting a new column
+
+To insert a new column, we index the data frame by the new column name and assign it values.
+
+```{r}
+# adding a new column known as example
+movies <- mov[,c(2, 7, 11, 12)]
+set.seed(123)
+movies$Example <- sample(x = 1000)
+head(movies)
+```
+
+#### Duplicating a column
+
+Duplicating a column is like inserting a new one. We simply select it and assign it a new name.
+
+```{r}
+movies <- mov[, c(2, 7, 11, 12)]
+movies$Metascore.2 <- movies$Metascore
+head(movies)
+```
+
+#### Deriving a new column from an existing one
+
+```{r}
+movies <- mov[, c(2, 7, 9, 12)]
+movies$Movie.Class <- 
+cut(movies$Rating, 
+    breaks = c(0, 5.5, 6.5, 7, 7.5, 10), 
+    labels = c("Very Low", "Low", "Moderate", "High", "Very High"))
+head(movies)
+
+# plotting the new column
+plot(movies$Movie.Class)
+```
+
+#### Deriving a new column from a calculation
+
+```{r}
+movies <- mov[, c(2, 5, 7, 8, 11)]
+movies$Rev.Run <- round(movies$Revenue/movies$Runtime, 2)
+head(movies)
+```
+
+#### Updating a column
+
+```{r}
+movies <- mov[,c(2, 5, 7, 9, 11, 12)]
+movies$Director <- toupper(movies$Director)
+movies$Title <- tolower(movies$Title)
+head(movies)
+```
+
+### Sorting and ranking
+
+#### Sorting a data frame
+
+The `order()` function is used to sort a data frame. It takes a column and returns indices in ascending order. To reverse this, use `decreasing = TRUE`. Once the indices are sorted, they are used to index the data frame. The function `order()` also works on character columns as well and on multiple columns.
+
+```{r}
+# sorting by revenue
+movies <- mov[, c(2, 7, 11, 12)]
+movies_ordered <- movies[order(movies$Revenue),]
+head(movies_ordered)
+tail(movies_ordered)
+
+# sort decreasing
+movies_ordered <- movies[order(movies$Revenue, decreasing = T),]
+head(movies_ordered)
+tail(movies_ordered)
+
+# sort decreasing using the negative sign
+movies_ordered <- movies[order(-movies$Revenue),]
+head(movies_ordered)
+tail(movies_ordered)
+```
+
+By default, `NA` values appear at the end of the sorted column, but this can be changed by setting `na.last = FALSE` so that they appear first.
+
+```{r}
+# placing NA at the beginning
+movies_ordered <- movies[order(movies$Revenue, na.last = FALSE),]
+head(movies_ordered)
+tail(movies_ordered)
+
+# sorting on multiple columns
+movies_ordered <- movies[order(movies$Metascore, movies$Revenue, decreasing = T),]
+head(movies_ordered, 10)
+```
+
+### Ranking
+
+The function `rank()` ranks column values. It does this in ascending order but can be reversed by placing a negative sign in front of the ranking column as there is no decreasing argument here as was the case with the `order()` function.
+
+```{r}
+# returning ranks by revenue
+rank(movies$Revenue)[1:10]
+
+# adding a rank to the data frame
+movies <- mov[, c(2, 7, 11, 12)]
+movies$Ranking <- rank(movies$Revenue)
+head(movies)
+
+# sorting by rank
+movies <- mov[, c(2, 7, 11, 12)]
+movies$Ranking <- rank(movies$Revenue)
+movies <- movies[order(movies$Ranking), ]
+head(movies)
+
+# placing NA values at the beginning
+movies <- mov[, c(2, 7, 11, 12)]
+movies$Ranking <- rank(movies$Revenue, na.last = F)
+movies <- movies[order(movies$Ranking), ]
+head(movies)
+```
+
+There is no decreasing argument with `rank()`, hence our only chance of performing a decreasing rank is to use the negative sign.
+
+```{r}
+# performing a decreasing rank
+movies <- mov[, c(2, 7, 8, 11)]
+movies$Ranking <- rank(-movies$Revenue)
+movies <- movies[order(movies$Ranking), ]
+head(movies)
+```
+
+### Splitting and Merging columns
+
+#### Splitting columns
+
+To split a data frame, we do the following
+
+-   select the column concerned and pass it to the function `strsplit()` together with the string to split on. This will return a list
+-   using the function `do.call('rbind', dfs)` convert the list to a data frame
+-   rename the columns of the new data frame
+-   finally using `cbind()`, combine the new data frame to the original one
+
+```{r}
+# Airports are ranked by travellers and experts based on various measures.
+# https://www.kaggle.com/jonahmary17/airports
+
+# reading data
+busiestAirports <- read.table(file = "data/busiestAirports.csv", 
+                              header = T, 
+                              sep=",", 
+                              dec = ".", 
+                              quote = "\"")
+
+busiestAirports <- busiestAirports[-c(1, 2, 3, 4, 8)]
+head(busiestAirports, 3)
+
+# splitting column
+strsplit(busiestAirports$code.iata.icao.,'/')[1:3]
+
+# converting to a data frame
+iata_icao <- 
+data.frame(do.call('rbind', strsplit(busiestAirports$code.iata.icao., '/')))
+head(iata_icao, 3)
+
+# renaming columns
+names(iata_icao) <- c('iata', 'icao')
+head(iata_icao, 3)
+
+# combining both data frames
+busiest_Airports <- cbind(busiestAirports[-1], iata_icao)
+head(busiest_Airports)
+```
+
+### Merging columns
+
+The function `paste()` is used to merge columns.
+
+```{r}
+# merging iata and icao into iata_icao
+busiest_Airports$iata_icao <- 
+paste(busiest_Airports$iata, busiest_Airports$icao, sep = '-')
+head(busiest_Airports)
+```
+
+### Deleting columns
+
+There is no special function to delete columns but `[` and `NULL` can be used to drop unwanted columns.
+
+```{r}
+str(gapminder_cp1250)
+gapminder_cp1250$pop <- NULL
+str(gapminder_cp1250)
+
+str(gapminder_cp1250)
+gapminder_cp1250 <- gapminder_cp1250[, c(1, 2, 5, 6)]
+str(gapminder_cp1250)
+```
+
+## Manipulating Rows
+
+### Adding rows
+
+#### Adding rows by assignment
+
+```{r}
+movies <- mov[, c(2, 5, 7, 9, 11, 12)]
+tail(movies, 3)
+
+# inserting rows
+movies[1001,] <- c("the big g", "goro lovic", 2015, 9.9, 1000, 100)
+movies[1002,] <- c("luv of my life", "nema lovic", 2016, 7.9, 150, 65)
+movies[1003,] <- c("everyday", "goro lovic", 2014, 4.4, 170, 40)
+tail(movies)
+
+# using nrow
+movies <- mov[, c(2, 5, 7, 9, 11, 12)]
+movies[nrow(movies) + 1,] <- c("the big g", "goro lovic", 2015, 9.9, 1000, 100)
+movies[nrow(movies) + 1,] <- c("luv of my life", "nema lovic", 2016, 7.9, 150, 65)
+movies[nrow(movies) + 1,] <- c("everyday", "goro lovic", 2014, 4.4, 170, 40)
+tail(movies)
+```
+
+The function `rbind()` can combine both a list or a vector to a data frame. Generally, avoid using vectors as they may change the data type of the data frame.
+
+#### Adding rows using rbind()
+
+```{r}
+# binding a list to a data frame
+movies <- mov[, c(2, 5, 7, 9, 11, 12)]
+movies <- rbind(movies, list("the big g", "goro lovic", 2015, 9.9, 1000, 100))
+movies <- rbind(movies, list("luv of my life", "nema lovic", 2016, 7.9, 150, 65))
+movies <- rbind(movies, list("everyday", "goro lovic", 2014, 4.4, 170, 40))
+tail(movies)
+
+movies <- mov[, c(2, 5, 7, 9, 11, 12)]
+sapply(movies, class)
+
+# using a vector
+movies <- rbind(movies, c("the big g", "goro lovic", 2015, 9.9, 1000, 100))
+sapply(movies, class)
+```
+
+#### Adding rows using do.call()
+
+The function `do.call('rbind', dfs)` combines a list of data frames, list, and vectors. Again, avoid using vectors as they may change the data type of the data frames.
+
+```{r}
+movies <- subset(mov, select = c(2, 5, 7, 9, 11, 12))
+movies <- do.call('rbind', list(movies,
+                                list("the big g", "goro lovic", 2015, 9.9, 1000, 100), 
+                                list("luv of my life", "nema lovic", 2016, 7.9, 150, 65), 
+                                list("everyday", "goro lovic", 2014, 4.4, 170, 40)))
+tail(movies)
+```
+
+### Updating rows of data
+
+To update a row, we simply select it and give it a new list of values. Vectors can be used also but should be avoided as they may change the data type of the data frame.
+
+```{r}
+movies <- mov[, c(1, 2, 5, 7, 9, 11, 12)]
+movies[6,]
+
+# updating a row by indexing
+movies[6,] <- list(6, 'I am coming home', 'goro lovic', 2020, 9.8, 850, 85)
+movies[6,]
+
+# updating a row by filtering
+movies <- mov[, c(1, 2, 5, 7, 9, 11, 12)]
+movies[movies$Rank == 6,] <- list(6, 'I am coming home', 'goro lovic', 2020, 9.8, 850, 85)
+movies[movies$Rank == 6,]
+```
+
+### Updating a single value
+
+To update a single value, we select it through subsetting and assign it a new value.
+
+```{r}
+movies <- mov[, c(1, 2, 5, 7, 9, 11, 12)]
+movies[movies$Director == 'Christopher Nolan',]
+
+# changing from 'Christopher Nolan' to 'C Nolan' 
+movies[movies$Director == 'Christopher Nolan', 'Director'] <- 'C Nolan'
+movies[c(37, 55, 65, 81, 125),]
+```
+
+### Randomly selecting rows
+
+To select a random sample of rows, we use the function `sample()`.
+
+```{r}
+# selecting 10 random rows
+movies <- mov[, c(2, 7, 11, 12)]
+movies[sample(x = nrow(movies), size = 10), ]
+```
+
+### Deleting rows
+
+There is no special function to delete rows, but they can be filtered out using `[`.
+
+```{r}
+movies_without_first10 <- movies[11:nrow(movies), ]
+nrow(movies)
+nrow(movies_without_first10)
+```
+
+## SQL like joins
+
+At the most basic level there are four types of SQL joins:
+
+-   Inner join: which returns only rows matched in both data frames
+-   Left join (left outer join): which returns all rows found in the left data frame irrespective of whether they are matched to rows in the right data frame. If rows do not match values in the right data frames, NA values are returned instead.
+-   Right join (right outer join): which is the reverse of the left join, that is it returns all rows found on the right data frame irrespective of whether they are matched on the left data frame.
+-   Outer join (full outer join): returns all rows from both data frames irrespective of whether they are matched or not
+
+### Inner join
+
+```{r}
+# preparing data
+employees <- data.frame(
+  name = c('john', 'mary', 'david', 'paul', 'susan', 'cynthia', 'Joss', 'dennis'),
+  age = c(45, 55, 35, 58, 40, 30, 39, 25),
+  gender = c('m', 'f', 'm', 'm', 'f', 'f', 'm', 'm'),
+  salary =c(40000, 50000, 35000, 25000, 48000, 32000, 20000, 45000),
+  department = c('commercial', 'production', NA, 'human resources', 
+                 'commercial', 'commercial', 'production', NA))
+employees
+departments <- data.frame(
+  department = c('commercial', 'human resources', 'production', 'finance', 'maintenance'),
+  location = c('washington', 'london', 'paris', 'dubai', 'dublin'))
+departments
+
+# returns only rows that are matched in both data frames
+merge(employees, departments, by = "department")
+```
+
+### Left join
+
+To perform a left join, the argument `all.x = TRUE` is used.
+
+```{r}
+# returns all the values of the left data frame
+merge(employees, departments, by = "department", all.x = TRUE)
+```
+
+### Right join
+
+To perform a right join, the argument `all.y = TRUE` is used.
+
+```{r}
+# returns all the values of the right table
+merge(employees, departments, by = "department", all.y = TRUE)
+
+# reversing the tables in the right join produces the same results as the left join
+merge(departments, employees , by = "department", all.y = TRUE)
+```
+
+### Full outer join
+
+To perform a full join, the argument `all = TRUE` is used.
+
+```{r}
+# returns all rows
+merge(employees, departments, by = "department", all = TRUE)
+```
+
+### Joining data frames with different column names
+
+The arguments `by.x=` and `by.y=` are used to declare the joining column(s) for the left and right data frames, respectively.
+
+```{r}
+# recreating the employee table
+employees <- data.frame(
+  name = c('john', 'mary', 'david', 'paul', 'susan', 'cynthia', 'Joss', 'dennis'),
+  age = c(45, 55, 35, 58, 40, 30, 39, 25),
+  gender = c('m', 'f', 'm', 'm', 'f', 'f', 'm', 'm'),
+  salary =c(40000, 50000, 35000, 25000, 48000, 32000, 20000, 45000),
+  dep_name = c('commercial', 'production', NA, 'human resources', 'commercial', 
+               'commercial', 'production', NA))
+head(employees, 2)
+head(departments, 2)
+
+# joining on columns with different names
+merge(employees, departments, by.x = 'dep_name', by.y = 'department')
+```
+
+### Joining data frames on one more than one joining column
+
+If both data frames contain two or more columns with the same name, `merge()` will try performing the join using those column names.
+
+```{r}
+# recreating the employees table
+employees <- data.frame(
+  name = c('john', 'mary', 'david', 'paul', 'susan', 'cynthia', 'Joss', 'dennis'),
+  age = c(45, 55, 35, 58, 40, 30, 39, 25),
+  gender = c('m', 'f', 'm', 'm', 'f', 'f', 'm', 'm'),
+  salary =c(40000, 50000, 35000, 25000, 48000, 32000, 20000, 45000),
+  department = c('commercial', 'production', NA, 'human resources', 'commercial', 
+                 'commercial', 'production', NA),
+  subdepartment = c('marketing', 'production', NA, 'human resources', 'sales', 'sales', 
+                    'production', NA))
+head(employees, 2)
+
+# creating the departments? table
+departments <- data.frame(
+  department = c('commercial', 'commercial', 'human resources', 'production', 'finance', 
+                 'finance', 'maintenance'),
+  subdepartment = c('marketing', 'sales', 'human resources', 'production', 'finance', 
+                    'accounting', 'maintenance'),
+  location = c('washington', 'washington', 'london', 'paris', 'dubai', 'dubai', 'dublin')
+)
+head(departments, 2)
+
+# because they both contain the same name, the join is performed automatically
+merge(employees, departments)
+```
+
+If the data frames had columns of different names to join on, we would have used the arguments `by.x=` and `by.y=` to specify them as below.
+
+```{r}
+# specifying joining columns
+merge(employees, departments, 
+      by.x = c('department', 'subdepartment'), 
+      by.y =c('department', 'subdepartment'))
+```
+
+## Aggregating and grouping data
+
+The function `aggregate()` groups a data frame by a specific column value and performs summarization (sum, mean, median, length, min, max, etc.) based on those groups. It does a split-apply-combine, that is splitting a data frame by groups (category) after which it applies a calculation on each group and finally combines the results back together to create a single data frame which is presented as output.
+
+```{r}
+# preparing data
+gapminder_xlsx_2007 <- gapminder_xlsx[gapminder_xlsx$year == 2007, ]
+head(gapminder_xlsx_2007)
+
+# population by continent
+aggregate(pop ~ continent, gapminder_xlsx_2007, sum)
+aggregate(pop ~ continent, gapminder_xlsx_2007, mean)
+```
+
+The `aggregate()` function above, groups the data frame `gapminder_xlsx_2007` by continent, after which it applies sum to each group.
+
+Rather than filtering the data before passing it to the `aggregate()` function, we can filter the data directly inside `aggregate()` using the `subset=` argument.
+
+```{r}
+# filtering with the subset argument
+aggregate(pop ~ continent, gapminder_xlsx, 
+          subset = year == 2007, 
+          sum)
+```
+
+The `+` sign is used to group by more than one categorical column.
+
+```{r}
+# pop by continent and year
+aggregate(pop ~ continent + year, 
+          gapminder_xlsx, 
+          subset = year %in% c(1987, 2007), 
+          sum)
+# using mean
+aggregate(pop ~ continent + year, 
+          gapminder_xlsx, 
+          subset = year %in% c(1987, 2007), 
+          mean)
+
+```
+
+The function `cbind()` is used to aggregate on multiple columns, the only problem is that only one summarisation function can be used.
+
+```{r}
+# aggregating on two numeric columns (lifeExp and gdpPercap)
+aggregate(cbind(lifeExp, gdpPercap) ~ continent + year, 
+          gapminder_xlsx, 
+          subset = year %in% c(1987, 2007), 
+          mean)
+# rounding with customized function
+aggregate(cbind(lifeExp, gdpPercap) ~ continent + year, 
+          gapminder_xlsx, 
+          subset = year %in% c(1987, 2007), 
+          function(x){round(mean(x), 1)})
+```
+
+## Pivoting and unpivoting data
+
+Tabular data exist in two forms: long and wide. The wide form is ideal for reporting while the long form is ideal for the computer. Most often, when performing data analysis, data in the wide form has to be converted to the long form (unpivoting) while when preparing reports, data in the long has to be converted to the wide form (pivoting).
+
+*wide data*
+
+| Person | Age | Weight | Height |
+|--------|-----|--------|--------|
+| Bob    | 32  | 168    | 180    |
+| Alice  | 24  | 150    | 175    |
+| Steve  | 64  | 144    | 165    |
+
+*long data*
+
+| Person | Variable | Value |
+|--------|----------|-------|
+| Bob    | Age      | 32    |
+| Bob    | Weight   | 168   |
+| Bob    | Height   | 180   |
+| Alice  | Age      | 24    |
+| Alice  | Weight   | 150   |
+| Alice  | Height   | 175   |
+| Steve  | Age      | 64    |
+| Steve  | Weight   | 144   |
+| Steve  | Height   | 165   |
+
+### Pivoting
+
+Pivoting converts data frame rows to columns.
+
+#### Pivoting using the **reshape** package
+
+The **reshape** package is a package created for restructuring and aggregating data using just two functions: `melt()` and `cast()`.
+
+The function `cast()` pivots data while `melt()` unpivots data.
+
+```{r}
+# preparing long data
+dt <- aggregate(cbind(lifeExp, gdpPercap) ~ continent + year, 
+                gapminder_xlsx, 
+                subset = year >= 1987, 
+                mean)
+head(dt,3)
+tail(dt,3)
+
+library(reshape)
+# converting from long to wide
+cast(data = dt, 
+     formula = continent ~ year, 
+     value = 'lifeExp')
+```
+
+The function `cast()` can perform aggregation through the `fun.aggregate=` argument and filtering through the subset argument.
+
+```{r}
+# summarization
+cast(data = gapminder_xlsx_2007, 
+     formula = continent ~ year, 
+     value = 'pop', 
+     fun.aggregate = sum)
+
+# filtering with subset
+cast(data = gapminder_xlsx,
+     continent ~ year,
+     subset = year >= 1987,
+     value = 'lifeExp', 
+     fun.aggregate = mean)
+
+# rounding numbers
+cast(data = gapminder_xlsx,
+     continent ~ year,
+     subset = year >= 1987,
+     value = 'lifeExp', 
+     fun.aggregate = function(x)round(mean(x), 1))
+
+# population by year by continent
+cast(data = gapminder_xlsx,
+     year ~ continent,
+     subset = year >= 1987,
+     value = 'pop',
+     fun.aggregate = sum)
+```
+
+#### Pivoting using the **reshape2** package
+
+The **reshape2** package is a reboot of the reshape package.
+
+The function `acast()` and `dcast()` are used to pivot data with the former returning a matrix while the later a data frame.
+
+```{r}
+dt_wide <- reshape2::acast(data = dt, 
+                           formula = continent ~ year, 
+                           value.var = 'lifeExp')
+dt_wide
+class(dt_wide)
+
+dt_wide <- reshape2::dcast(data = dt, 
+                           formula = continent ~ year, 
+                           value.var = 'lifeExp')
+dt_wide
+class(dt_wide)
+
+# filtering by year
+reshape2::dcast(data = gapminder_xlsx[gapminder_xlsx$year >= 1987,], 
+                formula = continent ~ year, 
+                value.var = 'lifeExp', 
+                fun.aggregate = function(x)round(mean(x), 1))
+```
+
+### Unpivoting
+
+Unpivoting converts data frame columns to rows.
+
+The function `melt()` is used to unpivot data. It accepts the following:
+
+-   `id.vars=`: columns not to be moved
+-   `measure.vars=`: columns to move to rows
+
+but can guess both by default.
+
+It is the same function name for **reshape** and **reshape2**.
+
+```{r}
+dt_long <- melt(dt_wide)
+head(dt_long)
+
+dt_long <- reshape2::melt(dt_wide)
+head(dt_long)
+```
+
+With the argument `measure.vars=`, we can filter the data frame.
+
+```{r}
+# adding a variable name and filtering data
+dt_long <- melt(dt_wide, 
+                id.vars = 'continent', 
+                variable_name = 'Year',
+                measure.vars = c('1997', '2002', '2007'))
+head(dt_long)
+
+# adding value, variable name, and filtering data
+dt_long <- reshape2::melt(dt_wide, 
+                          id.vars = 'continent', 
+                          variable.name = 'Year',
+                          value.name = 'lifeExp', 
+                          measure.vars = c('1997', '2002', '2007'))
+head(dt_long)
+```
+
+## Detecting and dealing with missing values
+
+The functions `anyNA()` and `is.na()` are used to check for `NA` values and return `TRUE` for `NA` value and `FALSE` for non-NA value. While the former checks if an object contains any missing value, the latter checks for missing values within an object.
+
+```{r}
+movies <- mov[, c(2,7,11,12)]
+head(movies)
+
+# checking if an object contains any NA
+anyNA(NA)
+anyNA(list(1, 3, 5, NA))
+anyNA(c(1, 3, 5, NA))
+# checking if data frame contains any NA values
+anyNA(movies)
+apply(movies, 2, anyNA)
+# checking for NA values within an object
+is.na(NA)
+is.na(list(1, 3, 5, NA))
+is.na(c(1, 3, 5, NA))
+head(is.na(movies))
+```
+
+Since logical can be added, with `FALSE` = 0 and `TRUE` = 1, the results of `is.na()` can be added to determine the number of `NA` values in the dataset.
+
+To get the total number of `NA` values by columns, the function `colSums()` is used instead as it does addition by columns rather than the whole data frame.
+
+```{r}
+# number of na values in a dataset
+sum(is.na(movies))
+
+# number of na values in each column
+colSums(is.na(movies))
+```
+
+To get the number of non-NA values within each column, we simply reverse the results of `is.na()` with the not operator (!) or subtract from the total number of rows in the data frame.
+
+```{r}
+# number of non-NA values within each column
+colSums(!is.na(movies))
+nrow(movies) - colSums(is.na(movies))
+```
+
+To get the number of rows containing non-NA values, we use the function `complete.cases()` which returns `TRUE` for rows without `NA` values and `FALSE` for rows with `NA` values. Summing its result gives us the number of rows without `NA` values (complete cases). We can equally reverse `complete.cases()` with the not operator to obtain the number of rows with NA values or subtract from the total number of rows.
+
+```{r}
+# number of rows without NA values
+sum(complete.cases(movies))
+# number of rows with one or more NA values
+sum(!complete.cases(movies))
+nrow(movies) - sum(complete.cases(movies))
+```
+
+Using `complete.cases()`, we can filter out either rows with NA values or rows without `NA` values.
+
+```{r}
+# selecting rows without NA
+no_na_movies <- movies[complete.cases(movies), ]
+head(no_na_movies, 10)
+
+# selecting rows with NA
+na_movies <- movies[!complete.cases(movies), ]
+head(na_movies, 10)
+```
+
+## Detecting and dealing with outliers
+
+### What is an outlier?
+
+Outliers also known as anomalies are values that deviate extremely from other values within the same group of data. They occur because of errors committed while collecting or recording data, performing calculations or are just data points with extreme values.
+
+### Identifying outlier
+
+#### Using summary statistics
+
+The first step in outlier detection is to look at summary statistics, most especially the minimum, maximum, median, and mean. For example, with a dataset of people's ages, if the maximum is 200 or the minimum is negative, then there is a problem.
+
+```{r}
+gapminder_xlsx_2007 <- gapminder_xlsx[gapminder_xlsx$year == 2007, ]
+head(gapminder_xlsx_2007)
+summary(gapminder_xlsx_2007$pop/1e6)
+```
+
+From the above, we see that the median and mean are 10 million and 44 million respectively while the maximum value is 1.3 billion. This tells us that there are some outliers since the maximum value varies greatly from the centre of the data.
+
+#### Using plots
+
+Outliers are identified using univariate plots such as histogram, density plot and boxplot.
+
+```{r}
+# plotting variable using histogram
+hist(gapminder_xlsx_2007$gdpPercap, breaks = 18)
+
+# density plot
+plot(density(gapminder_xlsx_2007$gdpPercap))
+
+# boxplot of population
+boxplot(gapminder_xlsx_2007$gdpPercap)
+```
+
+Of the above data visualizations, the boxplot is the most relevant as it shows both the spread of data and outliers. The boxplot reveals the following:
+
+-   minimum value,
+-   first quantile (Q1),
+-   median (second quantile),
+-   third quantile (Q3),
+-   maximum value excluding outliers and
+-   outliers.
+
+The difference between Q3 and Q1 is known as the Interquartile Range (IQR). The outliers within the box plot are calculated as any value that falls beyond 1.5 \* IQR.
+
+The function `boxplot.stats()` computes the data that is used to draw the box plot. Using this function, we can get our outliers.
+
+```{r}
+boxplot.stats(gapminder_xlsx_2007$gdpPercap)
+```
+
+The first element returned is the summary statistic as was calculated with `summary()`.
+
+```{r}
+boxplot.stats(gapminder_xlsx_2007$gdpPercap)$stats
+summary(gapminder_xlsx_2007$gdpPercap)
+```
+
+The last element returned are the outliers.
+
+```{r}
+boxplot.stats(gapminder_xlsx_2007$gdpPercap)$out
+```
+
+Recall outliers are calculated as 1.5 \* IQR, this can be changed using the argument coef. By default, it is set to 1.5 but can be changed as need be.
+
+```{r}
+# changing coef
+boxplot.stats(gapminder_xlsx_2007$gdpPercap, coef = 0.8)$out
+boxplot.stats(gapminder_xlsx_2007$gdpPercap, coef = 1)$out
+boxplot.stats(gapminder_xlsx_2007$gdpPercap, coef = 1.2)$out
+
+# selecting outliers
+gapminder_xlsx_2007[gapminder_xlsx_2007$gdpPercap >= min(boxplot.stats(gapminder_xlsx_2007$gdpPercap)$out),]
+```
+
+## Dealing with duplicate values
+
+### Determining duplicate values
+
+The function `duplicated()` determines which elements are duplicates in a vector or data frame while the function `anyDuplicated()` returns the index position of the first duplicate.
+
+```{r}
+# checking for duplicates
+duplicated(1:10)
+
+duplicated(c(2, 1, 3, 6, 2, 4, 7, 0, 3, 3, 2, 2, 8, 4, 0))
+
+# get duplicate values
+vt <- c(2, 1, 3, 6, 2, 4, 7, 0, 3, 3, 2, 2, 8, 4, 0)
+vt[duplicated(c(2, 1, 3, 6, 2, 4, 7, 0, 3, 3, 2, 2, 8, 4, 0))]
+
+# checking if an object contains any duplicates
+any(duplicated(1:10))
+
+any(duplicated(c(2, 1, 3, 6, 2, 4, 7, 0, 3, 3, 2, 2, 8, 4, 0)))
+
+# get the first duplicate position
+anyDuplicated(1:10)
+
+anyDuplicated(c(2, 1, 3, 6, 2, 4, 7, 0, 3, 3, 2, 2, 8, 4, 0))
+```
+
+The function `duplicated()` and `anyDuplicated()` also work on data frames. The former drops unique rows while keeping duplicate rows.
+
+```{r}
+movies_2006 <- mov[mov$Year == 2006, c(7,12)]
+movies_2006 <- movies_2006[order(movies_2006$Year, movies_2006$Metascore),]
+head(movies_2006)
+
+# checking for any duplicates
+any(duplicated(movies_2006))
+
+anyDuplicated(movies_2006)
+
+# checking for duplicates
+duplicated(movies_2006)
+
+# returning duplicates
+movies_2006_dup <- movies_2006 [duplicated(movies_2006), ]
+head(movies_2006_dup)
+```
+
+### Get unique values
+
+The function `unique()` extracts unique values from a vector or data frame.
+
+```{r}
+# return unique values
+unique(1:10)
+
+unique(c(2, 1, 3, 6, 2, 4, 7, 0, 3, 3, 2, 2, 8, 4, 0))
+
+# return unique values using duplicated()
+vt[!duplicated(c(2, 1, 3, 6, 2, 4, 7, 0, 3, 3, 2, 2, 8, 4, 0))]
+
+# returning unique rows
+movies_2006_uni <- unique(movies_2006)
+head(movies_2006_uni)
+
+# returning unique rows using duplicated()
+movies_2006_uni <- subset(movies_2006, !duplicated(movies_2006))
+head(movies_2006_uni)
+```

@@ -1,0 +1,32 @@
+---
+title: "RMarkdown2"
+author: "Abari Kálmán"
+date: '2021 09 25 '
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = F, message = F)
+```
+
+## R Markdown
+
+```{r}
+data(survey, package = "MASS")
+# install.packages("dlookr")
+library(dlookr)
+library(tidyverse)
+library(flextable)
+dlookr::diagnose(survey) %>% flextable()
+diagnose_category(survey) %>% flextable()
+diagnose_numeric(survey) %>% flextable()
+
+#install.packages("crosstable")
+library(crosstable)
+crosstable(survey, cols = c("Smoke", "Height"), by = Exer) %>% 
+  crosstable::as_flextable()
+
+```
+

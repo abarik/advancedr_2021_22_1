@@ -6,17 +6,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Chapter 3 RMarkdown | Advanced R</title>
 <meta name="author" content="Kálmán Abari">
-<meta name="description" content="This is a small book for Adnvaced R course.">
-<meta name="generator" content="bookdown 0.23 with bs4_book()">
+<meta name="description" content="RMarkdown is a framework from RStudio for easily combining your code, data, text and interactive charts into both reports and slide decks. RMarkdown is based on Markdown.  3.1 Markdown Markdown is...">
+<meta name="generator" content="bookdown 0.24 with bs4_book()">
 <meta property="og:title" content="Chapter 3 RMarkdown | Advanced R">
 <meta property="og:type" content="book">
-<meta property="og:description" content="This is a small book for Adnvaced R course.">
+<meta property="og:description" content="RMarkdown is a framework from RStudio for easily combining your code, data, text and interactive charts into both reports and slide decks. RMarkdown is based on Markdown.  3.1 Markdown Markdown is...">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Chapter 3 RMarkdown | Advanced R">
-<meta name="twitter:description" content="This is a small book for Adnvaced R course.">
-<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.10.6/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="twitter:description" content="RMarkdown is a framework from RStudio for easily combining your code, data, text and interactive charts into both reports and slide decks. RMarkdown is based on Markdown.  3.1 Markdown Markdown is...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
-<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.2.5.1/tabs.js"></script><script src="libs/bs3compat-0.2.5.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.0/transition.js"></script><script src="libs/bs3compat-0.3.0/tabs.js"></script><script src="libs/bs3compat-0.3.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
 <script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><link rel="stylesheet" href="bs4_style.css">
 </head>
 <body data-spy="scroll" data-target="#toc">
@@ -59,14 +59,275 @@
 <h1>
 <span class="header-section-number">3</span> RMarkdown<a class="anchor" aria-label="anchor" href="#rmarkdown"><i class="fas fa-link"></i></a>
 </h1>
+<p>RMarkdown is a framework from RStudio for easily combining your code, data, text and interactive charts into both reports and slide decks. RMarkdown is based on Markdown.</p>
+<div id="markdown" class="section level2" number="3.1">
+<h2>
+<span class="header-section-number">3.1</span> Markdown<a class="anchor" aria-label="anchor" href="#markdown"><i class="fas fa-link"></i></a>
+</h2>
+<p>Markdown is a markup language. It is an extremely simple markup language, so it is very popular on the Web and in other application. Markdown is used to format text on GitHub, Reddit, Stack Exchange, and Trello, and in RMarkdown.
+Markap laguages allow authors to annotate content. The content could be anything from reports to websites. <a href="https://www.w3schools.com/html/default.asp">HTML</a> is the most widely used markup language.</p>
+<p>Markdown was created by John Gruber and Aaron Swartz in 2004. Markup was designed that a human reader could easily parse the content.</p>
+<p>You can download an <a href="markdown_syntax.md">example Markdown file</a> to illustrate the markdown syntax:</p>
+<ul>
+<li>Headings</li>
+<li>Paragraphs</li>
+<li>Line Breaks</li>
+<li>Emphasis (Bold, Italic)</li>
+<li>Blockquotes</li>
+<li>Lists (Ordered, Unordered)</li>
+<li>Code</li>
+<li>Horizontal Rules</li>
+<li>Links</li>
+<li>Images</li>
+<li>Tables</li>
+<li>Footnotes</li>
+<li>Definition Lists</li>
+</ul>
+<p>It’s important to note that Markdown comes in many different flavors (versions). There are several lightweight markup languages that are supersets of Markdown. They include Gruber’s basic syntax and build upon it by adding additional elements.</p>
+<p>Many of the most popular Markdown applications use one of the following lightweight markup languages:</p>
+<ul>
+<li><p><a href="https://commonmark.org/" target="_blank">CommonMark</a></p></li>
+<li><p><a href="https://github.github.com/gfm/" target="_blank">GitHub Flavored Markdown (GFM)</a></p></li>
+<li><p><a href="https://michelf.ca/projects/php-markdown/extra/" target="_blank">Markdown Extra</a></p></li>
+<li><p><a href="https://fletcherpenney.net/multimarkdown/" target="_blank">MultiMarkdown</a></p></li>
+<li><p><a href="https://rmarkdown.rstudio.com/" target="_blank">R Markdown - Pandoc</a></p></li>
+</ul>
+<p>If you are not familiar with Markdown yet, or do not prefer writing Markdown code, RStudio v1.4 has included an experimental visual editor for Markdown documents, which feels similar to traditional WYSIWYG editors like Word. You can find the full documentation at <a href="https://rstudio.github.io/visual-markdown-editing/" target="_blank">RStudio Visual R Markdown</a>. With the visual editor, you can visually edit almost any Markdown elements supported by Pandoc, such as section headers, figures, tables, footnotes, and so on.</p>
+<p><strong>Additional resources about Markdown:</strong></p>
+<ul>
+<li>
+<a href="https://www.markdownguide.org/cheat-sheet/" target="_blank">Markdown Cheat Sheet</a><br>
+A quick reference to the Markdown syntax.</li>
+<li>
+<a href="https://www.markdownguide.org/basic-syntax/" target="_blank">Basic Syntax</a><br>
+The Markdown elements outlined in John Gruber’s design document.</li>
+<li>
+<a href="https://www.markdownguide.org/extended-syntax/" target="_blank">Extended Syntax</a><br>
+Advanced features that build on the basic Markdown syntax.</li>
+</ul>
+</div>
+<div id="rmarkdown-1" class="section level2" number="3.2">
+<h2>
+<span class="header-section-number">3.2</span> RMarkdown<a class="anchor" aria-label="anchor" href="#rmarkdown-1"><i class="fas fa-link"></i></a>
+</h2>
+<p>R Markdown understands Pandoc’s Markdown, a version of Markdown with more features. <a href="https://pandoc.org/MANUAL.html#pandocs-markdown" target="_blank">This Pandoc guide</a> provides and extensive resource for formatting options.</p>
+<p>Rmarkdown files are plain text files that contain all of the information necessary for RStudio to generate our output files, using <strong>rmarkdown</strong> and <strong>knitr</strong> package. There are three distinct parts to the document, and in fact, each is written in a different language.</p>
+<ul>
+<li>The file header tells the <strong>rmarkdown</strong> package what type of file to create. In this case, an HTML document. And it’s worth noting that this header is written in <a href="https://yaml.org/" target="_blank">YAML</a>.</li>
+<li>The text in the document is written in Pandoc flavored Markdown.</li>
+<li>Any R code that we want to include or evaluate in a document is contained within code chunks. These are delimited by pairs of three back ticks. Note that these back ticks are actually part of the Pandoc Markdown syntax. This is the beauty of RMarkdown. It allows us to combine text, images, code, and output together into a huge variety of different output formats to create rich reports and presentations.</li>
+</ul>
+<p>To use RMarkdown we need an R package available from CRAN, called <strong>rmarkdown</strong> that you need to install to use. And you install it in the same way as you install any R package, with the function <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages()</a></code>. The <strong>rmarkdown</strong> package is developed by the folks at RStudio. Therefore, the RStudio application is designed as the document editor for RMarkdown. R Markdown files have the extension <code>.Rmd</code>. It’s not impossible to use R Markdown without RStudio, but RStudio makes it a real delight to use. The <strong>rmarkdown</strong> package is a collection of many different tools that work together to convert your RMarkdown files, into HTML, PDF, Microsoft Word documents, and many other file types.</p>
+<p>There are therefore two components of R Markdown: <code>.Rmd</code> file, which contains all of our content, and the <strong>rmarkdown</strong> package that passes the <code>.Rmd</code> file and generates to specify output files.</p>
+<p>The basic workflow structure for an RMarkdown document is shown in Figure <a href="rmarkdown.html#fig:rm-pic">3.1</a>, highlighting the steps (arrows) and the intermediate files that are created before producing the output. The whole process is implemented via the function <code><a href="https://pkgs.rstudio.com/rmarkdown/reference/render.html">rmarkdown::render()</a></code>. Each stage is explained in further detail below.</p>
+<div class="figure">
+<span style="display:block;" id="fig:rm-pic"></span>
+<img src="image/rmarkdown.jpg" alt="A diagram illustrating how an R Markdown document is converted to the final output document." width="552"><p class="caption">
+Figure 3.1: A diagram illustrating how an R Markdown document is converted to the final output document.
+</p>
+</div>
+</div>
+<div id="code-chunks" class="section level2" number="3.3">
+<h2>
+<span class="header-section-number">3.3</span> Code Chunks<a class="anchor" aria-label="anchor" href="#code-chunks"><i class="fas fa-link"></i></a>
+</h2>
+<p>To run blocks of code in RMarkdown, use code chunks. Insert a new code chunk with:</p>
+<ul>
+<li>
+<code>Command + Option + I</code> on a Mac, or <code>Ctrl + Alt + I</code> on Linux and Windows.</li>
+<li>Another option is the “Insert” drop-down Icon in the toolbar and selecting R.</li>
+</ul>
+<p>We recommend learning the shortcut to save time! We’ll insert a new code chunk in our R Markdown Guide in a moment.</p>
+<div id="running-code" class="section level3" number="3.3.1">
+<h3>
+<span class="header-section-number">3.3.1</span> Running Code<a class="anchor" aria-label="anchor" href="#running-code"><i class="fas fa-link"></i></a>
+</h3>
+<p>RStudio provides many options for running code chunks in the “Run” drop-down tab on the toolbar.</p>
+<p>Before running code chunks it is often a good idea to restart your R session and start with a clean environment. Do this with <code>Command + Shift + F10</code> on a Mac or <code>Control + Shift + F10</code> on Linux and Windows.</p>
+<p>To save time, it’s worth learning these shortcuts to run code:</p>
+<ul>
+<li>Run all chunks above the current chunk with <code>Command + Option + P</code> on a Mac, or <code>Ctrl + Alt + P</code> on Linux and Windows.</li>
+<li>Run the current chunk with <code>Command + Option + C</code> or <code>Command + Shift + Enter</code> on a Mac. On Linux and Windows, use <code>Ctrl + Alt + C</code> or <code>Ctrl + Shift + Enter</code> to run the current chunk.</li>
+<li>Run the next chunk with <code>Command + Option + N</code> on a Mac, or <code>Ctrl + Alt + N</code> on Linux and Windows.</li>
+<li>Run all chunks with <code>Command + Option + R</code> or <code>Command + A + Enter</code> on a Mac. On Linux and Windows, use <code>Ctrl + Alt + R</code> or <code>Ctrl + A + Enter</code> to run all chunks.</li>
+</ul>
+</div>
+<div id="control-behavior-with-code-chunk-options" class="section level3" number="3.3.2">
+<h3>
+<span class="header-section-number">3.3.2</span> Control Behavior with Code Chunk Options<a class="anchor" aria-label="anchor" href="#control-behavior-with-code-chunk-options"><i class="fas fa-link"></i></a>
+</h3>
+<p>One of the great things about R Markdown is that you have many options to control how each chunk of code is evaluated and presented. This allows you to build presentations and reports from the ground up — including code, plots, tables, and images — while only presenting the essential information to the intended audience. For example, you can include a plot of your results without showing the code used to generate it.</p>
+<p>Mastering code chunk options is essential to becoming a proficient RMarkdown user. The best way to learn chunk options is to try them as you need them in your reports, so don’t worry about memorizing all of this now. Here are the key chunk options to learn:</p>
+<ul>
+<li>
+<code>echo = FALSE</code>: Do not show code in the output, but run code and produce all outputs, plots, warnings and messages. The code chunk to generate a plot in the image below is an example of this.</li>
+<li>
+<code>eval = FALSE</code>: Show code, but do not evaluate it.</li>
+<li>
+<code>fig.show = "hide"</code>: Hide plots.</li>
+<li>
+<code>include = FALSE</code>: Run code, but suppress all output. This is helpful for setup code. You can see an example of this in the top code chunk of the image below.</li>
+<li>
+<code>message = FALSE</code>: Prevent packages from printing messages when they load. This also suppress messages generated by functions.
+<code>results = "hide"</code>: Hides printed output.
+<code>warning = FALSE</code>: Prevents packages and functions from displaying warnings.</li>
+</ul>
+</div>
+<div id="navigating-sections-and-code-chunks" class="section level3" number="3.3.3">
+<h3>
+<span class="header-section-number">3.3.3</span> Navigating Sections and Code Chunks<a class="anchor" aria-label="anchor" href="#navigating-sections-and-code-chunks"><i class="fas fa-link"></i></a>
+</h3>
+<p>Naming code chunks is useful for long documents with many chunks. With R code chunks, name the chunk like this: <code>{r my_boring_chunk_name}</code>.</p>
+<p>With named code chunks, you can navigate between chunks in the navigator included at the bottom of the R Markdown window pane. This can also make plots easy to identify by name so they can be used in other sections of your document. This navigator is also useful for quickly jumping to another section of your document.</p>
+</div>
+<div id="table-formatting" class="section level3" number="3.3.4">
+<h3>
+<span class="header-section-number">3.3.4</span> Table Formatting<a class="anchor" aria-label="anchor" href="#table-formatting"><i class="fas fa-link"></i></a>
+</h3>
+<p>Tables in R Markdown are displayed as you see them in the R console by default. To improve the aesthetics of a table in an RMarkdown document, use the function <code><a href="https://rdrr.io/pkg/knitr/man/kable.html">knitr::kable()</a></code>. Here’s an example:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">cars</span><span class="op">)</span>, caption <span class="op">=</span> <span class="st">"The First Few Rows of the Cars Dataset"</span><span class="op">)</span></code></pre></div>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:unnamed-chunk-1">Table 3.1: </span>The First Few Rows of the Cars Dataset</caption>
+<thead><tr class="header">
+<th align="right">speed</th>
+<th align="right">dist</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">4</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">10</td>
+</tr>
+<tr class="odd">
+<td align="right">7</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td align="right">7</td>
+<td align="right">22</td>
+</tr>
+<tr class="odd">
+<td align="right">8</td>
+<td align="right">16</td>
+</tr>
+<tr class="even">
+<td align="right">9</td>
+<td align="right">10</td>
+</tr>
+</tbody>
+</table></div>
+<p>There are <a href="https://bookdown.org/yihui/rmarkdown-cookbook/table-other.html" target="_blank">many other packages</a> for creating tables in R Markdown.</p>
+</div>
+</div>
+<div id="inline-code" class="section level2" number="3.4">
+<h2>
+<span class="header-section-number">3.4</span> Inline Code<a class="anchor" aria-label="anchor" href="#inline-code"><i class="fas fa-link"></i></a>
+</h2>
+<p>Directly embed R code into an R Markdown document with inline code. This is useful when you want to include information about your data in the written summary. We’ll add a few examples of inline code to our R Markdown Guide to illustrate how it works.</p>
+<p>Use inline code with <code>r</code> and add the code to evaluate within the backticks. For example, here’s how we can summarize the number of rows and the number of columns in the cars dataset that’s built-in to R:</p>
+<pre class="rmarkdown"><code>
+## Inline Code
 
+The `cars` dataset contains 50 rows and 2 columns.</code></pre>
+<p>The example above highlights how it’s possible to reduce errors in reports by summarizing information programmatically. If we alter the dataset and change the number of rows and columns, we only need to rerun the code for an accurate result. This is much better than trying to remember where in the document we need to update the results, determining the new numbers, and manually changing the results. RMarkdown is a powerful because it can save time and improve the quality and accuracy of reports.</p>
+</div>
+<div id="output-format-options" class="section level2" number="3.5">
+<h2>
+<span class="header-section-number">3.5</span> Output Format Options<a class="anchor" aria-label="anchor" href="#output-format-options"><i class="fas fa-link"></i></a>
+</h2>
+<p>Now that we have a solid understanding about how to format an RMarkdown document, let’s discuss format options. Format options that apply to the entire document are specified in the YAML header. R Markdown supports <a href="https://rmarkdown.rstudio.com/authoring_quick_tour.html#Output_Formats">many types of output formats</a>.</p>
+<p>The metadata specified in the YAML header controls the output. A single RMarkdown document can support many output formats. There are two types of output formats in the <strong>rmarkdown</strong> package: documents, and presentations. All available formats are listed below:</p>
+<ul>
+<li><p><code>beamer_presentation</code></p></li>
+<li><p><code>context_document</code></p></li>
+<li><p><code>github_document</code></p></li>
+<li><p><code>html_document</code></p></li>
+<li><p><code>ioslides_presentation</code></p></li>
+<li><p><code>latex_document</code></p></li>
+<li><p><code>md_document</code></p></li>
+<li><p><code>odt_document</code></p></li>
+<li><p><code>pdf_document</code></p></li>
+<li><p><code>powerpoint_presentation</code></p></li>
+<li><p><code>rtf_document</code></p></li>
+<li><p><code>slidy_presentation</code></p></li>
+<li><p><code>word_document</code></p></li>
+</ul>
+<p>More details in <a href="https://bookdown.org/yihui/rmarkdown/documents.html#documents" class="uri">https://bookdown.org/yihui/rmarkdown/documents.html#documents</a> and <a href="https://bookdown.org/yihui/rmarkdown/presentations.html#presentations" class="uri">https://bookdown.org/yihui/rmarkdown/presentations.html#presentations</a>. There are more output formats provided in other extension packages. For the output format names in the YAML metadata of an Rmd file, you need to include the package name if a format is from an extension package, e.g.,</p>
+<pre><code>output: tufte::tufte_html</code></pre>
+<p>If the format is from the <strong>rmarkdown</strong> package, you do not need the <code>rmarkdown::</code> prefix (although it will not hurt).</p>
+<p>Other packages provide even more output formats:</p>
+<ul>
+<li><p>The <strong>bookdown</strong> package, <a href="https://github.com/rstudio/bookdown" class="uri">https://github.com/rstudio/bookdown</a>, makes it easy to write books, like this one. To learn more, read <a href="https://bookdown.org/yihui/bookdown/"><em>Authoring Books with R Markdown</em></a>, by Yihui Xie, which is, of course, written in bookdown. Visit <a href="http://www.bookdown.org/">&lt;http://www.bookdown.org&gt;</a> to see other bookdown books written by the wider R community.</p></li>
+<li><p>The <strong>prettydoc</strong> package, <a href="https://github.com/yixuan/prettydoc/" class="uri">https://github.com/yixuan/prettydoc/</a>, provides lightweight document formats with a range of attractive themes.</p></li>
+<li><p>The <strong>rticles</strong> package, <a href="https://github.com/rstudio/rticles" class="uri">https://github.com/rstudio/rticles</a>, compiles a selection of formats tailored for specific scientific journals.</p></li>
+</ul>
+<p>See <a href="http://rmarkdown.rstudio.com/formats.html" class="uri">http://rmarkdown.rstudio.com/formats.html</a> for a list of even more formats. Also see <a href="https://www.datadreaming.org/post/r-markdown-theme-gallery/">R Markdown Theme Gallery</a>.</p>
+</div>
+<div id="further-topics-and-links" class="section level2" number="3.6">
+<h2>
+<span class="header-section-number">3.6</span> Further topics and links<a class="anchor" aria-label="anchor" href="#further-topics-and-links"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li>Word documents<br><a href="https://bookdown.org/yihui/rmarkdown-cookbook/word.html" class="uri">https://bookdown.org/yihui/rmarkdown-cookbook/word.html</a><br><a href="https://rmarkdown.rstudio.com/articles_docx.html" class="uri">https://rmarkdown.rstudio.com/articles_docx.html</a>
+</li>
+<li>Bibliography<br><a href="https://bookdown.org/yihui/rmarkdown-cookbook/bibliography.html" class="uri">https://bookdown.org/yihui/rmarkdown-cookbook/bibliography.html</a><br><a href="https://github.com/citation-style-language/styles" target="_blank">Citation Style Language - Style Repository</a>
+</li>
+<li>Cross-referencing within documents<br><a href="https://bookdown.org/yihui/rmarkdown-cookbook/cross-ref.html" class="uri">https://bookdown.org/yihui/rmarkdown-cookbook/cross-ref.html</a>
+</li>
+<li>Create diagrams<br><a href="https://bookdown.org/yihui/rmarkdown-cookbook/diagrams.html" class="uri">https://bookdown.org/yihui/rmarkdown-cookbook/diagrams.html</a>
+</li>
+</ul>
+</div>
+<div id="additional-resources" class="section level2" number="3.7">
+<h2>
+<span class="header-section-number">3.7</span> Additional Resources<a class="anchor" aria-label="anchor" href="#additional-resources"><i class="fas fa-link"></i></a>
+</h2>
+<ul>
+<li>
+<a href="https://bookdown.org/yihui/rmarkdown-cookbook/" target="_blank">R Markdown Cookbook</a><br>
+A comprehensive free online book that contains almost everything you need to know about RMarkdown.</li>
+<li><a href="https://rmd4sci.njtierney.com/" target="_blank">RMarkdown for Scientists</a></li>
+<li>
+<a href="https://support.rstudio.com/hc/en-us/sections/200149716-R-Markdown" target="_blank">RStudio Articles for RMarkdown</a><br>
+RStudio has published a few in-depth how to articles about using RMarkdown.</li>
+<li>
+<a href="https://r4ds.had.co.nz/index.html" target="_blank">R for Data Science</a><br>
+Hadley Wickham provides a great overview of authoring with RMarkdown.</li>
+<li>
+<a href="https://bookdown.org/yihui/rmarkdown/" target="_blank">R Markdown: The Definitive Guide</a><br>
+It contains a large number of technical details, it may serve you better as a reference book than a textbook.</li>
+<li><a href="https://rmarkdown.rstudio.com/lesson-1.html" target="_blank">Online lesson from RStudio</a></li>
+<li>R Markdown Cheatsheet. RStudio has published numerous cheatsheets for working with R, including a detailed cheatsheet on using R Markdown! The R Markdown cheatsheet can be accessed from within RStudio by selecting <code>Help &gt; Cheatsheets &gt; R Markdown Cheat Sheet</code>.</li>
+</ul>
+</div>
 </div>
   <div class="chapter-nav">
 <div class="prev"><a href="warm-up-exercise.html"><span class="header-section-number">2</span> Warm-up exercise</a></div>
 <div class="next"><a href="advanced-data-manipulation.html"><span class="header-section-number">4</span> Advanced data manipulation</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
-      <ul class="nav navbar-nav"><li><a class="nav-link" href="#rmarkdown"><span class="header-section-number">3</span> RMarkdown</a></li></ul>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#rmarkdown"><span class="header-section-number">3</span> RMarkdown</a></li>
+<li><a class="nav-link" href="#markdown"><span class="header-section-number">3.1</span> Markdown</a></li>
+<li><a class="nav-link" href="#rmarkdown-1"><span class="header-section-number">3.2</span> RMarkdown</a></li>
+<li>
+<a class="nav-link" href="#code-chunks"><span class="header-section-number">3.3</span> Code Chunks</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#running-code"><span class="header-section-number">3.3.1</span> Running Code</a></li>
+<li><a class="nav-link" href="#control-behavior-with-code-chunk-options"><span class="header-section-number">3.3.2</span> Control Behavior with Code Chunk Options</a></li>
+<li><a class="nav-link" href="#navigating-sections-and-code-chunks"><span class="header-section-number">3.3.3</span> Navigating Sections and Code Chunks</a></li>
+<li><a class="nav-link" href="#table-formatting"><span class="header-section-number">3.3.4</span> Table Formatting</a></li>
+</ul>
+</li>
+<li><a class="nav-link" href="#inline-code"><span class="header-section-number">3.4</span> Inline Code</a></li>
+<li><a class="nav-link" href="#output-format-options"><span class="header-section-number">3.5</span> Output Format Options</a></li>
+<li><a class="nav-link" href="#further-topics-and-links"><span class="header-section-number">3.6</span> Further topics and links</a></li>
+<li><a class="nav-link" href="#additional-resources"><span class="header-section-number">3.7</span> Additional Resources</a></li>
+</ul>
 
       <div class="book-extra">
         <ul class="list-unstyled">
@@ -83,7 +344,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Advanced R</strong>" was written by Kálmán Abari. It was last built on 2021-09-06.</p>
+    <p>"<strong>Advanced R</strong>" was written by Kálmán Abari. It was last built on 2021-10-08.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
