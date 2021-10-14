@@ -41,6 +41,46 @@
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
 \urlstyle{same} % disable monospaced font for URLs
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
 \usepackage{longtable,booktabs,array}
 \usepackage{calc} % for calculating minipage widths
 % Correct order of tables after \paragraph or \subparagraph
@@ -77,7 +117,7 @@
 
 \title{Advanced R}
 \author{Kálmán Abari}
-\date{2021-09-27}
+\date{2021-10-08}
 
 \begin{document}
 \maketitle
@@ -377,8 +417,62 @@ RMarkdown is a framework from RStudio for easily combining your code, data, text
 \section{Markdown}\label{markdown}}
 
 Markdown is a markup language. It is an extremely simple markup language, so it is very popular on the Web and in other application. Markdown is used to format text on GitHub, Reddit, Stack Exchange, and Trello, and in RMarkdown.
+Markap laguages allow authors to annotate content. The content could be anything from reports to websites. \href{https://www.w3schools.com/html/default.asp}{HTML} is the most widely used markup language.
 
 Markdown was created by John Gruber and Aaron Swartz in 2004. Markup was designed that a human reader could easily parse the content.
+
+You can download an \href{markdown_syntax.md}{example Markdown file} to illustrate the markdown syntax:
+
+\begin{itemize}
+\tightlist
+\item
+  Headings
+\item
+  Paragraphs
+\item
+  Line Breaks
+\item
+  Emphasis (Bold, Italic)
+\item
+  Blockquotes
+\item
+  Lists (Ordered, Unordered)
+\item
+  Code
+\item
+  Horizontal Rules
+\item
+  Links
+\item
+  Images
+\item
+  Tables
+\item
+  Footnotes
+\item
+  Definition Lists
+\end{itemize}
+
+It's important to note that Markdown comes in many different flavors (versions). There are several lightweight markup languages that are supersets of Markdown. They include Gruber's basic syntax and build upon it by adding additional elements.
+
+Many of the most popular Markdown applications use one of the following lightweight markup languages:
+
+\begin{itemize}
+\item
+  \href{https://commonmark.org/}{CommonMark}
+\item
+  \href{https://github.github.com/gfm/}{GitHub Flavored Markdown (GFM)}
+\item
+  \href{https://michelf.ca/projects/php-markdown/extra/}{Markdown Extra}
+\item
+  \href{https://fletcherpenney.net/multimarkdown/}{MultiMarkdown}
+\item
+  \href{https://rmarkdown.rstudio.com/}{R Markdown - Pandoc}
+\end{itemize}
+
+If you are not familiar with Markdown yet, or do not prefer writing Markdown code, RStudio v1.4 has included an experimental visual editor for Markdown documents, which feels similar to traditional WYSIWYG editors like Word. You can find the full documentation at \href{https://rstudio.github.io/visual-markdown-editing/}{RStudio Visual R Markdown}. With the visual editor, you can visually edit almost any Markdown elements supported by Pandoc, such as section headers, figures, tables, footnotes, and so on.
+
+\textbf{Additional resources about Markdown:}
 
 \begin{itemize}
 \tightlist
@@ -398,9 +492,224 @@ Markdown was created by John Gruber and Aaron Swartz in 2004. Markup was designe
 
 R Markdown understands Pandoc's Markdown, a version of Markdown with more features. \href{https://pandoc.org/MANUAL.html\#pandocs-markdown}{This Pandoc guide} provides and extensive resource for formatting options.
 
-\href{https://rmarkdown.rstudio.com/articles_docx.html}{Happy collaboration with Rmd to docx}
+Rmarkdown files are plain text files that contain all of the information necessary for RStudio to generate our output files, using \textbf{rmarkdown} and \textbf{knitr} package. There are three distinct parts to the document, and in fact, each is written in a different language.
 
-\href{https://ardata-fr.github.io/flextable-book/index.html}{Using the flextable R package}
+\begin{itemize}
+\tightlist
+\item
+  The file header tells the \textbf{rmarkdown} package what type of file to create. In this case, an HTML document. And it's worth noting that this header is written in \href{https://yaml.org/}{YAML}.
+\item
+  The text in the document is written in Pandoc flavored Markdown.
+\item
+  Any R code that we want to include or evaluate in a document is contained within code chunks. These are delimited by pairs of three back ticks. Note that these back ticks are actually part of the Pandoc Markdown syntax. This is the beauty of RMarkdown. It allows us to combine text, images, code, and output together into a huge variety of different output formats to create rich reports and presentations.
+\end{itemize}
+
+To use RMarkdown we need an R package available from CRAN, called \textbf{rmarkdown} that you need to install to use. And you install it in the same way as you install any R package, with the function \texttt{install.packages()}. The \textbf{rmarkdown} package is developed by the folks at RStudio. Therefore, the RStudio application is designed as the document editor for RMarkdown. R Markdown files have the extension \texttt{.Rmd}. It's not impossible to use R Markdown without RStudio, but RStudio makes it a real delight to use. The \textbf{rmarkdown} package is a collection of many different tools that work together to convert your RMarkdown files, into HTML, PDF, Microsoft Word documents, and many other file types.
+
+There are therefore two components of R Markdown: \texttt{.Rmd} file, which contains all of our content, and the \textbf{rmarkdown} package that passes the \texttt{.Rmd} file and generates to specify output files.
+
+The basic workflow structure for an RMarkdown document is shown in Figure \ref{fig:rm-pic}, highlighting the steps (arrows) and the intermediate files that are created before producing the output. The whole process is implemented via the function \texttt{rmarkdown::render()}. Each stage is explained in further detail below.
+
+\begin{figure}
+\includegraphics[width=15.33in]{image/rmarkdown} \caption{A diagram illustrating how an R Markdown document is converted to the final output document.}\label{fig:rm-pic}
+\end{figure}
+
+\hypertarget{code-chunks}{%
+\section{Code Chunks}\label{code-chunks}}
+
+To run blocks of code in RMarkdown, use code chunks. Insert a new code chunk with:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{Command\ +\ Option\ +\ I} on a Mac, or \texttt{Ctrl\ +\ Alt\ +\ I} on Linux and Windows.
+\item
+  Another option is the ``Insert'' drop-down Icon in the toolbar and selecting R.
+\end{itemize}
+
+We recommend learning the shortcut to save time! We'll insert a new code chunk in our R Markdown Guide in a moment.
+
+\hypertarget{running-code}{%
+\subsection{Running Code}\label{running-code}}
+
+RStudio provides many options for running code chunks in the ``Run'' drop-down tab on the toolbar.
+
+Before running code chunks it is often a good idea to restart your R session and start with a clean environment. Do this with \texttt{Command\ +\ Shift\ +\ F10} on a Mac or \texttt{Control\ +\ Shift\ +\ F10} on Linux and Windows.
+
+To save time, it's worth learning these shortcuts to run code:
+
+\begin{itemize}
+\tightlist
+\item
+  Run all chunks above the current chunk with \texttt{Command\ +\ Option\ +\ P} on a Mac, or \texttt{Ctrl\ +\ Alt\ +\ P} on Linux and Windows.
+\item
+  Run the current chunk with \texttt{Command\ +\ Option\ +\ C} or \texttt{Command\ +\ Shift\ +\ Enter} on a Mac. On Linux and Windows, use \texttt{Ctrl\ +\ Alt\ +\ C} or \texttt{Ctrl\ +\ Shift\ +\ Enter} to run the current chunk.
+\item
+  Run the next chunk with \texttt{Command\ +\ Option\ +\ N} on a Mac, or \texttt{Ctrl\ +\ Alt\ +\ N} on Linux and Windows.
+\item
+  Run all chunks with \texttt{Command\ +\ Option\ +\ R} or \texttt{Command\ +\ A\ +\ Enter} on a Mac. On Linux and Windows, use \texttt{Ctrl\ +\ Alt\ +\ R} or \texttt{Ctrl\ +\ A\ +\ Enter} to run all chunks.
+\end{itemize}
+
+\hypertarget{control-behavior-with-code-chunk-options}{%
+\subsection{Control Behavior with Code Chunk Options}\label{control-behavior-with-code-chunk-options}}
+
+One of the great things about R Markdown is that you have many options to control how each chunk of code is evaluated and presented. This allows you to build presentations and reports from the ground up --- including code, plots, tables, and images --- while only presenting the essential information to the intended audience. For example, you can include a plot of your results without showing the code used to generate it.
+
+Mastering code chunk options is essential to becoming a proficient RMarkdown user. The best way to learn chunk options is to try them as you need them in your reports, so don't worry about memorizing all of this now. Here are the key chunk options to learn:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{echo\ =\ FALSE}: Do not show code in the output, but run code and produce all outputs, plots, warnings and messages. The code chunk to generate a plot in the image below is an example of this.
+\item
+  \texttt{eval\ =\ FALSE}: Show code, but do not evaluate it.
+\item
+  \texttt{fig.show\ =\ "hide"}: Hide plots.
+\item
+  \texttt{results\ =\ "hide"}: Hides printed output.
+\item
+  \texttt{include\ =\ FALSE}: Run code, but suppress all output. This is helpful for setup code.
+\item
+  \texttt{message\ =\ FALSE}: Prevent packages from printing messages when they load. This also suppress messages generated by functions.
+\item
+  \texttt{warning\ =\ FALSE}: Prevent packages and functions from displaying warnings.
+\end{itemize}
+
+\hypertarget{navigating-sections-and-code-chunks}{%
+\subsection{Navigating Sections and Code Chunks}\label{navigating-sections-and-code-chunks}}
+
+Naming code chunks is useful for long documents with many chunks. With R code chunks, name the chunk like this: \texttt{\{r\ my\_boring\_chunk\_name\}}.
+
+With named code chunks, you can navigate between chunks in the navigator included at the bottom of the R Markdown window pane. This can also make plots easy to identify by name so they can be used in other sections of your document. This navigator is also useful for quickly jumping to another section of your document.
+
+\hypertarget{table-formatting}{%
+\subsection{Table Formatting}\label{table-formatting}}
+
+Tables in R Markdown are displayed as you see them in the R console by default. To improve the aesthetics of a table in an RMarkdown document, use the function \texttt{knitr::kable()}. Here's an example:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{knitr}\SpecialCharTok{::}\FunctionTok{kable}\NormalTok{(}\FunctionTok{head}\NormalTok{(cars), }\AttributeTok{caption =} \StringTok{"The First Few Rows of the Cars Dataset"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}
+
+\caption{\label{tab:unnamed-chunk-1}The First Few Rows of the Cars Dataset}
+\centering
+\begin{tabular}[t]{r|r}
+\hline
+speed & dist\\
+\hline
+4 & 2\\
+\hline
+4 & 10\\
+\hline
+7 & 4\\
+\hline
+7 & 22\\
+\hline
+8 & 16\\
+\hline
+9 & 10\\
+\hline
+\end{tabular}
+\end{table}
+
+There are \href{https://bookdown.org/yihui/rmarkdown-cookbook/table-other.html}{many other packages} for creating tables in R Markdown.
+
+\hypertarget{inline-code}{%
+\section{Inline Code}\label{inline-code}}
+
+Directly embed R code into an R Markdown document with inline code. This is useful when you want to include information about your data in the written summary. We'll add a few examples of inline code to our R Markdown Guide to illustrate how it works.
+
+Use inline code with \texttt{r} and add the code to evaluate within the backticks. For example, here's how we can summarize the number of rows and the number of columns in the cars dataset that's built-in to R:
+
+\begin{verbatim}
+## Inline Code
+
+The `cars` dataset contains 50 rows and 2 columns.
+\end{verbatim}
+
+The example above highlights how it's possible to reduce errors in reports by summarizing information programmatically. If we alter the dataset and change the number of rows and columns, we only need to rerun the code for an accurate result. This is much better than trying to remember where in the document we need to update the results, determining the new numbers, and manually changing the results. RMarkdown is a powerful because it can save time and improve the quality and accuracy of reports.
+
+\hypertarget{output-format-options}{%
+\section{Output Format Options}\label{output-format-options}}
+
+Now that we have a solid understanding about how to format an RMarkdown document, let's discuss format options. Format options that apply to the entire document are specified in the YAML header. R Markdown supports \href{https://rmarkdown.rstudio.com/authoring_quick_tour.html\#Output_Formats}{many types of output formats}.
+
+The metadata specified in the YAML header controls the output. A single RMarkdown document can support many output formats. There are two types of output formats in the \textbf{rmarkdown} package: documents, and presentations. All available formats are listed below:
+
+\begin{itemize}
+\item
+  \texttt{beamer\_presentation}
+\item
+  \texttt{context\_document}
+\item
+  \texttt{github\_document}
+\item
+  \texttt{html\_document}
+\item
+  \texttt{ioslides\_presentation}
+\item
+  \texttt{latex\_document}
+\item
+  \texttt{md\_document}
+\item
+  \texttt{odt\_document}
+\item
+  \texttt{pdf\_document}
+\item
+  \texttt{powerpoint\_presentation}
+\item
+  \texttt{rtf\_document}
+\item
+  \texttt{slidy\_presentation}
+\item
+  \texttt{word\_document}
+\end{itemize}
+
+More details in \url{https://bookdown.org/yihui/rmarkdown/documents.html\#documents} and \url{https://bookdown.org/yihui/rmarkdown/presentations.html\#presentations}. There are more output formats provided in other extension packages. For the output format names in the YAML metadata of an Rmd file, you need to include the package name if a format is from an extension package, e.g.,
+
+\begin{verbatim}
+output: tufte::tufte_html
+\end{verbatim}
+
+If the format is from the \textbf{rmarkdown} package, you do not need the \texttt{rmarkdown::} prefix (although it will not hurt).
+
+Other packages provide even more output formats:
+
+\begin{itemize}
+\item
+  The \textbf{bookdown} package, \url{https://github.com/rstudio/bookdown}, makes it easy to write books, like this one. To learn more, read \href{https://bookdown.org/yihui/bookdown/}{\emph{Authoring Books with R Markdown}}, by Yihui Xie, which is, of course, written in bookdown. Visit \href{http://www.bookdown.org/}{\textless http://www.bookdown.org\textgreater{}} to see other bookdown books written by the wider R community.
+\item
+  The \textbf{prettydoc} package, \url{https://github.com/yixuan/prettydoc/}, provides lightweight document formats with a range of attractive themes.
+\item
+  The \textbf{rticles} package, \url{https://github.com/rstudio/rticles}, compiles a selection of formats tailored for specific scientific journals.
+\end{itemize}
+
+See \url{http://rmarkdown.rstudio.com/formats.html} for a list of even more formats. Also see \href{https://www.datadreaming.org/post/r-markdown-theme-gallery/}{R Markdown Theme Gallery}.
+
+\hypertarget{further-topics-and-links}{%
+\section{Further topics and links}\label{further-topics-and-links}}
+
+\begin{itemize}
+\tightlist
+\item
+  Word documents
+  \url{https://bookdown.org/yihui/rmarkdown-cookbook/word.html}
+  \url{https://rmarkdown.rstudio.com/articles_docx.html}
+\item
+  Bibliography
+  \url{https://bookdown.org/yihui/rmarkdown-cookbook/bibliography.html}
+  \href{https://github.com/citation-style-language/styles}{Citation Style Language - Style Repository}
+\item
+  Cross-referencing within documents
+  \url{https://bookdown.org/yihui/rmarkdown-cookbook/cross-ref.html}
+\item
+  Create diagrams
+  \url{https://bookdown.org/yihui/rmarkdown-cookbook/diagrams.html}
+\end{itemize}
 
 \hypertarget{additional-resources}{%
 \section{Additional Resources}\label{additional-resources}}
@@ -423,16 +732,2120 @@ R Markdown understands Pandoc's Markdown, a version of Markdown with more featur
   It contains a large number of technical details, it may serve you better as a reference book than a textbook.
 \item
   \href{https://rmarkdown.rstudio.com/lesson-1.html}{Online lesson from RStudio}
+\item
+  R Markdown Cheatsheet. RStudio has published numerous cheatsheets for working with R, including a detailed cheatsheet on using R Markdown! The R Markdown cheatsheet can be accessed from within RStudio by selecting \texttt{Help\ \textgreater{}\ Cheatsheets\ \textgreater{}\ R\ Markdown\ Cheat\ Sheet}.
 \end{itemize}
-
-Markdown is file format.
-
-\url{https://github.com/citation-style-language/styles}
 
 \hypertarget{advanced-data-manipulation}{%
 \chapter{Advanced data manipulation}\label{advanced-data-manipulation}}
 
 This chapter focuses exclusively on advanced data manipulation. I therefore assume a basic level of comfort with data manipulation.
+
+\hypertarget{importing-data}{%
+\section{Importing data}\label{importing-data}}
+
+Most of the data used for analysis is found in the outside world and needs to be imported into R. Data comes in different formats.
+
+\begin{itemize}
+\item
+  \textbf{Delimited text files} are the most common way of transferring data between systems in general. They are files that store tabular data using special characters (known as delimiters) to indicate rows and columns. These delimiters include commas, tabs, space, semicolons (;), pipes (\textbar), etc. The function \texttt{read.table()} is used to read delimited text files. It accepts as argument, the file path of the file and returns as output a data frame.
+\item
+  \textbf{Binary files} are more complex than plain text files and accessing the information in binary files requires the use of special software. Some examples of binary files that we will frequently see include Microsoft Excel spreadsheets, SAS data sets, Stata data sets, and SPSS data set. The \textbf{foreign} package contains functions that may be used to import SAS data sets and Stata data sets, and is installed by default when you install R on your computer. We can use the \textbf{readxl} package to import Microsoft Excel files, and the \textbf{haven} package to import SAS and Stata data sets. We aren't going to use these packages in this chapter. Instead, we're going to use the best \textbf{rio} package to import data in the examples below.
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Description of gapminder:}
+\CommentTok{\# help(gapminder, package = "gapminder")}
+
+\CommentTok{\# importing the gapminder dataset {-} Delimited text files {-} ANSI (CP1250)}
+\NormalTok{gapminder\_cp1250 }\OtherTok{\textless{}{-}} \FunctionTok{read.table}\NormalTok{(}\AttributeTok{file =} \StringTok{"data/gapminder\_ext\_CP1250.txt"}\NormalTok{, }\AttributeTok{header =}\NormalTok{ T, }\AttributeTok{sep =} \StringTok{"}\SpecialCharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\AttributeTok{dec =} \StringTok{","}\NormalTok{, }\AttributeTok{fileEncoding =} \StringTok{"latin2"}\NormalTok{)}
+
+\CommentTok{\# importing the gapminder dataset {-} Delimited text files {-} UTF{-}8}
+\NormalTok{gapminder\_utf8 }\OtherTok{\textless{}{-}} \FunctionTok{read.table}\NormalTok{(}\AttributeTok{file =} \StringTok{"data/gapminder\_ext\_UTF{-}8.txt"}\NormalTok{, }\AttributeTok{header =}\NormalTok{ T, }\AttributeTok{sep =} \StringTok{"}\SpecialCharTok{\textbackslash{}t}\StringTok{"}\NormalTok{, }\AttributeTok{dec =} \StringTok{","}\NormalTok{, }\AttributeTok{fileEncoding =} \StringTok{"UTF{-}8"}\NormalTok{)}
+
+\CommentTok{\# importing the gapminder dataset {-} Binary files}
+\FunctionTok{library}\NormalTok{(rio)}
+\NormalTok{gapminder\_xlsx }\OtherTok{\textless{}{-}} \FunctionTok{import}\NormalTok{(}\AttributeTok{file =} \StringTok{"data/gapminder\_ext.xlsx"}\NormalTok{)}
+
+\CommentTok{\# checking class}
+\FunctionTok{class}\NormalTok{(gapminder\_xlsx)}
+\CommentTok{\#\textgreater{} [1] "data.frame"}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{import-files-directly-from-the-web}{%
+\subsection{Import files directly from the web}\label{import-files-directly-from-the-web}}
+
+The functions \texttt{read.table()} and \texttt{rio::import()} accept a URL in the place of a dataset and downloads the dataset directly.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# NCHS {-} Death rates and life expectancy at birth: }
+\CommentTok{\# https://data.cdc.gov/NCHS/NCHS{-}Death{-}rates{-}and{-}life{-}expectancy{-}at{-}birth/w9j2{-}ggv5}
+
+\CommentTok{\# storing URL}
+\NormalTok{data\_url }\OtherTok{\textless{}{-}} \StringTok{\textquotesingle{}https://data.cdc.gov/api/views/w9j2{-}ggv5/rows.csv?accessType=DOWNLOAD\textquotesingle{}}
+
+\CommentTok{\# reading in data from the URL {-} Delimited text file}
+\NormalTok{life\_expectancy }\OtherTok{\textless{}{-}} \FunctionTok{read.table}\NormalTok{(data\_url, }\AttributeTok{header =}\NormalTok{ T, }\AttributeTok{sep =} \StringTok{","}\NormalTok{, }\AttributeTok{dec =} \StringTok{"."}\NormalTok{)}
+
+\FunctionTok{head}\NormalTok{(life\_expectancy, }\DecValTok{3}\NormalTok{)}
+\CommentTok{\#\textgreater{}   Year      Race        Sex Average.Life.Expectancy..Years.}
+\CommentTok{\#\textgreater{} 1 1900 All Races Both Sexes                            47.3}
+\CommentTok{\#\textgreater{} 2 1901 All Races Both Sexes                            49.1}
+\CommentTok{\#\textgreater{} 3 1902 All Races Both Sexes                            51.5}
+\CommentTok{\#\textgreater{}   Age.adjusted.Death.Rate}
+\CommentTok{\#\textgreater{} 1                  2518.0}
+\CommentTok{\#\textgreater{} 2                  2473.1}
+\CommentTok{\#\textgreater{} 3                  2301.3}
+\FunctionTok{nrow}\NormalTok{(life\_expectancy)}
+\CommentTok{\#\textgreater{} [1] 1071}
+
+
+\CommentTok{\# Description of Potthoff{-}Roy data: }
+\CommentTok{\# help(potthoffroy, package = "mice")}
+
+\CommentTok{\# storing URL}
+\NormalTok{data\_url }\OtherTok{\textless{}{-}} \StringTok{"https://raw.github.com/abarik/rdata/master/r\_alapok/pothoff2.xlsx"}
+\FunctionTok{library}\NormalTok{(rio)}
+\NormalTok{pothoff }\OtherTok{\textless{}{-}} \FunctionTok{import}\NormalTok{(}\AttributeTok{file =}\NormalTok{ data\_url)}
+\FunctionTok{str}\NormalTok{(pothoff)}
+\CommentTok{\#\textgreater{} \textquotesingle{}data.frame\textquotesingle{}:    108 obs. of  5 variables:}
+\CommentTok{\#\textgreater{}  $ person: num  1 1 1 1 2 2 2 2 3 3 ...}
+\CommentTok{\#\textgreater{}  $ sex   : chr  "F" "F" "F" "F" ...}
+\CommentTok{\#\textgreater{}  $ age   : num  8 10 12 14 8 10 12 14 8 10 ...}
+\CommentTok{\#\textgreater{}  $ y     : num  21 20 21.5 23 21 21.5 24 25.5 20.5 24 ...}
+\CommentTok{\#\textgreater{}  $ agefac: num  8 10 12 14 8 10 12 14 8 10 ...}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{exporting-data}{%
+\section{Exporting data}\label{exporting-data}}
+
+The function \texttt{write.table()} are used to export data to delimited text file. The function \texttt{rio::export()} is used to export data to worksheets in an Excel file (or other binary file). The type of the binary file will depend on the extension given to the file name.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# exporting the gapminder dataset {-} Delimited text files {-} ANSI (CP1250)}
+\FunctionTok{write.table}\NormalTok{(}\AttributeTok{x =}\NormalTok{ gapminder\_xlsx, }\AttributeTok{file =} \StringTok{"output/data/gapminder\_CP1250.csv"}\NormalTok{, }\AttributeTok{quote =}\NormalTok{ F, }\AttributeTok{sep =} \StringTok{";"}\NormalTok{, }\AttributeTok{dec =} \StringTok{","}\NormalTok{, }\AttributeTok{row.names =}\NormalTok{ F, }\AttributeTok{fileEncoding =} \StringTok{"latin2"}\NormalTok{)}
+
+\CommentTok{\# exporting the gapminder dataset {-} Delimited text files {-} UTF{-}8}
+\FunctionTok{write.table}\NormalTok{(}\AttributeTok{x =}\NormalTok{ gapminder\_xlsx, }\AttributeTok{file =} \StringTok{"output/data/gapminder\_UTF{-}8.csv"}\NormalTok{, }\AttributeTok{quote =}\NormalTok{ F, }\AttributeTok{sep =} \StringTok{";"}\NormalTok{, }\AttributeTok{dec =} \StringTok{","}\NormalTok{, }\AttributeTok{row.names =}\NormalTok{ F, }\AttributeTok{fileEncoding =} \StringTok{"UTF{-}8"}\NormalTok{)}
+
+\CommentTok{\# exporting the gapminder dataset {-} Binary files}
+\FunctionTok{library}\NormalTok{(rio)}
+\FunctionTok{export}\NormalTok{(}\AttributeTok{x =}\NormalTok{ gapminder\_xlsx, }\AttributeTok{file =} \StringTok{"output/data/gapminder.xlsx"}\NormalTok{, }\AttributeTok{overwrite =}\NormalTok{ T)}
+\FunctionTok{export}\NormalTok{(}\AttributeTok{x =}\NormalTok{ gapminder\_xlsx, }\AttributeTok{file =} \StringTok{"output/data/gapminder.sav"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{inspecting-a-data-frame}{%
+\section{Inspecting a data frame}\label{inspecting-a-data-frame}}
+
+We use the following functions to inspect a data frame:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{dim()} returns dimensions
+\item
+  \texttt{nrow()} returns number of rows
+\item
+  \texttt{ncol()} returns number of columns
+\item
+  \texttt{str()} returns column names and their data types plus some first few values
+\item
+  \texttt{head()} returns the first six rows by default but can be changed using the argument \texttt{n}
+\item
+  \texttt{tail()} returns the last six rows by default but can be changed using the argument \texttt{n}
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{dim}\NormalTok{(gapminder\_xlsx)}
+\CommentTok{\#\textgreater{} [1] 1704    8}
+\FunctionTok{nrow}\NormalTok{(gapminder\_xlsx)}
+\CommentTok{\#\textgreater{} [1] 1704}
+\FunctionTok{ncol}\NormalTok{(gapminder\_xlsx)}
+\CommentTok{\#\textgreater{} [1] 8}
+\FunctionTok{str}\NormalTok{(gapminder\_xlsx)}
+\CommentTok{\#\textgreater{} \textquotesingle{}data.frame\textquotesingle{}:    1704 obs. of  8 variables:}
+\CommentTok{\#\textgreater{}  $ country      : chr  "Afghanistan" "Afghanistan" "Afghanistan" "Afghanistan" ...}
+\CommentTok{\#\textgreater{}  $ continent    : chr  "Asia" "Asia" "Asia" "Asia" ...}
+\CommentTok{\#\textgreater{}  $ year         : num  1952 1957 1962 1967 1972 ...}
+\CommentTok{\#\textgreater{}  $ lifeExp      : num  28.8 30.3 32 34 36.1 ...}
+\CommentTok{\#\textgreater{}  $ pop          : num  8425333 9240934 10267083 11537966 13079460 ...}
+\CommentTok{\#\textgreater{}  $ gdpPercap    : num  779 821 853 836 740 ...}
+\CommentTok{\#\textgreater{}  $ country\_hun  : chr  "Afganisztán" "Afganisztán" "Afganisztán" "Afganisztán" ...}
+\CommentTok{\#\textgreater{}  $ continent\_hun: chr  "Ázsia" "Ázsia" "Ázsia" "Ázsia" ...}
+\FunctionTok{head}\NormalTok{(gapminder\_xlsx)}
+\CommentTok{\#\textgreater{}       country continent year lifeExp      pop gdpPercap}
+\CommentTok{\#\textgreater{} 1 Afghanistan      Asia 1952  28.801  8425333  779.4453}
+\CommentTok{\#\textgreater{} 2 Afghanistan      Asia 1957  30.332  9240934  820.8530}
+\CommentTok{\#\textgreater{} 3 Afghanistan      Asia 1962  31.997 10267083  853.1007}
+\CommentTok{\#\textgreater{} 4 Afghanistan      Asia 1967  34.020 11537966  836.1971}
+\CommentTok{\#\textgreater{} 5 Afghanistan      Asia 1972  36.088 13079460  739.9811}
+\CommentTok{\#\textgreater{} 6 Afghanistan      Asia 1977  38.438 14880372  786.1134}
+\CommentTok{\#\textgreater{}   country\_hun continent\_hun}
+\CommentTok{\#\textgreater{} 1 Afganisztán         Ázsia}
+\CommentTok{\#\textgreater{} 2 Afganisztán         Ázsia}
+\CommentTok{\#\textgreater{} 3 Afganisztán         Ázsia}
+\CommentTok{\#\textgreater{} 4 Afganisztán         Ázsia}
+\CommentTok{\#\textgreater{} 5 Afganisztán         Ázsia}
+\CommentTok{\#\textgreater{} 6 Afganisztán         Ázsia}
+\FunctionTok{tail}\NormalTok{(gapminder\_xlsx, }\AttributeTok{n =} \DecValTok{4}\NormalTok{)}
+\CommentTok{\#\textgreater{}       country continent year lifeExp      pop gdpPercap}
+\CommentTok{\#\textgreater{} 1701 Zimbabwe    Africa 1992  60.377 10704340  693.4208}
+\CommentTok{\#\textgreater{} 1702 Zimbabwe    Africa 1997  46.809 11404948  792.4500}
+\CommentTok{\#\textgreater{} 1703 Zimbabwe    Africa 2002  39.989 11926563  672.0386}
+\CommentTok{\#\textgreater{} 1704 Zimbabwe    Africa 2007  43.487 12311143  469.7093}
+\CommentTok{\#\textgreater{}      country\_hun continent\_hun}
+\CommentTok{\#\textgreater{} 1701    Zimbabwe        Afrika}
+\CommentTok{\#\textgreater{} 1702    Zimbabwe        Afrika}
+\CommentTok{\#\textgreater{} 1703    Zimbabwe        Afrika}
+\CommentTok{\#\textgreater{} 1704    Zimbabwe        Afrika}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{manipulating-columns}{%
+\section{Manipulating Columns}\label{manipulating-columns}}
+
+\hypertarget{changing-column-type}{%
+\subsection{Changing column type}\label{changing-column-type}}
+
+After importing data, column types can be changed by assigning new data types to them.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str}\NormalTok{(gapminder\_xlsx)}
+\CommentTok{\#\textgreater{} \textquotesingle{}data.frame\textquotesingle{}:    1704 obs. of  8 variables:}
+\CommentTok{\#\textgreater{}  $ country      : chr  "Afghanistan" "Afghanistan" "Afghanistan" "Afghanistan" ...}
+\CommentTok{\#\textgreater{}  $ continent    : chr  "Asia" "Asia" "Asia" "Asia" ...}
+\CommentTok{\#\textgreater{}  $ year         : num  1952 1957 1962 1967 1972 ...}
+\CommentTok{\#\textgreater{}  $ lifeExp      : num  28.8 30.3 32 34 36.1 ...}
+\CommentTok{\#\textgreater{}  $ pop          : num  8425333 9240934 10267083 11537966 13079460 ...}
+\CommentTok{\#\textgreater{}  $ gdpPercap    : num  779 821 853 836 740 ...}
+\CommentTok{\#\textgreater{}  $ country\_hun  : chr  "Afganisztán" "Afganisztán" "Afganisztán" "Afganisztán" ...}
+\CommentTok{\#\textgreater{}  $ continent\_hun: chr  "Ázsia" "Ázsia" "Ázsia" "Ázsia" ...}
+
+\CommentTok{\# changing column type}
+\NormalTok{gapminder\_xlsx}\SpecialCharTok{$}\NormalTok{country }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(gapminder\_xlsx}\SpecialCharTok{$}\NormalTok{country)}
+\NormalTok{gapminder\_xlsx}\SpecialCharTok{$}\NormalTok{continent }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(gapminder\_xlsx}\SpecialCharTok{$}\NormalTok{continent)}
+\NormalTok{gapminder\_xlsx}\SpecialCharTok{$}\NormalTok{country\_hun }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(gapminder\_xlsx}\SpecialCharTok{$}\NormalTok{country\_hun)}
+\NormalTok{gapminder\_xlsx}\SpecialCharTok{$}\NormalTok{continent\_hun }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(gapminder\_xlsx}\SpecialCharTok{$}\NormalTok{continent\_hun)}
+
+\FunctionTok{str}\NormalTok{(gapminder\_xlsx)}
+\CommentTok{\#\textgreater{} \textquotesingle{}data.frame\textquotesingle{}:    1704 obs. of  8 variables:}
+\CommentTok{\#\textgreater{}  $ country      : Factor w/ 142 levels "Afghanistan",..: 1 1 1 1 1 1 1 1 1 1 ...}
+\CommentTok{\#\textgreater{}  $ continent    : Factor w/ 5 levels "Africa","Americas",..: 3 3 3 3 3 3 3 3 3 3 ...}
+\CommentTok{\#\textgreater{}  $ year         : num  1952 1957 1962 1967 1972 ...}
+\CommentTok{\#\textgreater{}  $ lifeExp      : num  28.8 30.3 32 34 36.1 ...}
+\CommentTok{\#\textgreater{}  $ pop          : num  8425333 9240934 10267083 11537966 13079460 ...}
+\CommentTok{\#\textgreater{}  $ gdpPercap    : num  779 821 853 836 740 ...}
+\CommentTok{\#\textgreater{}  $ country\_hun  : Factor w/ 142 levels "Afganisztán",..: 1 1 1 1 1 1 1 1 1 1 ...}
+\CommentTok{\#\textgreater{}  $ continent\_hun: Factor w/ 5 levels "Afrika","Amerika",..: 3 3 3 3 3 3 3 3 3 3 ...}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{renaming-columns}{%
+\subsection{Renaming columns}\label{renaming-columns}}
+
+After importing data, columns can be renamed by assigning new names to them.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{names}\NormalTok{(gapminder\_utf8)}
+\CommentTok{\#\textgreater{} [1] "country"       "continent"     "year"         }
+\CommentTok{\#\textgreater{} [4] "lifeExp"       "pop"           "gdpPercap"    }
+\CommentTok{\#\textgreater{} [7] "country\_hun"   "continent\_hun"}
+\FunctionTok{names}\NormalTok{(gapminder\_utf8)[}\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"orszag"}
+\FunctionTok{names}\NormalTok{(gapminder\_utf8)[}\DecValTok{2}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{"kontinens"}
+\FunctionTok{names}\NormalTok{(gapminder\_utf8)}
+\CommentTok{\#\textgreater{} [1] "orszag"        "kontinens"     "year"         }
+\CommentTok{\#\textgreater{} [4] "lifeExp"       "pop"           "gdpPercap"    }
+\CommentTok{\#\textgreater{} [7] "country\_hun"   "continent\_hun"}
+
+\FunctionTok{names}\NormalTok{(gapminder\_utf8)}
+\CommentTok{\#\textgreater{} [1] "orszag"        "kontinens"     "year"         }
+\CommentTok{\#\textgreater{} [4] "lifeExp"       "pop"           "gdpPercap"    }
+\CommentTok{\#\textgreater{} [7] "country\_hun"   "continent\_hun"}
+\FunctionTok{names}\NormalTok{(gapminder\_utf8)[}\DecValTok{7}\SpecialCharTok{:}\DecValTok{8}\NormalTok{] }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"orszag\_hun"}\NormalTok{, }\StringTok{"kontinens\_hun"}\NormalTok{)}
+\FunctionTok{names}\NormalTok{(gapminder\_utf8)}
+\CommentTok{\#\textgreater{} [1] "orszag"        "kontinens"     "year"         }
+\CommentTok{\#\textgreater{} [4] "lifeExp"       "pop"           "gdpPercap"    }
+\CommentTok{\#\textgreater{} [7] "orszag\_hun"    "kontinens\_hun"}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{insert-and-derive-new-columns}{%
+\subsection{Insert and derive new columns}\label{insert-and-derive-new-columns}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Here\textquotesingle{}s a data set of 1,000 most popular movies on IMDB in the last 10 years. }
+\CommentTok{\# https://www.kaggle.com/PromptCloudHQ/imdb{-}data/version/1}
+\NormalTok{mov }\OtherTok{\textless{}{-}} \FunctionTok{read.table}\NormalTok{(}\AttributeTok{file =} \StringTok{"data/IMDB{-}Movie{-}Data.csv"}\NormalTok{, }\AttributeTok{header =}\NormalTok{ T, }\AttributeTok{sep =} \StringTok{","}\NormalTok{, }\AttributeTok{dec =} \StringTok{"."}\NormalTok{, }\AttributeTok{fileEncoding =} \StringTok{"UTF{-}8"}\NormalTok{, }\AttributeTok{quote =} \StringTok{"}\SpecialCharTok{\textbackslash{}"}\StringTok{"}\NormalTok{,}
+                  \AttributeTok{comment.char =} \StringTok{""}\NormalTok{)}
+\FunctionTok{str}\NormalTok{(mov)}
+\CommentTok{\#\textgreater{} \textquotesingle{}data.frame\textquotesingle{}:    1000 obs. of  12 variables:}
+\CommentTok{\#\textgreater{}  $ Rank              : int  1 2 3 4 5 6 7 8 9 10 ...}
+\CommentTok{\#\textgreater{}  $ Title             : chr  "Guardians of the Galaxy" "Prometheus" "Split" "Sing" ...}
+\CommentTok{\#\textgreater{}  $ Genre             : chr  "Action,Adventure,Sci{-}Fi" "Adventure,Mystery,Sci{-}Fi" "Horror,Thriller" "Animation,Comedy,Family" ...}
+\CommentTok{\#\textgreater{}  $ Description       : chr  "A group of intergalactic criminals are forced to work together to stop a fanatical warrior from taking control "| \_\_truncated\_\_ "Following clues to the origin of mankind, a team finds a structure on a distant moon, but they soon realize the"| \_\_truncated\_\_ "Three girls are kidnapped by a man with a diagnosed 23 distinct personalities. They must try to escape before t"| \_\_truncated\_\_ "In a city of humanoid animals, a hustling theater impresario\textquotesingle{}s attempt to save his theater with a singing compe"| \_\_truncated\_\_ ...}
+\CommentTok{\#\textgreater{}  $ Director          : chr  "James Gunn" "Ridley Scott" "M. Night Shyamalan" "Christophe Lourdelet" ...}
+\CommentTok{\#\textgreater{}  $ Actors            : chr  "Chris Pratt, Vin Diesel, Bradley Cooper, Zoe Saldana" "Noomi Rapace, Logan Marshall{-}Green, Michael Fassbender, Charlize Theron" "James McAvoy, Anya Taylor{-}Joy, Haley Lu Richardson, Jessica Sula" "Matthew McConaughey,Reese Witherspoon, Seth MacFarlane, Scarlett Johansson" ...}
+\CommentTok{\#\textgreater{}  $ Year              : int  2014 2012 2016 2016 2016 2016 2016 2016 2016 2016 ...}
+\CommentTok{\#\textgreater{}  $ Runtime..Minutes. : int  121 124 117 108 123 103 128 89 141 116 ...}
+\CommentTok{\#\textgreater{}  $ Rating            : num  8.1 7 7.3 7.2 6.2 6.1 8.3 6.4 7.1 7 ...}
+\CommentTok{\#\textgreater{}  $ Votes             : int  757074 485820 157606 60545 393727 56036 258682 2490 7188 192177 ...}
+\CommentTok{\#\textgreater{}  $ Revenue..Millions.: num  333 126 138 270 325 ...}
+\CommentTok{\#\textgreater{}  $ Metascore         : int  76 65 62 59 40 42 93 71 78 41 ...}
+\FunctionTok{names}\NormalTok{(mov) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}Rank\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Title\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Genre\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Description\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Director\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Actors\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Year\textquotesingle{}}\NormalTok{, }
+                \StringTok{\textquotesingle{}Runtime\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Rating\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Votes\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Revenue\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Metascore\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{inserting-a-new-column}{%
+\subsection{Inserting a new column}\label{inserting-a-new-column}}
+
+To insert a new column, we index the data frame by the new column name and assign it values.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# adding a new column known as example}
+\NormalTok{movies }\OtherTok{\textless{}{-}}\NormalTok{ mov[,}\FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{11}\NormalTok{, }\DecValTok{12}\NormalTok{)]}
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{123}\NormalTok{)}
+\NormalTok{movies}\SpecialCharTok{$}\NormalTok{Example }\OtherTok{\textless{}{-}} \FunctionTok{sample}\NormalTok{(}\AttributeTok{x =} \DecValTok{1000}\NormalTok{)}
+\FunctionTok{head}\NormalTok{(movies)}
+\CommentTok{\#\textgreater{}                     Title Year Revenue Metascore Example}
+\CommentTok{\#\textgreater{} 1 Guardians of the Galaxy 2014  333.13        76     415}
+\CommentTok{\#\textgreater{} 2              Prometheus 2012  126.46        65     463}
+\CommentTok{\#\textgreater{} 3                   Split 2016  138.12        62     179}
+\CommentTok{\#\textgreater{} 4                    Sing 2016  270.32        59     526}
+\CommentTok{\#\textgreater{} 5           Suicide Squad 2016  325.02        40     195}
+\CommentTok{\#\textgreater{} 6          The Great Wall 2016   45.13        42     938}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{duplicating-a-column}{%
+\subsubsection{Duplicating a column}\label{duplicating-a-column}}
+
+Duplicating a column is like inserting a new one. We simply select it and assign it a new name.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{movies }\OtherTok{\textless{}{-}}\NormalTok{ mov[, }\FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{11}\NormalTok{, }\DecValTok{12}\NormalTok{)]}
+\NormalTok{movies}\SpecialCharTok{$}\NormalTok{Metascore}\FloatTok{.2} \OtherTok{\textless{}{-}}\NormalTok{ movies}\SpecialCharTok{$}\NormalTok{Metascore}
+\FunctionTok{head}\NormalTok{(movies)}
+\CommentTok{\#\textgreater{}                     Title Year Revenue Metascore}
+\CommentTok{\#\textgreater{} 1 Guardians of the Galaxy 2014  333.13        76}
+\CommentTok{\#\textgreater{} 2              Prometheus 2012  126.46        65}
+\CommentTok{\#\textgreater{} 3                   Split 2016  138.12        62}
+\CommentTok{\#\textgreater{} 4                    Sing 2016  270.32        59}
+\CommentTok{\#\textgreater{} 5           Suicide Squad 2016  325.02        40}
+\CommentTok{\#\textgreater{} 6          The Great Wall 2016   45.13        42}
+\CommentTok{\#\textgreater{}   Metascore.2}
+\CommentTok{\#\textgreater{} 1          76}
+\CommentTok{\#\textgreater{} 2          65}
+\CommentTok{\#\textgreater{} 3          62}
+\CommentTok{\#\textgreater{} 4          59}
+\CommentTok{\#\textgreater{} 5          40}
+\CommentTok{\#\textgreater{} 6          42}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{deriving-a-new-column-from-an-existing-one}{%
+\subsubsection{Deriving a new column from an existing one}\label{deriving-a-new-column-from-an-existing-one}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{movies }\OtherTok{\textless{}{-}}\NormalTok{ mov[, }\FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{9}\NormalTok{, }\DecValTok{12}\NormalTok{)]}
+\NormalTok{movies}\SpecialCharTok{$}\NormalTok{Movie.Class }\OtherTok{\textless{}{-}} 
+\FunctionTok{cut}\NormalTok{(movies}\SpecialCharTok{$}\NormalTok{Rating, }
+    \AttributeTok{breaks =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\FloatTok{5.5}\NormalTok{, }\FloatTok{6.5}\NormalTok{, }\DecValTok{7}\NormalTok{, }\FloatTok{7.5}\NormalTok{, }\DecValTok{10}\NormalTok{), }
+    \AttributeTok{labels =} \FunctionTok{c}\NormalTok{(}\StringTok{"Very Low"}\NormalTok{, }\StringTok{"Low"}\NormalTok{, }\StringTok{"Moderate"}\NormalTok{, }\StringTok{"High"}\NormalTok{, }\StringTok{"Very High"}\NormalTok{))}
+\FunctionTok{head}\NormalTok{(movies)}
+\CommentTok{\#\textgreater{}                     Title Year Rating Metascore Movie.Class}
+\CommentTok{\#\textgreater{} 1 Guardians of the Galaxy 2014    8.1        76   Very High}
+\CommentTok{\#\textgreater{} 2              Prometheus 2012    7.0        65    Moderate}
+\CommentTok{\#\textgreater{} 3                   Split 2016    7.3        62        High}
+\CommentTok{\#\textgreater{} 4                    Sing 2016    7.2        59        High}
+\CommentTok{\#\textgreater{} 5           Suicide Squad 2016    6.2        40         Low}
+\CommentTok{\#\textgreater{} 6          The Great Wall 2016    6.1        42         Low}
+
+\CommentTok{\# plotting the new column}
+\FunctionTok{plot}\NormalTok{(movies}\SpecialCharTok{$}\NormalTok{Movie.Class)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{03-datamanipulation_files/figure-latex/unnamed-chunk-10-1.pdf}
+
+\hypertarget{deriving-a-new-column-from-a-calculation}{%
+\subsubsection{Deriving a new column from a calculation}\label{deriving-a-new-column-from-a-calculation}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{movies }\OtherTok{\textless{}{-}}\NormalTok{ mov[, }\FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{8}\NormalTok{, }\DecValTok{11}\NormalTok{)]}
+\NormalTok{movies}\SpecialCharTok{$}\NormalTok{Rev.Run }\OtherTok{\textless{}{-}} \FunctionTok{round}\NormalTok{(movies}\SpecialCharTok{$}\NormalTok{Revenue}\SpecialCharTok{/}\NormalTok{movies}\SpecialCharTok{$}\NormalTok{Runtime, }\DecValTok{2}\NormalTok{)}
+\FunctionTok{head}\NormalTok{(movies)}
+\CommentTok{\#\textgreater{}                     Title             Director Year Runtime}
+\CommentTok{\#\textgreater{} 1 Guardians of the Galaxy           James Gunn 2014     121}
+\CommentTok{\#\textgreater{} 2              Prometheus         Ridley Scott 2012     124}
+\CommentTok{\#\textgreater{} 3                   Split   M. Night Shyamalan 2016     117}
+\CommentTok{\#\textgreater{} 4                    Sing Christophe Lourdelet 2016     108}
+\CommentTok{\#\textgreater{} 5           Suicide Squad           David Ayer 2016     123}
+\CommentTok{\#\textgreater{} 6          The Great Wall          Yimou Zhang 2016     103}
+\CommentTok{\#\textgreater{}   Revenue Rev.Run}
+\CommentTok{\#\textgreater{} 1  333.13    2.75}
+\CommentTok{\#\textgreater{} 2  126.46    1.02}
+\CommentTok{\#\textgreater{} 3  138.12    1.18}
+\CommentTok{\#\textgreater{} 4  270.32    2.50}
+\CommentTok{\#\textgreater{} 5  325.02    2.64}
+\CommentTok{\#\textgreater{} 6   45.13    0.44}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{updating-a-column}{%
+\subsubsection{Updating a column}\label{updating-a-column}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{movies }\OtherTok{\textless{}{-}}\NormalTok{ mov[,}\FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{9}\NormalTok{, }\DecValTok{11}\NormalTok{, }\DecValTok{12}\NormalTok{)]}
+\NormalTok{movies}\SpecialCharTok{$}\NormalTok{Director }\OtherTok{\textless{}{-}} \FunctionTok{toupper}\NormalTok{(movies}\SpecialCharTok{$}\NormalTok{Director)}
+\NormalTok{movies}\SpecialCharTok{$}\NormalTok{Title }\OtherTok{\textless{}{-}} \FunctionTok{tolower}\NormalTok{(movies}\SpecialCharTok{$}\NormalTok{Title)}
+\FunctionTok{head}\NormalTok{(movies)}
+\CommentTok{\#\textgreater{}                     Title             Director Year Rating}
+\CommentTok{\#\textgreater{} 1 guardians of the galaxy           JAMES GUNN 2014    8.1}
+\CommentTok{\#\textgreater{} 2              prometheus         RIDLEY SCOTT 2012    7.0}
+\CommentTok{\#\textgreater{} 3                   split   M. NIGHT SHYAMALAN 2016    7.3}
+\CommentTok{\#\textgreater{} 4                    sing CHRISTOPHE LOURDELET 2016    7.2}
+\CommentTok{\#\textgreater{} 5           suicide squad           DAVID AYER 2016    6.2}
+\CommentTok{\#\textgreater{} 6          the great wall          YIMOU ZHANG 2016    6.1}
+\CommentTok{\#\textgreater{}   Revenue Metascore}
+\CommentTok{\#\textgreater{} 1  333.13        76}
+\CommentTok{\#\textgreater{} 2  126.46        65}
+\CommentTok{\#\textgreater{} 3  138.12        62}
+\CommentTok{\#\textgreater{} 4  270.32        59}
+\CommentTok{\#\textgreater{} 5  325.02        40}
+\CommentTok{\#\textgreater{} 6   45.13        42}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{sorting-and-ranking}{%
+\subsection{Sorting and ranking}\label{sorting-and-ranking}}
+
+\hypertarget{sorting-a-data-frame}{%
+\subsubsection{Sorting a data frame}\label{sorting-a-data-frame}}
+
+The \texttt{order()} function is used to sort a data frame. It takes a column and returns indices in ascending order. To reverse this, use \texttt{decreasing\ =\ TRUE}. Once the indices are sorted, they are used to index the data frame. The function \texttt{order()} also works on character columns as well and on multiple columns.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# sorting by revenue}
+\NormalTok{movies }\OtherTok{\textless{}{-}}\NormalTok{ mov[, }\FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{11}\NormalTok{, }\DecValTok{12}\NormalTok{)]}
+\NormalTok{movies\_ordered }\OtherTok{\textless{}{-}}\NormalTok{ movies[}\FunctionTok{order}\NormalTok{(movies}\SpecialCharTok{$}\NormalTok{Revenue),]}
+\FunctionTok{head}\NormalTok{(movies\_ordered)}
+\CommentTok{\#\textgreater{}                Title Year Revenue Metascore}
+\CommentTok{\#\textgreater{} 232 A Kind of Murder 2016    0.00        50}
+\CommentTok{\#\textgreater{} 28        Dead Awake 2016    0.01        NA}
+\CommentTok{\#\textgreater{} 69         Wakefield 2016    0.01        61}
+\CommentTok{\#\textgreater{} 322         Lovesong 2016    0.01        74}
+\CommentTok{\#\textgreater{} 678      Love, Rosie 2014    0.01        44}
+\CommentTok{\#\textgreater{} 962  Into the Forest 2015    0.01        59}
+\FunctionTok{tail}\NormalTok{(movies\_ordered)}
+\CommentTok{\#\textgreater{}                              Title Year Revenue Metascore}
+\CommentTok{\#\textgreater{} 977                    Dark Places 2015      NA        39}
+\CommentTok{\#\textgreater{} 978                  Amateur Night 2016      NA        38}
+\CommentTok{\#\textgreater{} 979 It\textquotesingle{}s Only the End of the World 2016      NA        48}
+\CommentTok{\#\textgreater{} 989                        Martyrs 2008      NA        89}
+\CommentTok{\#\textgreater{} 996           Secret in Their Eyes 2015      NA        45}
+\CommentTok{\#\textgreater{} 999                   Search Party 2014      NA        22}
+
+\CommentTok{\# sort decreasing}
+\NormalTok{movies\_ordered }\OtherTok{\textless{}{-}}\NormalTok{ movies[}\FunctionTok{order}\NormalTok{(movies}\SpecialCharTok{$}\NormalTok{Revenue, }\AttributeTok{decreasing =}\NormalTok{ T),]}
+\FunctionTok{head}\NormalTok{(movies\_ordered)}
+\CommentTok{\#\textgreater{}                                         Title Year Revenue}
+\CommentTok{\#\textgreater{} 51 Star Wars: Episode VII {-} The Force Awakens 2015  936.63}
+\CommentTok{\#\textgreater{} 88                                     Avatar 2009  760.51}
+\CommentTok{\#\textgreater{} 86                             Jurassic World 2015  652.18}
+\CommentTok{\#\textgreater{} 77                               The Avengers 2012  623.28}
+\CommentTok{\#\textgreater{} 55                            The Dark Knight 2008  533.32}
+\CommentTok{\#\textgreater{} 13                                  Rogue One 2016  532.17}
+\CommentTok{\#\textgreater{}    Metascore}
+\CommentTok{\#\textgreater{} 51        81}
+\CommentTok{\#\textgreater{} 88        83}
+\CommentTok{\#\textgreater{} 86        59}
+\CommentTok{\#\textgreater{} 77        69}
+\CommentTok{\#\textgreater{} 55        82}
+\CommentTok{\#\textgreater{} 13        65}
+\FunctionTok{tail}\NormalTok{(movies\_ordered)}
+\CommentTok{\#\textgreater{}                              Title Year Revenue Metascore}
+\CommentTok{\#\textgreater{} 977                    Dark Places 2015      NA        39}
+\CommentTok{\#\textgreater{} 978                  Amateur Night 2016      NA        38}
+\CommentTok{\#\textgreater{} 979 It\textquotesingle{}s Only the End of the World 2016      NA        48}
+\CommentTok{\#\textgreater{} 989                        Martyrs 2008      NA        89}
+\CommentTok{\#\textgreater{} 996           Secret in Their Eyes 2015      NA        45}
+\CommentTok{\#\textgreater{} 999                   Search Party 2014      NA        22}
+
+\CommentTok{\# sort decreasing using the negative sign}
+\NormalTok{movies\_ordered }\OtherTok{\textless{}{-}}\NormalTok{ movies[}\FunctionTok{order}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{movies}\SpecialCharTok{$}\NormalTok{Revenue),]}
+\FunctionTok{head}\NormalTok{(movies\_ordered)}
+\CommentTok{\#\textgreater{}                                         Title Year Revenue}
+\CommentTok{\#\textgreater{} 51 Star Wars: Episode VII {-} The Force Awakens 2015  936.63}
+\CommentTok{\#\textgreater{} 88                                     Avatar 2009  760.51}
+\CommentTok{\#\textgreater{} 86                             Jurassic World 2015  652.18}
+\CommentTok{\#\textgreater{} 77                               The Avengers 2012  623.28}
+\CommentTok{\#\textgreater{} 55                            The Dark Knight 2008  533.32}
+\CommentTok{\#\textgreater{} 13                                  Rogue One 2016  532.17}
+\CommentTok{\#\textgreater{}    Metascore}
+\CommentTok{\#\textgreater{} 51        81}
+\CommentTok{\#\textgreater{} 88        83}
+\CommentTok{\#\textgreater{} 86        59}
+\CommentTok{\#\textgreater{} 77        69}
+\CommentTok{\#\textgreater{} 55        82}
+\CommentTok{\#\textgreater{} 13        65}
+\FunctionTok{tail}\NormalTok{(movies\_ordered)}
+\CommentTok{\#\textgreater{}                              Title Year Revenue Metascore}
+\CommentTok{\#\textgreater{} 977                    Dark Places 2015      NA        39}
+\CommentTok{\#\textgreater{} 978                  Amateur Night 2016      NA        38}
+\CommentTok{\#\textgreater{} 979 It\textquotesingle{}s Only the End of the World 2016      NA        48}
+\CommentTok{\#\textgreater{} 989                        Martyrs 2008      NA        89}
+\CommentTok{\#\textgreater{} 996           Secret in Their Eyes 2015      NA        45}
+\CommentTok{\#\textgreater{} 999                   Search Party 2014      NA        22}
+\end{Highlighting}
+\end{Shaded}
+
+By default, \texttt{NA} values appear at the end of the sorted column, but this can be changed by setting \texttt{na.last\ =\ FALSE} so that they appear first.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# placing NA at the beginning}
+\NormalTok{movies\_ordered }\OtherTok{\textless{}{-}}\NormalTok{ movies[}\FunctionTok{order}\NormalTok{(movies}\SpecialCharTok{$}\NormalTok{Revenue, }\AttributeTok{na.last =} \ConstantTok{FALSE}\NormalTok{),]}
+\FunctionTok{head}\NormalTok{(movies\_ordered)}
+\CommentTok{\#\textgreater{}                      Title Year Revenue Metascore}
+\CommentTok{\#\textgreater{} 8                 Mindhorn 2016      NA        71}
+\CommentTok{\#\textgreater{} 23          Hounds of Love 2016      NA        72}
+\CommentTok{\#\textgreater{} 26         Paris pieds nus 2016      NA        NA}
+\CommentTok{\#\textgreater{} 40               5{-} 25{-} 77 2007      NA        NA}
+\CommentTok{\#\textgreater{} 43 Don\textquotesingle{}t Fuck in the Woods 2016      NA        NA}
+\CommentTok{\#\textgreater{} 48                  Fallen 2016      NA        NA}
+\FunctionTok{tail}\NormalTok{(movies\_ordered)}
+\CommentTok{\#\textgreater{}                                         Title Year Revenue}
+\CommentTok{\#\textgreater{} 13                                  Rogue One 2016  532.17}
+\CommentTok{\#\textgreater{} 55                            The Dark Knight 2008  533.32}
+\CommentTok{\#\textgreater{} 77                               The Avengers 2012  623.28}
+\CommentTok{\#\textgreater{} 86                             Jurassic World 2015  652.18}
+\CommentTok{\#\textgreater{} 88                                     Avatar 2009  760.51}
+\CommentTok{\#\textgreater{} 51 Star Wars: Episode VII {-} The Force Awakens 2015  936.63}
+\CommentTok{\#\textgreater{}    Metascore}
+\CommentTok{\#\textgreater{} 13        65}
+\CommentTok{\#\textgreater{} 55        82}
+\CommentTok{\#\textgreater{} 77        69}
+\CommentTok{\#\textgreater{} 86        59}
+\CommentTok{\#\textgreater{} 88        83}
+\CommentTok{\#\textgreater{} 51        81}
+
+\CommentTok{\# sorting on multiple columns}
+\NormalTok{movies\_ordered }\OtherTok{\textless{}{-}}\NormalTok{ movies[}\FunctionTok{order}\NormalTok{(movies}\SpecialCharTok{$}\NormalTok{Metascore, movies}\SpecialCharTok{$}\NormalTok{Revenue, }\AttributeTok{decreasing =}\NormalTok{ T),]}
+\FunctionTok{head}\NormalTok{(movies\_ordered, }\DecValTok{10}\NormalTok{)}
+\CommentTok{\#\textgreater{}                     Title Year Revenue Metascore}
+\CommentTok{\#\textgreater{} 657               Boyhood 2014   25.36       100}
+\CommentTok{\#\textgreater{} 42              Moonlight 2016   27.85        99}
+\CommentTok{\#\textgreater{} 231       Pan\textquotesingle{}s Labyrinth 2006   37.62        98}
+\CommentTok{\#\textgreater{} 510               Gravity 2013  274.08        96}
+\CommentTok{\#\textgreater{} 490           Ratatouille 2007  206.44        96}
+\CommentTok{\#\textgreater{} 112      12 Years a Slave 2013   56.67        96}
+\CommentTok{\#\textgreater{} 22  Manchester by the Sea 2016   47.70        96}
+\CommentTok{\#\textgreater{} 325    The Social Network 2010   96.92        95}
+\CommentTok{\#\textgreater{} 407      Zero Dark Thirty 2012   95.72        95}
+\CommentTok{\#\textgreater{} 502                 Carol 2015    0.25        95}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{ranking}{%
+\subsection{Ranking}\label{ranking}}
+
+The function \texttt{rank()} ranks column values. It does this in ascending order but can be reversed by placing a negative sign in front of the ranking column as there is no decreasing argument here as was the case with the \texttt{order()} function.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# returning ranks by revenue}
+\FunctionTok{rank}\NormalTok{(movies}\SpecialCharTok{$}\NormalTok{Revenue)[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{10}\NormalTok{]}
+\CommentTok{\#\textgreater{}  [1] 841 678 702 819 839 419 724 873 182 623}
+
+\CommentTok{\# adding a rank to the data frame}
+\NormalTok{movies }\OtherTok{\textless{}{-}}\NormalTok{ mov[, }\FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{11}\NormalTok{, }\DecValTok{12}\NormalTok{)]}
+\NormalTok{movies}\SpecialCharTok{$}\NormalTok{Ranking }\OtherTok{\textless{}{-}} \FunctionTok{rank}\NormalTok{(movies}\SpecialCharTok{$}\NormalTok{Revenue)}
+\FunctionTok{head}\NormalTok{(movies)}
+\CommentTok{\#\textgreater{}                     Title Year Revenue Metascore Ranking}
+\CommentTok{\#\textgreater{} 1 Guardians of the Galaxy 2014  333.13        76     841}
+\CommentTok{\#\textgreater{} 2              Prometheus 2012  126.46        65     678}
+\CommentTok{\#\textgreater{} 3                   Split 2016  138.12        62     702}
+\CommentTok{\#\textgreater{} 4                    Sing 2016  270.32        59     819}
+\CommentTok{\#\textgreater{} 5           Suicide Squad 2016  325.02        40     839}
+\CommentTok{\#\textgreater{} 6          The Great Wall 2016   45.13        42     419}
+
+\CommentTok{\# sorting by rank}
+\NormalTok{movies }\OtherTok{\textless{}{-}}\NormalTok{ mov[, }\FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{11}\NormalTok{, }\DecValTok{12}\NormalTok{)]}
+\NormalTok{movies}\SpecialCharTok{$}\NormalTok{Ranking }\OtherTok{\textless{}{-}} \FunctionTok{rank}\NormalTok{(movies}\SpecialCharTok{$}\NormalTok{Revenue)}
+\NormalTok{movies }\OtherTok{\textless{}{-}}\NormalTok{ movies[}\FunctionTok{order}\NormalTok{(movies}\SpecialCharTok{$}\NormalTok{Ranking), ]}
+\FunctionTok{head}\NormalTok{(movies)}
+\CommentTok{\#\textgreater{}                Title Year Revenue Metascore Ranking}
+\CommentTok{\#\textgreater{} 232 A Kind of Murder 2016    0.00        50       1}
+\CommentTok{\#\textgreater{} 28        Dead Awake 2016    0.01        NA       4}
+\CommentTok{\#\textgreater{} 69         Wakefield 2016    0.01        61       4}
+\CommentTok{\#\textgreater{} 322         Lovesong 2016    0.01        74       4}
+\CommentTok{\#\textgreater{} 678      Love, Rosie 2014    0.01        44       4}
+\CommentTok{\#\textgreater{} 962  Into the Forest 2015    0.01        59       4}
+
+\CommentTok{\# placing NA values at the beginning}
+\NormalTok{movies }\OtherTok{\textless{}{-}}\NormalTok{ mov[, }\FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{11}\NormalTok{, }\DecValTok{12}\NormalTok{)]}
+\NormalTok{movies}\SpecialCharTok{$}\NormalTok{Ranking }\OtherTok{\textless{}{-}} \FunctionTok{rank}\NormalTok{(movies}\SpecialCharTok{$}\NormalTok{Revenue, }\AttributeTok{na.last =}\NormalTok{ F)}
+\NormalTok{movies }\OtherTok{\textless{}{-}}\NormalTok{ movies[}\FunctionTok{order}\NormalTok{(movies}\SpecialCharTok{$}\NormalTok{Ranking), ]}
+\FunctionTok{head}\NormalTok{(movies)}
+\CommentTok{\#\textgreater{}                      Title Year Revenue Metascore Ranking}
+\CommentTok{\#\textgreater{} 8                 Mindhorn 2016      NA        71       1}
+\CommentTok{\#\textgreater{} 23          Hounds of Love 2016      NA        72       2}
+\CommentTok{\#\textgreater{} 26         Paris pieds nus 2016      NA        NA       3}
+\CommentTok{\#\textgreater{} 40               5{-} 25{-} 77 2007      NA        NA       4}
+\CommentTok{\#\textgreater{} 43 Don\textquotesingle{}t Fuck in the Woods 2016      NA        NA       5}
+\CommentTok{\#\textgreater{} 48                  Fallen 2016      NA        NA       6}
+\end{Highlighting}
+\end{Shaded}
+
+There is no decreasing argument with \texttt{rank()}, hence our only chance of performing a decreasing rank is to use the negative sign.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# performing a decreasing rank}
+\NormalTok{movies }\OtherTok{\textless{}{-}}\NormalTok{ mov[, }\FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{8}\NormalTok{, }\DecValTok{11}\NormalTok{)]}
+\NormalTok{movies}\SpecialCharTok{$}\NormalTok{Ranking }\OtherTok{\textless{}{-}} \FunctionTok{rank}\NormalTok{(}\SpecialCharTok{{-}}\NormalTok{movies}\SpecialCharTok{$}\NormalTok{Revenue)}
+\NormalTok{movies }\OtherTok{\textless{}{-}}\NormalTok{ movies[}\FunctionTok{order}\NormalTok{(movies}\SpecialCharTok{$}\NormalTok{Ranking), ]}
+\FunctionTok{head}\NormalTok{(movies)}
+\CommentTok{\#\textgreater{}                                         Title Year Runtime}
+\CommentTok{\#\textgreater{} 51 Star Wars: Episode VII {-} The Force Awakens 2015     136}
+\CommentTok{\#\textgreater{} 88                                     Avatar 2009     162}
+\CommentTok{\#\textgreater{} 86                             Jurassic World 2015     124}
+\CommentTok{\#\textgreater{} 77                               The Avengers 2012     143}
+\CommentTok{\#\textgreater{} 55                            The Dark Knight 2008     152}
+\CommentTok{\#\textgreater{} 13                                  Rogue One 2016     133}
+\CommentTok{\#\textgreater{}    Revenue Ranking}
+\CommentTok{\#\textgreater{} 51  936.63       1}
+\CommentTok{\#\textgreater{} 88  760.51       2}
+\CommentTok{\#\textgreater{} 86  652.18       3}
+\CommentTok{\#\textgreater{} 77  623.28       4}
+\CommentTok{\#\textgreater{} 55  533.32       5}
+\CommentTok{\#\textgreater{} 13  532.17       6}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{splitting-and-merging-columns}{%
+\subsection{Splitting and Merging columns}\label{splitting-and-merging-columns}}
+
+\hypertarget{splitting-columns}{%
+\subsubsection{Splitting columns}\label{splitting-columns}}
+
+To split a data frame, we do the following
+
+\begin{itemize}
+\tightlist
+\item
+  select the column concerned and pass it to the function \texttt{strsplit()} together with the string to split on. This will return a list
+\item
+  using the function \texttt{do.call(\textquotesingle{}rbind\textquotesingle{},\ dfs)} convert the list to a data frame
+\item
+  rename the columns of the new data frame
+\item
+  finally using \texttt{cbind()}, combine the new data frame to the original one
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Airports are ranked by travellers and experts based on various measures.}
+\CommentTok{\# https://www.kaggle.com/jonahmary17/airports}
+
+\CommentTok{\# reading data}
+\NormalTok{busiestAirports }\OtherTok{\textless{}{-}} \FunctionTok{read.table}\NormalTok{(}\AttributeTok{file =} \StringTok{"data/busiestAirports.csv"}\NormalTok{, }
+                              \AttributeTok{header =}\NormalTok{ T, }
+                              \AttributeTok{sep=}\StringTok{","}\NormalTok{, }
+                              \AttributeTok{dec =} \StringTok{"."}\NormalTok{, }
+                              \AttributeTok{quote =} \StringTok{"}\SpecialCharTok{\textbackslash{}"}\StringTok{"}\NormalTok{)}
+
+\NormalTok{busiestAirports }\OtherTok{\textless{}{-}}\NormalTok{ busiestAirports[}\SpecialCharTok{{-}}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{8}\NormalTok{)]}
+\FunctionTok{head}\NormalTok{(busiestAirports, }\DecValTok{3}\NormalTok{)}
+\CommentTok{\#\textgreater{}   code.iata.icao.                 location}
+\CommentTok{\#\textgreater{} 1        ATL/KATL         Atlanta, Georgia}
+\CommentTok{\#\textgreater{} 2        PEK/ZBAA Chaoyang{-}Shunyi, Beijing}
+\CommentTok{\#\textgreater{} 3        DXB/OMDB           Garhoud, Dubai}
+\CommentTok{\#\textgreater{}                country}
+\CommentTok{\#\textgreater{} 1        United States}
+\CommentTok{\#\textgreater{} 2                China}
+\CommentTok{\#\textgreater{} 3 United Arab Emirates}
+
+\CommentTok{\# splitting column}
+\FunctionTok{strsplit}\NormalTok{(busiestAirports}\SpecialCharTok{$}\NormalTok{code.iata.icao.,}\StringTok{\textquotesingle{}/\textquotesingle{}}\NormalTok{)[}\DecValTok{1}\SpecialCharTok{:}\DecValTok{3}\NormalTok{]}
+\CommentTok{\#\textgreater{} [[1]]}
+\CommentTok{\#\textgreater{} [1] "ATL"  "KATL"}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} [[2]]}
+\CommentTok{\#\textgreater{} [1] "PEK"  "ZBAA"}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} [[3]]}
+\CommentTok{\#\textgreater{} [1] "DXB"  "OMDB"}
+
+\CommentTok{\# converting to a data frame}
+\NormalTok{iata\_icao }\OtherTok{\textless{}{-}} 
+\FunctionTok{data.frame}\NormalTok{(}\FunctionTok{do.call}\NormalTok{(}\StringTok{\textquotesingle{}rbind\textquotesingle{}}\NormalTok{, }\FunctionTok{strsplit}\NormalTok{(busiestAirports}\SpecialCharTok{$}\NormalTok{code.iata.icao., }\StringTok{\textquotesingle{}/\textquotesingle{}}\NormalTok{)))}
+\FunctionTok{head}\NormalTok{(iata\_icao, }\DecValTok{3}\NormalTok{)}
+\CommentTok{\#\textgreater{}    X1   X2}
+\CommentTok{\#\textgreater{} 1 ATL KATL}
+\CommentTok{\#\textgreater{} 2 PEK ZBAA}
+\CommentTok{\#\textgreater{} 3 DXB OMDB}
+
+\CommentTok{\# renaming columns}
+\FunctionTok{names}\NormalTok{(iata\_icao) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}iata\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}icao\textquotesingle{}}\NormalTok{)}
+\FunctionTok{head}\NormalTok{(iata\_icao, }\DecValTok{3}\NormalTok{)}
+\CommentTok{\#\textgreater{}   iata icao}
+\CommentTok{\#\textgreater{} 1  ATL KATL}
+\CommentTok{\#\textgreater{} 2  PEK ZBAA}
+\CommentTok{\#\textgreater{} 3  DXB OMDB}
+
+\CommentTok{\# combining both data frames}
+\NormalTok{busiest\_Airports }\OtherTok{\textless{}{-}} \FunctionTok{cbind}\NormalTok{(busiestAirports[}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{], iata\_icao)}
+\FunctionTok{head}\NormalTok{(busiest\_Airports)}
+\CommentTok{\#\textgreater{}                   location              country iata icao}
+\CommentTok{\#\textgreater{} 1         Atlanta, Georgia        United States  ATL KATL}
+\CommentTok{\#\textgreater{} 2 Chaoyang{-}Shunyi, Beijing                China  PEK ZBAA}
+\CommentTok{\#\textgreater{} 3           Garhoud, Dubai United Arab Emirates  DXB OMDB}
+\CommentTok{\#\textgreater{} 4  Los Angeles, California        United States  LAX KLAX}
+\CommentTok{\#\textgreater{} 5               Ota, Tokyo                Japan  HND RJTT}
+\CommentTok{\#\textgreater{} 6        Chicago, Illinois        United States  ORD KORD}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{merging-columns}{%
+\subsection{Merging columns}\label{merging-columns}}
+
+The function \texttt{paste()} is used to merge columns.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# merging iata and icao into iata\_icao}
+\NormalTok{busiest\_Airports}\SpecialCharTok{$}\NormalTok{iata\_icao }\OtherTok{\textless{}{-}} 
+\FunctionTok{paste}\NormalTok{(busiest\_Airports}\SpecialCharTok{$}\NormalTok{iata, busiest\_Airports}\SpecialCharTok{$}\NormalTok{icao, }\AttributeTok{sep =} \StringTok{\textquotesingle{}{-}\textquotesingle{}}\NormalTok{)}
+\FunctionTok{head}\NormalTok{(busiest\_Airports)}
+\CommentTok{\#\textgreater{}                   location              country iata icao}
+\CommentTok{\#\textgreater{} 1         Atlanta, Georgia        United States  ATL KATL}
+\CommentTok{\#\textgreater{} 2 Chaoyang{-}Shunyi, Beijing                China  PEK ZBAA}
+\CommentTok{\#\textgreater{} 3           Garhoud, Dubai United Arab Emirates  DXB OMDB}
+\CommentTok{\#\textgreater{} 4  Los Angeles, California        United States  LAX KLAX}
+\CommentTok{\#\textgreater{} 5               Ota, Tokyo                Japan  HND RJTT}
+\CommentTok{\#\textgreater{} 6        Chicago, Illinois        United States  ORD KORD}
+\CommentTok{\#\textgreater{}   iata\_icao}
+\CommentTok{\#\textgreater{} 1  ATL{-}KATL}
+\CommentTok{\#\textgreater{} 2  PEK{-}ZBAA}
+\CommentTok{\#\textgreater{} 3  DXB{-}OMDB}
+\CommentTok{\#\textgreater{} 4  LAX{-}KLAX}
+\CommentTok{\#\textgreater{} 5  HND{-}RJTT}
+\CommentTok{\#\textgreater{} 6  ORD{-}KORD}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{deleting-columns}{%
+\subsection{Deleting columns}\label{deleting-columns}}
+
+There is no special function to delete columns but \texttt{{[}} and \texttt{NULL} can be used to drop unwanted columns.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str}\NormalTok{(gapminder\_cp1250)}
+\CommentTok{\#\textgreater{} \textquotesingle{}data.frame\textquotesingle{}:    1698 obs. of  8 variables:}
+\CommentTok{\#\textgreater{}  $ country      : chr  "Afghanistan" "Afghanistan" "Afghanistan" "Afghanistan" ...}
+\CommentTok{\#\textgreater{}  $ continent    : chr  "Asia" "Asia" "Asia" "Asia" ...}
+\CommentTok{\#\textgreater{}  $ year         : int  1952 1957 1962 1967 1972 1977 1982 1987 1992 1997 ...}
+\CommentTok{\#\textgreater{}  $ lifeExp      : num  28.8 30.3 32 34 36.1 ...}
+\CommentTok{\#\textgreater{}  $ pop          : int  8425333 9240934 10267083 11537966 13079460 14880372 12881816 13867957 16317921 22227415 ...}
+\CommentTok{\#\textgreater{}  $ gdpPercap    : num  779 821 853 836 740 ...}
+\CommentTok{\#\textgreater{}  $ country\_hun  : chr  "Afganisztán" "Afganisztán" "Afganisztán" "Afganisztán" ...}
+\CommentTok{\#\textgreater{}  $ continent\_hun: chr  "Ázsia" "Ázsia" "Ázsia" "Ázsia" ...}
+\NormalTok{gapminder\_cp1250}\SpecialCharTok{$}\NormalTok{pop }\OtherTok{\textless{}{-}} \ConstantTok{NULL}
+\FunctionTok{str}\NormalTok{(gapminder\_cp1250)}
+\CommentTok{\#\textgreater{} \textquotesingle{}data.frame\textquotesingle{}:    1698 obs. of  7 variables:}
+\CommentTok{\#\textgreater{}  $ country      : chr  "Afghanistan" "Afghanistan" "Afghanistan" "Afghanistan" ...}
+\CommentTok{\#\textgreater{}  $ continent    : chr  "Asia" "Asia" "Asia" "Asia" ...}
+\CommentTok{\#\textgreater{}  $ year         : int  1952 1957 1962 1967 1972 1977 1982 1987 1992 1997 ...}
+\CommentTok{\#\textgreater{}  $ lifeExp      : num  28.8 30.3 32 34 36.1 ...}
+\CommentTok{\#\textgreater{}  $ gdpPercap    : num  779 821 853 836 740 ...}
+\CommentTok{\#\textgreater{}  $ country\_hun  : chr  "Afganisztán" "Afganisztán" "Afganisztán" "Afganisztán" ...}
+\CommentTok{\#\textgreater{}  $ continent\_hun: chr  "Ázsia" "Ázsia" "Ázsia" "Ázsia" ...}
+
+\FunctionTok{str}\NormalTok{(gapminder\_cp1250)}
+\CommentTok{\#\textgreater{} \textquotesingle{}data.frame\textquotesingle{}:    1698 obs. of  7 variables:}
+\CommentTok{\#\textgreater{}  $ country      : chr  "Afghanistan" "Afghanistan" "Afghanistan" "Afghanistan" ...}
+\CommentTok{\#\textgreater{}  $ continent    : chr  "Asia" "Asia" "Asia" "Asia" ...}
+\CommentTok{\#\textgreater{}  $ year         : int  1952 1957 1962 1967 1972 1977 1982 1987 1992 1997 ...}
+\CommentTok{\#\textgreater{}  $ lifeExp      : num  28.8 30.3 32 34 36.1 ...}
+\CommentTok{\#\textgreater{}  $ gdpPercap    : num  779 821 853 836 740 ...}
+\CommentTok{\#\textgreater{}  $ country\_hun  : chr  "Afganisztán" "Afganisztán" "Afganisztán" "Afganisztán" ...}
+\CommentTok{\#\textgreater{}  $ continent\_hun: chr  "Ázsia" "Ázsia" "Ázsia" "Ázsia" ...}
+\NormalTok{gapminder\_cp1250 }\OtherTok{\textless{}{-}}\NormalTok{ gapminder\_cp1250[, }\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{6}\NormalTok{)]}
+\FunctionTok{str}\NormalTok{(gapminder\_cp1250)}
+\CommentTok{\#\textgreater{} \textquotesingle{}data.frame\textquotesingle{}:    1698 obs. of  4 variables:}
+\CommentTok{\#\textgreater{}  $ country    : chr  "Afghanistan" "Afghanistan" "Afghanistan" "Afghanistan" ...}
+\CommentTok{\#\textgreater{}  $ continent  : chr  "Asia" "Asia" "Asia" "Asia" ...}
+\CommentTok{\#\textgreater{}  $ gdpPercap  : num  779 821 853 836 740 ...}
+\CommentTok{\#\textgreater{}  $ country\_hun: chr  "Afganisztán" "Afganisztán" "Afganisztán" "Afganisztán" ...}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{manipulating-rows}{%
+\section{Manipulating Rows}\label{manipulating-rows}}
+
+\hypertarget{adding-rows}{%
+\subsection{Adding rows}\label{adding-rows}}
+
+\hypertarget{adding-rows-by-assignment}{%
+\subsubsection{Adding rows by assignment}\label{adding-rows-by-assignment}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{movies }\OtherTok{\textless{}{-}}\NormalTok{ mov[, }\FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{9}\NormalTok{, }\DecValTok{11}\NormalTok{, }\DecValTok{12}\NormalTok{)]}
+\FunctionTok{tail}\NormalTok{(movies, }\DecValTok{3}\NormalTok{)}
+\CommentTok{\#\textgreater{}                       Title         Director Year Rating}
+\CommentTok{\#\textgreater{} 998  Step Up 2: The Streets       Jon M. Chu 2008    6.2}
+\CommentTok{\#\textgreater{} 999            Search Party   Scot Armstrong 2014    5.6}
+\CommentTok{\#\textgreater{} 1000             Nine Lives Barry Sonnenfeld 2016    5.3}
+\CommentTok{\#\textgreater{}      Revenue Metascore}
+\CommentTok{\#\textgreater{} 998    58.01        50}
+\CommentTok{\#\textgreater{} 999       NA        22}
+\CommentTok{\#\textgreater{} 1000   19.64        11}
+
+\CommentTok{\# inserting rows}
+\NormalTok{movies[}\DecValTok{1001}\NormalTok{,] }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"the big g"}\NormalTok{, }\StringTok{"goro lovic"}\NormalTok{, }\DecValTok{2015}\NormalTok{, }\FloatTok{9.9}\NormalTok{, }\DecValTok{1000}\NormalTok{, }\DecValTok{100}\NormalTok{)}
+\NormalTok{movies[}\DecValTok{1002}\NormalTok{,] }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"luv of my life"}\NormalTok{, }\StringTok{"nema lovic"}\NormalTok{, }\DecValTok{2016}\NormalTok{, }\FloatTok{7.9}\NormalTok{, }\DecValTok{150}\NormalTok{, }\DecValTok{65}\NormalTok{)}
+\NormalTok{movies[}\DecValTok{1003}\NormalTok{,] }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"everyday"}\NormalTok{, }\StringTok{"goro lovic"}\NormalTok{, }\DecValTok{2014}\NormalTok{, }\FloatTok{4.4}\NormalTok{, }\DecValTok{170}\NormalTok{, }\DecValTok{40}\NormalTok{)}
+\FunctionTok{tail}\NormalTok{(movies)}
+\CommentTok{\#\textgreater{}                       Title         Director Year Rating}
+\CommentTok{\#\textgreater{} 998  Step Up 2: The Streets       Jon M. Chu 2008    6.2}
+\CommentTok{\#\textgreater{} 999            Search Party   Scot Armstrong 2014    5.6}
+\CommentTok{\#\textgreater{} 1000             Nine Lives Barry Sonnenfeld 2016    5.3}
+\CommentTok{\#\textgreater{} 1001              the big g       goro lovic 2015    9.9}
+\CommentTok{\#\textgreater{} 1002         luv of my life       nema lovic 2016    7.9}
+\CommentTok{\#\textgreater{} 1003               everyday       goro lovic 2014    4.4}
+\CommentTok{\#\textgreater{}      Revenue Metascore}
+\CommentTok{\#\textgreater{} 998    58.01        50}
+\CommentTok{\#\textgreater{} 999     \textless{}NA\textgreater{}        22}
+\CommentTok{\#\textgreater{} 1000   19.64        11}
+\CommentTok{\#\textgreater{} 1001    1000       100}
+\CommentTok{\#\textgreater{} 1002     150        65}
+\CommentTok{\#\textgreater{} 1003     170        40}
+
+\CommentTok{\# using nrow}
+\NormalTok{movies }\OtherTok{\textless{}{-}}\NormalTok{ mov[, }\FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{9}\NormalTok{, }\DecValTok{11}\NormalTok{, }\DecValTok{12}\NormalTok{)]}
+\NormalTok{movies[}\FunctionTok{nrow}\NormalTok{(movies) }\SpecialCharTok{+} \DecValTok{1}\NormalTok{,] }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"the big g"}\NormalTok{, }\StringTok{"goro lovic"}\NormalTok{, }\DecValTok{2015}\NormalTok{, }\FloatTok{9.9}\NormalTok{, }\DecValTok{1000}\NormalTok{, }\DecValTok{100}\NormalTok{)}
+\NormalTok{movies[}\FunctionTok{nrow}\NormalTok{(movies) }\SpecialCharTok{+} \DecValTok{1}\NormalTok{,] }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"luv of my life"}\NormalTok{, }\StringTok{"nema lovic"}\NormalTok{, }\DecValTok{2016}\NormalTok{, }\FloatTok{7.9}\NormalTok{, }\DecValTok{150}\NormalTok{, }\DecValTok{65}\NormalTok{)}
+\NormalTok{movies[}\FunctionTok{nrow}\NormalTok{(movies) }\SpecialCharTok{+} \DecValTok{1}\NormalTok{,] }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"everyday"}\NormalTok{, }\StringTok{"goro lovic"}\NormalTok{, }\DecValTok{2014}\NormalTok{, }\FloatTok{4.4}\NormalTok{, }\DecValTok{170}\NormalTok{, }\DecValTok{40}\NormalTok{)}
+\FunctionTok{tail}\NormalTok{(movies)}
+\CommentTok{\#\textgreater{}                       Title         Director Year Rating}
+\CommentTok{\#\textgreater{} 998  Step Up 2: The Streets       Jon M. Chu 2008    6.2}
+\CommentTok{\#\textgreater{} 999            Search Party   Scot Armstrong 2014    5.6}
+\CommentTok{\#\textgreater{} 1000             Nine Lives Barry Sonnenfeld 2016    5.3}
+\CommentTok{\#\textgreater{} 1001              the big g       goro lovic 2015    9.9}
+\CommentTok{\#\textgreater{} 1002         luv of my life       nema lovic 2016    7.9}
+\CommentTok{\#\textgreater{} 1003               everyday       goro lovic 2014    4.4}
+\CommentTok{\#\textgreater{}      Revenue Metascore}
+\CommentTok{\#\textgreater{} 998    58.01        50}
+\CommentTok{\#\textgreater{} 999     \textless{}NA\textgreater{}        22}
+\CommentTok{\#\textgreater{} 1000   19.64        11}
+\CommentTok{\#\textgreater{} 1001    1000       100}
+\CommentTok{\#\textgreater{} 1002     150        65}
+\CommentTok{\#\textgreater{} 1003     170        40}
+\end{Highlighting}
+\end{Shaded}
+
+The function \texttt{rbind()} can combine both a list or a vector to a data frame. Generally, avoid using vectors as they may change the data type of the data frame.
+
+\hypertarget{adding-rows-using-rbind}{%
+\subsubsection{Adding rows using rbind()}\label{adding-rows-using-rbind}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# binding a list to a data frame}
+\NormalTok{movies }\OtherTok{\textless{}{-}}\NormalTok{ mov[, }\FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{9}\NormalTok{, }\DecValTok{11}\NormalTok{, }\DecValTok{12}\NormalTok{)]}
+\NormalTok{movies }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(movies, }\FunctionTok{list}\NormalTok{(}\StringTok{"the big g"}\NormalTok{, }\StringTok{"goro lovic"}\NormalTok{, }\DecValTok{2015}\NormalTok{, }\FloatTok{9.9}\NormalTok{, }\DecValTok{1000}\NormalTok{, }\DecValTok{100}\NormalTok{))}
+\NormalTok{movies }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(movies, }\FunctionTok{list}\NormalTok{(}\StringTok{"luv of my life"}\NormalTok{, }\StringTok{"nema lovic"}\NormalTok{, }\DecValTok{2016}\NormalTok{, }\FloatTok{7.9}\NormalTok{, }\DecValTok{150}\NormalTok{, }\DecValTok{65}\NormalTok{))}
+\NormalTok{movies }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(movies, }\FunctionTok{list}\NormalTok{(}\StringTok{"everyday"}\NormalTok{, }\StringTok{"goro lovic"}\NormalTok{, }\DecValTok{2014}\NormalTok{, }\FloatTok{4.4}\NormalTok{, }\DecValTok{170}\NormalTok{, }\DecValTok{40}\NormalTok{))}
+\FunctionTok{tail}\NormalTok{(movies)}
+\CommentTok{\#\textgreater{}                       Title         Director Year Rating}
+\CommentTok{\#\textgreater{} 998  Step Up 2: The Streets       Jon M. Chu 2008    6.2}
+\CommentTok{\#\textgreater{} 999            Search Party   Scot Armstrong 2014    5.6}
+\CommentTok{\#\textgreater{} 1000             Nine Lives Barry Sonnenfeld 2016    5.3}
+\CommentTok{\#\textgreater{} 1001              the big g       goro lovic 2015    9.9}
+\CommentTok{\#\textgreater{} 1002         luv of my life       nema lovic 2016    7.9}
+\CommentTok{\#\textgreater{} 1003               everyday       goro lovic 2014    4.4}
+\CommentTok{\#\textgreater{}      Revenue Metascore}
+\CommentTok{\#\textgreater{} 998    58.01        50}
+\CommentTok{\#\textgreater{} 999       NA        22}
+\CommentTok{\#\textgreater{} 1000   19.64        11}
+\CommentTok{\#\textgreater{} 1001 1000.00       100}
+\CommentTok{\#\textgreater{} 1002  150.00        65}
+\CommentTok{\#\textgreater{} 1003  170.00        40}
+
+\NormalTok{movies }\OtherTok{\textless{}{-}}\NormalTok{ mov[, }\FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{9}\NormalTok{, }\DecValTok{11}\NormalTok{, }\DecValTok{12}\NormalTok{)]}
+\FunctionTok{sapply}\NormalTok{(movies, class)}
+\CommentTok{\#\textgreater{}       Title    Director        Year      Rating     Revenue }
+\CommentTok{\#\textgreater{} "character" "character"   "integer"   "numeric"   "numeric" }
+\CommentTok{\#\textgreater{}   Metascore }
+\CommentTok{\#\textgreater{}   "integer"}
+
+\CommentTok{\# using a vector}
+\NormalTok{movies }\OtherTok{\textless{}{-}} \FunctionTok{rbind}\NormalTok{(movies, }\FunctionTok{c}\NormalTok{(}\StringTok{"the big g"}\NormalTok{, }\StringTok{"goro lovic"}\NormalTok{, }\DecValTok{2015}\NormalTok{, }\FloatTok{9.9}\NormalTok{, }\DecValTok{1000}\NormalTok{, }\DecValTok{100}\NormalTok{))}
+\FunctionTok{sapply}\NormalTok{(movies, class)}
+\CommentTok{\#\textgreater{}       Title    Director        Year      Rating     Revenue }
+\CommentTok{\#\textgreater{} "character" "character" "character" "character" "character" }
+\CommentTok{\#\textgreater{}   Metascore }
+\CommentTok{\#\textgreater{} "character"}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{adding-rows-using-do.call}{%
+\subsubsection{Adding rows using do.call()}\label{adding-rows-using-do.call}}
+
+The function \texttt{do.call(\textquotesingle{}rbind\textquotesingle{},\ dfs)} combines a list of data frames, list, and vectors. Again, avoid using vectors as they may change the data type of the data frames.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{movies }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(mov, }\AttributeTok{select =} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{9}\NormalTok{, }\DecValTok{11}\NormalTok{, }\DecValTok{12}\NormalTok{))}
+\NormalTok{movies }\OtherTok{\textless{}{-}} \FunctionTok{do.call}\NormalTok{(}\StringTok{\textquotesingle{}rbind\textquotesingle{}}\NormalTok{, }\FunctionTok{list}\NormalTok{(movies,}
+                                \FunctionTok{list}\NormalTok{(}\StringTok{"the big g"}\NormalTok{, }\StringTok{"goro lovic"}\NormalTok{, }\DecValTok{2015}\NormalTok{, }\FloatTok{9.9}\NormalTok{, }\DecValTok{1000}\NormalTok{, }\DecValTok{100}\NormalTok{), }
+                                \FunctionTok{list}\NormalTok{(}\StringTok{"luv of my life"}\NormalTok{, }\StringTok{"nema lovic"}\NormalTok{, }\DecValTok{2016}\NormalTok{, }\FloatTok{7.9}\NormalTok{, }\DecValTok{150}\NormalTok{, }\DecValTok{65}\NormalTok{), }
+                                \FunctionTok{list}\NormalTok{(}\StringTok{"everyday"}\NormalTok{, }\StringTok{"goro lovic"}\NormalTok{, }\DecValTok{2014}\NormalTok{, }\FloatTok{4.4}\NormalTok{, }\DecValTok{170}\NormalTok{, }\DecValTok{40}\NormalTok{)))}
+\FunctionTok{tail}\NormalTok{(movies)}
+\CommentTok{\#\textgreater{}                       Title         Director Year Rating}
+\CommentTok{\#\textgreater{} 998  Step Up 2: The Streets       Jon M. Chu 2008    6.2}
+\CommentTok{\#\textgreater{} 999            Search Party   Scot Armstrong 2014    5.6}
+\CommentTok{\#\textgreater{} 1000             Nine Lives Barry Sonnenfeld 2016    5.3}
+\CommentTok{\#\textgreater{} 1001              the big g       goro lovic 2015    9.9}
+\CommentTok{\#\textgreater{} 1002         luv of my life       nema lovic 2016    7.9}
+\CommentTok{\#\textgreater{} 1003               everyday       goro lovic 2014    4.4}
+\CommentTok{\#\textgreater{}      Revenue Metascore}
+\CommentTok{\#\textgreater{} 998    58.01        50}
+\CommentTok{\#\textgreater{} 999       NA        22}
+\CommentTok{\#\textgreater{} 1000   19.64        11}
+\CommentTok{\#\textgreater{} 1001 1000.00       100}
+\CommentTok{\#\textgreater{} 1002  150.00        65}
+\CommentTok{\#\textgreater{} 1003  170.00        40}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{updating-rows-of-data}{%
+\subsection{Updating rows of data}\label{updating-rows-of-data}}
+
+To update a row, we simply select it and give it a new list of values. Vectors can be used also but should be avoided as they may change the data type of the data frame.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{movies }\OtherTok{\textless{}{-}}\NormalTok{ mov[, }\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{9}\NormalTok{, }\DecValTok{11}\NormalTok{, }\DecValTok{12}\NormalTok{)]}
+\NormalTok{movies[}\DecValTok{6}\NormalTok{,]}
+\CommentTok{\#\textgreater{}   Rank          Title    Director Year Rating Revenue}
+\CommentTok{\#\textgreater{} 6    6 The Great Wall Yimou Zhang 2016    6.1   45.13}
+\CommentTok{\#\textgreater{}   Metascore}
+\CommentTok{\#\textgreater{} 6        42}
+
+\CommentTok{\# updating a row by indexing}
+\NormalTok{movies[}\DecValTok{6}\NormalTok{,] }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(}\DecValTok{6}\NormalTok{, }\StringTok{\textquotesingle{}I am coming home\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}goro lovic\textquotesingle{}}\NormalTok{, }\DecValTok{2020}\NormalTok{, }\FloatTok{9.8}\NormalTok{, }\DecValTok{850}\NormalTok{, }\DecValTok{85}\NormalTok{)}
+\NormalTok{movies[}\DecValTok{6}\NormalTok{,]}
+\CommentTok{\#\textgreater{}   Rank            Title   Director Year Rating Revenue}
+\CommentTok{\#\textgreater{} 6    6 I am coming home goro lovic 2020    9.8     850}
+\CommentTok{\#\textgreater{}   Metascore}
+\CommentTok{\#\textgreater{} 6        85}
+
+\CommentTok{\# updating a row by filtering}
+\NormalTok{movies }\OtherTok{\textless{}{-}}\NormalTok{ mov[, }\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{9}\NormalTok{, }\DecValTok{11}\NormalTok{, }\DecValTok{12}\NormalTok{)]}
+\NormalTok{movies[movies}\SpecialCharTok{$}\NormalTok{Rank }\SpecialCharTok{==} \DecValTok{6}\NormalTok{,] }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(}\DecValTok{6}\NormalTok{, }\StringTok{\textquotesingle{}I am coming home\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}goro lovic\textquotesingle{}}\NormalTok{, }\DecValTok{2020}\NormalTok{, }\FloatTok{9.8}\NormalTok{, }\DecValTok{850}\NormalTok{, }\DecValTok{85}\NormalTok{)}
+\NormalTok{movies[movies}\SpecialCharTok{$}\NormalTok{Rank }\SpecialCharTok{==} \DecValTok{6}\NormalTok{,]}
+\CommentTok{\#\textgreater{}   Rank            Title   Director Year Rating Revenue}
+\CommentTok{\#\textgreater{} 6    6 I am coming home goro lovic 2020    9.8     850}
+\CommentTok{\#\textgreater{}   Metascore}
+\CommentTok{\#\textgreater{} 6        85}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{updating-a-single-value}{%
+\subsection{Updating a single value}\label{updating-a-single-value}}
+
+To update a single value, we select it through subsetting and assign it a new value.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{movies }\OtherTok{\textless{}{-}}\NormalTok{ mov[, }\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{9}\NormalTok{, }\DecValTok{11}\NormalTok{, }\DecValTok{12}\NormalTok{)]}
+\NormalTok{movies[movies}\SpecialCharTok{$}\NormalTok{Director }\SpecialCharTok{==} \StringTok{\textquotesingle{}Christopher Nolan\textquotesingle{}}\NormalTok{,]}
+\CommentTok{\#\textgreater{}     Rank                 Title          Director Year}
+\CommentTok{\#\textgreater{} 37    37          Interstellar Christopher Nolan 2014}
+\CommentTok{\#\textgreater{} 55    55       The Dark Knight Christopher Nolan 2008}
+\CommentTok{\#\textgreater{} 65    65          The Prestige Christopher Nolan 2006}
+\CommentTok{\#\textgreater{} 81    81             Inception Christopher Nolan 2010}
+\CommentTok{\#\textgreater{} 125  125 The Dark Knight Rises Christopher Nolan 2012}
+\CommentTok{\#\textgreater{}     Rating Revenue Metascore}
+\CommentTok{\#\textgreater{} 37     8.6  187.99        74}
+\CommentTok{\#\textgreater{} 55     9.0  533.32        82}
+\CommentTok{\#\textgreater{} 65     8.5   53.08        66}
+\CommentTok{\#\textgreater{} 81     8.8  292.57        74}
+\CommentTok{\#\textgreater{} 125    8.5  448.13        78}
+
+\CommentTok{\# changing from \textquotesingle{}Christopher Nolan\textquotesingle{} to \textquotesingle{}C Nolan\textquotesingle{} }
+\NormalTok{movies[movies}\SpecialCharTok{$}\NormalTok{Director }\SpecialCharTok{==} \StringTok{\textquotesingle{}Christopher Nolan\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Director\textquotesingle{}}\NormalTok{] }\OtherTok{\textless{}{-}} \StringTok{\textquotesingle{}C Nolan\textquotesingle{}}
+\NormalTok{movies[}\FunctionTok{c}\NormalTok{(}\DecValTok{37}\NormalTok{, }\DecValTok{55}\NormalTok{, }\DecValTok{65}\NormalTok{, }\DecValTok{81}\NormalTok{, }\DecValTok{125}\NormalTok{),]}
+\CommentTok{\#\textgreater{}     Rank                 Title Director Year Rating Revenue}
+\CommentTok{\#\textgreater{} 37    37          Interstellar  C Nolan 2014    8.6  187.99}
+\CommentTok{\#\textgreater{} 55    55       The Dark Knight  C Nolan 2008    9.0  533.32}
+\CommentTok{\#\textgreater{} 65    65          The Prestige  C Nolan 2006    8.5   53.08}
+\CommentTok{\#\textgreater{} 81    81             Inception  C Nolan 2010    8.8  292.57}
+\CommentTok{\#\textgreater{} 125  125 The Dark Knight Rises  C Nolan 2012    8.5  448.13}
+\CommentTok{\#\textgreater{}     Metascore}
+\CommentTok{\#\textgreater{} 37         74}
+\CommentTok{\#\textgreater{} 55         82}
+\CommentTok{\#\textgreater{} 65         66}
+\CommentTok{\#\textgreater{} 81         74}
+\CommentTok{\#\textgreater{} 125        78}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{randomly-selecting-rows}{%
+\subsection{Randomly selecting rows}\label{randomly-selecting-rows}}
+
+To select a random sample of rows, we use the function \texttt{sample()}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# selecting 10 random rows}
+\NormalTok{movies }\OtherTok{\textless{}{-}}\NormalTok{ mov[, }\FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{11}\NormalTok{, }\DecValTok{12}\NormalTok{)]}
+\NormalTok{movies[}\FunctionTok{sample}\NormalTok{(}\AttributeTok{x =} \FunctionTok{nrow}\NormalTok{(movies), }\AttributeTok{size =} \DecValTok{10}\NormalTok{), ]}
+\CommentTok{\#\textgreater{}                    Title Year Revenue Metascore}
+\CommentTok{\#\textgreater{} 535      A Quiet Passion 2016    1.08        77}
+\CommentTok{\#\textgreater{} 471    American Gangster 2007  130.13        76}
+\CommentTok{\#\textgreater{} 728      The Illusionist 2006   39.83        68}
+\CommentTok{\#\textgreater{} 789 Hotel Transylvania 2 2015  169.69        44}
+\CommentTok{\#\textgreater{} 978        Amateur Night 2016      NA        38}
+\CommentTok{\#\textgreater{} 275            Ballerina 2016      NA        NA}
+\CommentTok{\#\textgreater{} 905              RoboCop 2014   58.61        52}
+\CommentTok{\#\textgreater{} 723            Grown Ups 2010  162.00        30}
+\CommentTok{\#\textgreater{} 958         End of Watch 2012   40.98        68}
+\CommentTok{\#\textgreater{} 211          San Andreas 2015  155.18        43}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{deleting-rows}{%
+\subsection{Deleting rows}\label{deleting-rows}}
+
+There is no special function to delete rows, but they can be filtered out using \texttt{{[}}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{movies\_without\_first10 }\OtherTok{\textless{}{-}}\NormalTok{ movies[}\DecValTok{11}\SpecialCharTok{:}\FunctionTok{nrow}\NormalTok{(movies), ]}
+\FunctionTok{nrow}\NormalTok{(movies)}
+\CommentTok{\#\textgreater{} [1] 1000}
+\FunctionTok{nrow}\NormalTok{(movies\_without\_first10)}
+\CommentTok{\#\textgreater{} [1] 990}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{sql-like-joins}{%
+\section{SQL like joins}\label{sql-like-joins}}
+
+At the most basic level there are four types of SQL joins:
+
+\begin{itemize}
+\tightlist
+\item
+  Inner join: which returns only rows matched in both data frames
+\item
+  Left join (left outer join): which returns all rows found in the left data frame irrespective of whether they are matched to rows in the right data frame. If rows do not match values in the right data frames, NA values are returned instead.
+\item
+  Right join (right outer join): which is the reverse of the left join, that is it returns all rows found on the right data frame irrespective of whether they are matched on the left data frame.
+\item
+  Outer join (full outer join): returns all rows from both data frames irrespective of whether they are matched or not
+\end{itemize}
+
+\hypertarget{inner-join}{%
+\subsection{Inner join}\label{inner-join}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# preparing data}
+\NormalTok{employees }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{name =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}john\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}mary\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}david\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}paul\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}susan\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}cynthia\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Joss\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}dennis\textquotesingle{}}\NormalTok{),}
+  \AttributeTok{age =} \FunctionTok{c}\NormalTok{(}\DecValTok{45}\NormalTok{, }\DecValTok{55}\NormalTok{, }\DecValTok{35}\NormalTok{, }\DecValTok{58}\NormalTok{, }\DecValTok{40}\NormalTok{, }\DecValTok{30}\NormalTok{, }\DecValTok{39}\NormalTok{, }\DecValTok{25}\NormalTok{),}
+  \AttributeTok{gender =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}m\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}f\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}m\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}m\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}f\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}f\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}m\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}m\textquotesingle{}}\NormalTok{),}
+  \AttributeTok{salary =}\FunctionTok{c}\NormalTok{(}\DecValTok{40000}\NormalTok{, }\DecValTok{50000}\NormalTok{, }\DecValTok{35000}\NormalTok{, }\DecValTok{25000}\NormalTok{, }\DecValTok{48000}\NormalTok{, }\DecValTok{32000}\NormalTok{, }\DecValTok{20000}\NormalTok{, }\DecValTok{45000}\NormalTok{),}
+  \AttributeTok{department =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}commercial\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}production\textquotesingle{}}\NormalTok{, }\ConstantTok{NA}\NormalTok{, }\StringTok{\textquotesingle{}human resources\textquotesingle{}}\NormalTok{, }
+                 \StringTok{\textquotesingle{}commercial\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}commercial\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}production\textquotesingle{}}\NormalTok{, }\ConstantTok{NA}\NormalTok{))}
+\NormalTok{employees}
+\CommentTok{\#\textgreater{}      name age gender salary      department}
+\CommentTok{\#\textgreater{} 1    john  45      m  40000      commercial}
+\CommentTok{\#\textgreater{} 2    mary  55      f  50000      production}
+\CommentTok{\#\textgreater{} 3   david  35      m  35000            \textless{}NA\textgreater{}}
+\CommentTok{\#\textgreater{} 4    paul  58      m  25000 human resources}
+\CommentTok{\#\textgreater{} 5   susan  40      f  48000      commercial}
+\CommentTok{\#\textgreater{} 6 cynthia  30      f  32000      commercial}
+\CommentTok{\#\textgreater{} 7    Joss  39      m  20000      production}
+\CommentTok{\#\textgreater{} 8  dennis  25      m  45000            \textless{}NA\textgreater{}}
+\NormalTok{departments }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{department =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}commercial\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}human resources\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}production\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}finance\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}maintenance\textquotesingle{}}\NormalTok{),}
+  \AttributeTok{location =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}washington\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}london\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}paris\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}dubai\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}dublin\textquotesingle{}}\NormalTok{))}
+\NormalTok{departments}
+\CommentTok{\#\textgreater{}        department   location}
+\CommentTok{\#\textgreater{} 1      commercial washington}
+\CommentTok{\#\textgreater{} 2 human resources     london}
+\CommentTok{\#\textgreater{} 3      production      paris}
+\CommentTok{\#\textgreater{} 4         finance      dubai}
+\CommentTok{\#\textgreater{} 5     maintenance     dublin}
+
+\CommentTok{\# returns only rows that are matched in both data frames}
+\FunctionTok{merge}\NormalTok{(employees, departments, }\AttributeTok{by =} \StringTok{"department"}\NormalTok{)}
+\CommentTok{\#\textgreater{}        department    name age gender salary   location}
+\CommentTok{\#\textgreater{} 1      commercial    john  45      m  40000 washington}
+\CommentTok{\#\textgreater{} 2      commercial   susan  40      f  48000 washington}
+\CommentTok{\#\textgreater{} 3      commercial cynthia  30      f  32000 washington}
+\CommentTok{\#\textgreater{} 4 human resources    paul  58      m  25000     london}
+\CommentTok{\#\textgreater{} 5      production    mary  55      f  50000      paris}
+\CommentTok{\#\textgreater{} 6      production    Joss  39      m  20000      paris}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{left-join}{%
+\subsection{Left join}\label{left-join}}
+
+To perform a left join, the argument \texttt{all.x\ =\ TRUE} is used.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# returns all the values of the left data frame}
+\FunctionTok{merge}\NormalTok{(employees, departments, }\AttributeTok{by =} \StringTok{"department"}\NormalTok{, }\AttributeTok{all.x =} \ConstantTok{TRUE}\NormalTok{)}
+\CommentTok{\#\textgreater{}        department    name age gender salary   location}
+\CommentTok{\#\textgreater{} 1      commercial    john  45      m  40000 washington}
+\CommentTok{\#\textgreater{} 2      commercial   susan  40      f  48000 washington}
+\CommentTok{\#\textgreater{} 3      commercial cynthia  30      f  32000 washington}
+\CommentTok{\#\textgreater{} 4 human resources    paul  58      m  25000     london}
+\CommentTok{\#\textgreater{} 5      production    mary  55      f  50000      paris}
+\CommentTok{\#\textgreater{} 6      production    Joss  39      m  20000      paris}
+\CommentTok{\#\textgreater{} 7            \textless{}NA\textgreater{}   david  35      m  35000       \textless{}NA\textgreater{}}
+\CommentTok{\#\textgreater{} 8            \textless{}NA\textgreater{}  dennis  25      m  45000       \textless{}NA\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{right-join}{%
+\subsection{Right join}\label{right-join}}
+
+To perform a right join, the argument \texttt{all.y\ =\ TRUE} is used.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# returns all the values of the right table}
+\FunctionTok{merge}\NormalTok{(employees, departments, }\AttributeTok{by =} \StringTok{"department"}\NormalTok{, }\AttributeTok{all.y =} \ConstantTok{TRUE}\NormalTok{)}
+\CommentTok{\#\textgreater{}        department    name age gender salary   location}
+\CommentTok{\#\textgreater{} 1      commercial    john  45      m  40000 washington}
+\CommentTok{\#\textgreater{} 2      commercial   susan  40      f  48000 washington}
+\CommentTok{\#\textgreater{} 3      commercial cynthia  30      f  32000 washington}
+\CommentTok{\#\textgreater{} 4         finance    \textless{}NA\textgreater{}  NA   \textless{}NA\textgreater{}     NA      dubai}
+\CommentTok{\#\textgreater{} 5 human resources    paul  58      m  25000     london}
+\CommentTok{\#\textgreater{} 6     maintenance    \textless{}NA\textgreater{}  NA   \textless{}NA\textgreater{}     NA     dublin}
+\CommentTok{\#\textgreater{} 7      production    mary  55      f  50000      paris}
+\CommentTok{\#\textgreater{} 8      production    Joss  39      m  20000      paris}
+
+\CommentTok{\# reversing the tables in the right join produces the same results as the left join}
+\FunctionTok{merge}\NormalTok{(departments, employees , }\AttributeTok{by =} \StringTok{"department"}\NormalTok{, }\AttributeTok{all.y =} \ConstantTok{TRUE}\NormalTok{)}
+\CommentTok{\#\textgreater{}        department   location    name age gender salary}
+\CommentTok{\#\textgreater{} 1      commercial washington    john  45      m  40000}
+\CommentTok{\#\textgreater{} 2      commercial washington   susan  40      f  48000}
+\CommentTok{\#\textgreater{} 3      commercial washington cynthia  30      f  32000}
+\CommentTok{\#\textgreater{} 4 human resources     london    paul  58      m  25000}
+\CommentTok{\#\textgreater{} 5      production      paris    mary  55      f  50000}
+\CommentTok{\#\textgreater{} 6      production      paris    Joss  39      m  20000}
+\CommentTok{\#\textgreater{} 7            \textless{}NA\textgreater{}       \textless{}NA\textgreater{}   david  35      m  35000}
+\CommentTok{\#\textgreater{} 8            \textless{}NA\textgreater{}       \textless{}NA\textgreater{}  dennis  25      m  45000}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{full-outer-join}{%
+\subsection{Full outer join}\label{full-outer-join}}
+
+To perform a full join, the argument \texttt{all\ =\ TRUE} is used.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# returns all rows}
+\FunctionTok{merge}\NormalTok{(employees, departments, }\AttributeTok{by =} \StringTok{"department"}\NormalTok{, }\AttributeTok{all =} \ConstantTok{TRUE}\NormalTok{)}
+\CommentTok{\#\textgreater{}         department    name age gender salary   location}
+\CommentTok{\#\textgreater{} 1       commercial    john  45      m  40000 washington}
+\CommentTok{\#\textgreater{} 2       commercial   susan  40      f  48000 washington}
+\CommentTok{\#\textgreater{} 3       commercial cynthia  30      f  32000 washington}
+\CommentTok{\#\textgreater{} 4          finance    \textless{}NA\textgreater{}  NA   \textless{}NA\textgreater{}     NA      dubai}
+\CommentTok{\#\textgreater{} 5  human resources    paul  58      m  25000     london}
+\CommentTok{\#\textgreater{} 6      maintenance    \textless{}NA\textgreater{}  NA   \textless{}NA\textgreater{}     NA     dublin}
+\CommentTok{\#\textgreater{} 7       production    mary  55      f  50000      paris}
+\CommentTok{\#\textgreater{} 8       production    Joss  39      m  20000      paris}
+\CommentTok{\#\textgreater{} 9             \textless{}NA\textgreater{}   david  35      m  35000       \textless{}NA\textgreater{}}
+\CommentTok{\#\textgreater{} 10            \textless{}NA\textgreater{}  dennis  25      m  45000       \textless{}NA\textgreater{}}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{joining-data-frames-with-different-column-names}{%
+\subsection{Joining data frames with different column names}\label{joining-data-frames-with-different-column-names}}
+
+The arguments \texttt{by.x=} and \texttt{by.y=} are used to declare the joining column(s) for the left and right data frames, respectively.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# recreating the employee table}
+\NormalTok{employees }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{name =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}john\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}mary\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}david\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}paul\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}susan\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}cynthia\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Joss\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}dennis\textquotesingle{}}\NormalTok{),}
+  \AttributeTok{age =} \FunctionTok{c}\NormalTok{(}\DecValTok{45}\NormalTok{, }\DecValTok{55}\NormalTok{, }\DecValTok{35}\NormalTok{, }\DecValTok{58}\NormalTok{, }\DecValTok{40}\NormalTok{, }\DecValTok{30}\NormalTok{, }\DecValTok{39}\NormalTok{, }\DecValTok{25}\NormalTok{),}
+  \AttributeTok{gender =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}m\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}f\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}m\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}m\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}f\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}f\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}m\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}m\textquotesingle{}}\NormalTok{),}
+  \AttributeTok{salary =}\FunctionTok{c}\NormalTok{(}\DecValTok{40000}\NormalTok{, }\DecValTok{50000}\NormalTok{, }\DecValTok{35000}\NormalTok{, }\DecValTok{25000}\NormalTok{, }\DecValTok{48000}\NormalTok{, }\DecValTok{32000}\NormalTok{, }\DecValTok{20000}\NormalTok{, }\DecValTok{45000}\NormalTok{),}
+  \AttributeTok{dep\_name =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}commercial\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}production\textquotesingle{}}\NormalTok{, }\ConstantTok{NA}\NormalTok{, }\StringTok{\textquotesingle{}human resources\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}commercial\textquotesingle{}}\NormalTok{, }
+               \StringTok{\textquotesingle{}commercial\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}production\textquotesingle{}}\NormalTok{, }\ConstantTok{NA}\NormalTok{))}
+\FunctionTok{head}\NormalTok{(employees, }\DecValTok{2}\NormalTok{)}
+\CommentTok{\#\textgreater{}   name age gender salary   dep\_name}
+\CommentTok{\#\textgreater{} 1 john  45      m  40000 commercial}
+\CommentTok{\#\textgreater{} 2 mary  55      f  50000 production}
+\FunctionTok{head}\NormalTok{(departments, }\DecValTok{2}\NormalTok{)}
+\CommentTok{\#\textgreater{}        department   location}
+\CommentTok{\#\textgreater{} 1      commercial washington}
+\CommentTok{\#\textgreater{} 2 human resources     london}
+
+\CommentTok{\# joining on columns with different names}
+\FunctionTok{merge}\NormalTok{(employees, departments, }\AttributeTok{by.x =} \StringTok{\textquotesingle{}dep\_name\textquotesingle{}}\NormalTok{, }\AttributeTok{by.y =} \StringTok{\textquotesingle{}department\textquotesingle{}}\NormalTok{)}
+\CommentTok{\#\textgreater{}          dep\_name    name age gender salary   location}
+\CommentTok{\#\textgreater{} 1      commercial    john  45      m  40000 washington}
+\CommentTok{\#\textgreater{} 2      commercial   susan  40      f  48000 washington}
+\CommentTok{\#\textgreater{} 3      commercial cynthia  30      f  32000 washington}
+\CommentTok{\#\textgreater{} 4 human resources    paul  58      m  25000     london}
+\CommentTok{\#\textgreater{} 5      production    mary  55      f  50000      paris}
+\CommentTok{\#\textgreater{} 6      production    Joss  39      m  20000      paris}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{joining-data-frames-on-one-more-than-one-joining-column}{%
+\subsection{Joining data frames on one more than one joining column}\label{joining-data-frames-on-one-more-than-one-joining-column}}
+
+If both data frames contain two or more columns with the same name, \texttt{merge()} will try performing the join using those column names.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# recreating the employees table}
+\NormalTok{employees }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{name =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}john\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}mary\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}david\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}paul\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}susan\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}cynthia\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}Joss\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}dennis\textquotesingle{}}\NormalTok{),}
+  \AttributeTok{age =} \FunctionTok{c}\NormalTok{(}\DecValTok{45}\NormalTok{, }\DecValTok{55}\NormalTok{, }\DecValTok{35}\NormalTok{, }\DecValTok{58}\NormalTok{, }\DecValTok{40}\NormalTok{, }\DecValTok{30}\NormalTok{, }\DecValTok{39}\NormalTok{, }\DecValTok{25}\NormalTok{),}
+  \AttributeTok{gender =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}m\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}f\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}m\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}m\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}f\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}f\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}m\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}m\textquotesingle{}}\NormalTok{),}
+  \AttributeTok{salary =}\FunctionTok{c}\NormalTok{(}\DecValTok{40000}\NormalTok{, }\DecValTok{50000}\NormalTok{, }\DecValTok{35000}\NormalTok{, }\DecValTok{25000}\NormalTok{, }\DecValTok{48000}\NormalTok{, }\DecValTok{32000}\NormalTok{, }\DecValTok{20000}\NormalTok{, }\DecValTok{45000}\NormalTok{),}
+  \AttributeTok{department =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}commercial\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}production\textquotesingle{}}\NormalTok{, }\ConstantTok{NA}\NormalTok{, }\StringTok{\textquotesingle{}human resources\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}commercial\textquotesingle{}}\NormalTok{, }
+                 \StringTok{\textquotesingle{}commercial\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}production\textquotesingle{}}\NormalTok{, }\ConstantTok{NA}\NormalTok{),}
+  \AttributeTok{subdepartment =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}marketing\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}production\textquotesingle{}}\NormalTok{, }\ConstantTok{NA}\NormalTok{, }\StringTok{\textquotesingle{}human resources\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}sales\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}sales\textquotesingle{}}\NormalTok{, }
+                    \StringTok{\textquotesingle{}production\textquotesingle{}}\NormalTok{, }\ConstantTok{NA}\NormalTok{))}
+\FunctionTok{head}\NormalTok{(employees, }\DecValTok{2}\NormalTok{)}
+\CommentTok{\#\textgreater{}   name age gender salary department subdepartment}
+\CommentTok{\#\textgreater{} 1 john  45      m  40000 commercial     marketing}
+\CommentTok{\#\textgreater{} 2 mary  55      f  50000 production    production}
+
+\CommentTok{\# creating the departments? table}
+\NormalTok{departments }\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}
+  \AttributeTok{department =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}commercial\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}commercial\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}human resources\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}production\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}finance\textquotesingle{}}\NormalTok{, }
+                 \StringTok{\textquotesingle{}finance\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}maintenance\textquotesingle{}}\NormalTok{),}
+  \AttributeTok{subdepartment =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}marketing\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}sales\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}human resources\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}production\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}finance\textquotesingle{}}\NormalTok{, }
+                    \StringTok{\textquotesingle{}accounting\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}maintenance\textquotesingle{}}\NormalTok{),}
+  \AttributeTok{location =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}washington\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}washington\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}london\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}paris\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}dubai\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}dubai\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}dublin\textquotesingle{}}\NormalTok{)}
+\NormalTok{)}
+\FunctionTok{head}\NormalTok{(departments, }\DecValTok{2}\NormalTok{)}
+\CommentTok{\#\textgreater{}   department subdepartment   location}
+\CommentTok{\#\textgreater{} 1 commercial     marketing washington}
+\CommentTok{\#\textgreater{} 2 commercial         sales washington}
+
+\CommentTok{\# because they both contain the same name, the join is performed automatically}
+\FunctionTok{merge}\NormalTok{(employees, departments)}
+\CommentTok{\#\textgreater{}        department   subdepartment    name age gender salary}
+\CommentTok{\#\textgreater{} 1      commercial       marketing    john  45      m  40000}
+\CommentTok{\#\textgreater{} 2      commercial           sales   susan  40      f  48000}
+\CommentTok{\#\textgreater{} 3      commercial           sales cynthia  30      f  32000}
+\CommentTok{\#\textgreater{} 4 human resources human resources    paul  58      m  25000}
+\CommentTok{\#\textgreater{} 5      production      production    mary  55      f  50000}
+\CommentTok{\#\textgreater{} 6      production      production    Joss  39      m  20000}
+\CommentTok{\#\textgreater{}     location}
+\CommentTok{\#\textgreater{} 1 washington}
+\CommentTok{\#\textgreater{} 2 washington}
+\CommentTok{\#\textgreater{} 3 washington}
+\CommentTok{\#\textgreater{} 4     london}
+\CommentTok{\#\textgreater{} 5      paris}
+\CommentTok{\#\textgreater{} 6      paris}
+\end{Highlighting}
+\end{Shaded}
+
+If the data frames had columns of different names to join on, we would have used the arguments \texttt{by.x=} and \texttt{by.y=} to specify them as below.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# specifying joining columns}
+\FunctionTok{merge}\NormalTok{(employees, departments, }
+      \AttributeTok{by.x =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}department\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}subdepartment\textquotesingle{}}\NormalTok{), }
+      \AttributeTok{by.y =}\FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}department\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}subdepartment\textquotesingle{}}\NormalTok{))}
+\CommentTok{\#\textgreater{}        department   subdepartment    name age gender salary}
+\CommentTok{\#\textgreater{} 1      commercial       marketing    john  45      m  40000}
+\CommentTok{\#\textgreater{} 2      commercial           sales   susan  40      f  48000}
+\CommentTok{\#\textgreater{} 3      commercial           sales cynthia  30      f  32000}
+\CommentTok{\#\textgreater{} 4 human resources human resources    paul  58      m  25000}
+\CommentTok{\#\textgreater{} 5      production      production    mary  55      f  50000}
+\CommentTok{\#\textgreater{} 6      production      production    Joss  39      m  20000}
+\CommentTok{\#\textgreater{}     location}
+\CommentTok{\#\textgreater{} 1 washington}
+\CommentTok{\#\textgreater{} 2 washington}
+\CommentTok{\#\textgreater{} 3 washington}
+\CommentTok{\#\textgreater{} 4     london}
+\CommentTok{\#\textgreater{} 5      paris}
+\CommentTok{\#\textgreater{} 6      paris}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{aggregating-and-grouping-data}{%
+\section{Aggregating and grouping data}\label{aggregating-and-grouping-data}}
+
+The function \texttt{aggregate()} groups a data frame by a specific column value and performs summarization (sum, mean, median, length, min, max, etc.) based on those groups. It does a split-apply-combine, that is splitting a data frame by groups (category) after which it applies a calculation on each group and finally combines the results back together to create a single data frame which is presented as output.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# preparing data}
+\NormalTok{gapminder\_xlsx\_2007 }\OtherTok{\textless{}{-}}\NormalTok{ gapminder\_xlsx[gapminder\_xlsx}\SpecialCharTok{$}\NormalTok{year }\SpecialCharTok{==} \DecValTok{2007}\NormalTok{, ]}
+\FunctionTok{head}\NormalTok{(gapminder\_xlsx\_2007)}
+\CommentTok{\#\textgreater{}        country continent year lifeExp      pop  gdpPercap}
+\CommentTok{\#\textgreater{} 12 Afghanistan      Asia 2007  43.828 31889923   974.5803}
+\CommentTok{\#\textgreater{} 24     Albania    Europe 2007  76.423  3600523  5937.0295}
+\CommentTok{\#\textgreater{} 36     Algeria    Africa 2007  72.301 33333216  6223.3675}
+\CommentTok{\#\textgreater{} 48      Angola    Africa 2007  42.731 12420476  4797.2313}
+\CommentTok{\#\textgreater{} 60   Argentina  Americas 2007  75.320 40301927 12779.3796}
+\CommentTok{\#\textgreater{} 72   Australia   Oceania 2007  81.235 20434176 34435.3674}
+\CommentTok{\#\textgreater{}    country\_hun continent\_hun}
+\CommentTok{\#\textgreater{} 12 Afganisztán         Ázsia}
+\CommentTok{\#\textgreater{} 24     Albánia        Európa}
+\CommentTok{\#\textgreater{} 36     Algéria        Afrika}
+\CommentTok{\#\textgreater{} 48      Angola        Afrika}
+\CommentTok{\#\textgreater{} 60   Argentína       Amerika}
+\CommentTok{\#\textgreater{} 72  Ausztrália       Óceánia}
+
+\CommentTok{\# population by continent}
+\FunctionTok{aggregate}\NormalTok{(pop }\SpecialCharTok{\textasciitilde{}}\NormalTok{ continent, gapminder\_xlsx\_2007, sum)}
+\CommentTok{\#\textgreater{}   continent        pop}
+\CommentTok{\#\textgreater{} 1    Africa  929539692}
+\CommentTok{\#\textgreater{} 2  Americas  898871184}
+\CommentTok{\#\textgreater{} 3      Asia 3811953827}
+\CommentTok{\#\textgreater{} 4    Europe  586098529}
+\CommentTok{\#\textgreater{} 5   Oceania   24549947}
+\FunctionTok{aggregate}\NormalTok{(pop }\SpecialCharTok{\textasciitilde{}}\NormalTok{ continent, gapminder\_xlsx\_2007, mean)}
+\CommentTok{\#\textgreater{}   continent       pop}
+\CommentTok{\#\textgreater{} 1    Africa  17875763}
+\CommentTok{\#\textgreater{} 2  Americas  35954847}
+\CommentTok{\#\textgreater{} 3      Asia 115513752}
+\CommentTok{\#\textgreater{} 4    Europe  19536618}
+\CommentTok{\#\textgreater{} 5   Oceania  12274974}
+\end{Highlighting}
+\end{Shaded}
+
+The \texttt{aggregate()} function above, groups the data frame \texttt{gapminder\_xlsx\_2007} by continent, after which it applies sum to each group.
+
+Rather than filtering the data before passing it to the \texttt{aggregate()} function, we can filter the data directly inside \texttt{aggregate()} using the \texttt{subset=} argument.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# filtering with the subset argument}
+\FunctionTok{aggregate}\NormalTok{(pop }\SpecialCharTok{\textasciitilde{}}\NormalTok{ continent, gapminder\_xlsx, }
+          \AttributeTok{subset =}\NormalTok{ year }\SpecialCharTok{==} \DecValTok{2007}\NormalTok{, }
+\NormalTok{          sum)}
+\CommentTok{\#\textgreater{}   continent        pop}
+\CommentTok{\#\textgreater{} 1    Africa  929539692}
+\CommentTok{\#\textgreater{} 2  Americas  898871184}
+\CommentTok{\#\textgreater{} 3      Asia 3811953827}
+\CommentTok{\#\textgreater{} 4    Europe  586098529}
+\CommentTok{\#\textgreater{} 5   Oceania   24549947}
+\end{Highlighting}
+\end{Shaded}
+
+The \texttt{+} sign is used to group by more than one categorical column.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# pop by continent and year}
+\FunctionTok{aggregate}\NormalTok{(pop }\SpecialCharTok{\textasciitilde{}}\NormalTok{ continent }\SpecialCharTok{+}\NormalTok{ year, }
+\NormalTok{          gapminder\_xlsx, }
+          \AttributeTok{subset =}\NormalTok{ year }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\DecValTok{1987}\NormalTok{, }\DecValTok{2007}\NormalTok{), }
+\NormalTok{          sum)}
+\CommentTok{\#\textgreater{}    continent year        pop}
+\CommentTok{\#\textgreater{} 1     Africa 1987  574834110}
+\CommentTok{\#\textgreater{} 2   Americas 1987  682753971}
+\CommentTok{\#\textgreater{} 3       Asia 1987 2871220762}
+\CommentTok{\#\textgreater{} 4     Europe 1987  543094160}
+\CommentTok{\#\textgreater{} 5    Oceania 1987   19574415}
+\CommentTok{\#\textgreater{} 6     Africa 2007  929539692}
+\CommentTok{\#\textgreater{} 7   Americas 2007  898871184}
+\CommentTok{\#\textgreater{} 8       Asia 2007 3811953827}
+\CommentTok{\#\textgreater{} 9     Europe 2007  586098529}
+\CommentTok{\#\textgreater{} 10   Oceania 2007   24549947}
+\CommentTok{\# using mean}
+\FunctionTok{aggregate}\NormalTok{(pop }\SpecialCharTok{\textasciitilde{}}\NormalTok{ continent }\SpecialCharTok{+}\NormalTok{ year, }
+\NormalTok{          gapminder\_xlsx, }
+          \AttributeTok{subset =}\NormalTok{ year }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\DecValTok{1987}\NormalTok{, }\DecValTok{2007}\NormalTok{), }
+\NormalTok{          mean)}
+\CommentTok{\#\textgreater{}    continent year       pop}
+\CommentTok{\#\textgreater{} 1     Africa 1987  11054502}
+\CommentTok{\#\textgreater{} 2   Americas 1987  27310159}
+\CommentTok{\#\textgreater{} 3       Asia 1987  87006690}
+\CommentTok{\#\textgreater{} 4     Europe 1987  18103139}
+\CommentTok{\#\textgreater{} 5    Oceania 1987   9787208}
+\CommentTok{\#\textgreater{} 6     Africa 2007  17875763}
+\CommentTok{\#\textgreater{} 7   Americas 2007  35954847}
+\CommentTok{\#\textgreater{} 8       Asia 2007 115513752}
+\CommentTok{\#\textgreater{} 9     Europe 2007  19536618}
+\CommentTok{\#\textgreater{} 10   Oceania 2007  12274974}
+\end{Highlighting}
+\end{Shaded}
+
+The function \texttt{cbind()} is used to aggregate on multiple columns, the only problem is that only one summarisation function can be used.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# aggregating on two numeric columns (lifeExp and gdpPercap)}
+\FunctionTok{aggregate}\NormalTok{(}\FunctionTok{cbind}\NormalTok{(lifeExp, gdpPercap) }\SpecialCharTok{\textasciitilde{}}\NormalTok{ continent }\SpecialCharTok{+}\NormalTok{ year, }
+\NormalTok{          gapminder\_xlsx, }
+          \AttributeTok{subset =}\NormalTok{ year }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\DecValTok{1987}\NormalTok{, }\DecValTok{2007}\NormalTok{), }
+\NormalTok{          mean)}
+\CommentTok{\#\textgreater{}    continent year  lifeExp gdpPercap}
+\CommentTok{\#\textgreater{} 1     Africa 1987 53.34479  2282.669}
+\CommentTok{\#\textgreater{} 2   Americas 1987 68.09072  7793.400}
+\CommentTok{\#\textgreater{} 3       Asia 1987 64.85118  7608.227}
+\CommentTok{\#\textgreater{} 4     Europe 1987 73.64217 17214.311}
+\CommentTok{\#\textgreater{} 5    Oceania 1987 75.32000 20448.040}
+\CommentTok{\#\textgreater{} 6     Africa 2007 54.80604  3089.033}
+\CommentTok{\#\textgreater{} 7   Americas 2007 73.60812 11003.032}
+\CommentTok{\#\textgreater{} 8       Asia 2007 70.72848 12473.027}
+\CommentTok{\#\textgreater{} 9     Europe 2007 77.64860 25054.482}
+\CommentTok{\#\textgreater{} 10   Oceania 2007 80.71950 29810.188}
+\CommentTok{\# rounding with customized function}
+\FunctionTok{aggregate}\NormalTok{(}\FunctionTok{cbind}\NormalTok{(lifeExp, gdpPercap) }\SpecialCharTok{\textasciitilde{}}\NormalTok{ continent }\SpecialCharTok{+}\NormalTok{ year, }
+\NormalTok{          gapminder\_xlsx, }
+          \AttributeTok{subset =}\NormalTok{ year }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\DecValTok{1987}\NormalTok{, }\DecValTok{2007}\NormalTok{), }
+          \ControlFlowTok{function}\NormalTok{(x)\{}\FunctionTok{round}\NormalTok{(}\FunctionTok{mean}\NormalTok{(x), }\DecValTok{1}\NormalTok{)\})}
+\CommentTok{\#\textgreater{}    continent year lifeExp gdpPercap}
+\CommentTok{\#\textgreater{} 1     Africa 1987    53.3    2282.7}
+\CommentTok{\#\textgreater{} 2   Americas 1987    68.1    7793.4}
+\CommentTok{\#\textgreater{} 3       Asia 1987    64.9    7608.2}
+\CommentTok{\#\textgreater{} 4     Europe 1987    73.6   17214.3}
+\CommentTok{\#\textgreater{} 5    Oceania 1987    75.3   20448.0}
+\CommentTok{\#\textgreater{} 6     Africa 2007    54.8    3089.0}
+\CommentTok{\#\textgreater{} 7   Americas 2007    73.6   11003.0}
+\CommentTok{\#\textgreater{} 8       Asia 2007    70.7   12473.0}
+\CommentTok{\#\textgreater{} 9     Europe 2007    77.6   25054.5}
+\CommentTok{\#\textgreater{} 10   Oceania 2007    80.7   29810.2}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{pivoting-and-unpivoting-data}{%
+\section{Pivoting and unpivoting data}\label{pivoting-and-unpivoting-data}}
+
+Tabular data exist in two forms: long and wide. The wide form is ideal for reporting while the long form is ideal for the computer. Most often, when performing data analysis, data in the wide form has to be converted to the long form (unpivoting) while when preparing reports, data in the long has to be converted to the wide form (pivoting).
+
+\emph{wide data}
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule
+Person & Age & Weight & Height \\
+\midrule
+\endhead
+Bob & 32 & 168 & 180 \\
+Alice & 24 & 150 & 175 \\
+Steve & 64 & 144 & 165 \\
+\bottomrule
+\end{longtable}
+
+\emph{long data}
+
+\begin{longtable}[]{@{}lll@{}}
+\toprule
+Person & Variable & Value \\
+\midrule
+\endhead
+Bob & Age & 32 \\
+Bob & Weight & 168 \\
+Bob & Height & 180 \\
+Alice & Age & 24 \\
+Alice & Weight & 150 \\
+Alice & Height & 175 \\
+Steve & Age & 64 \\
+Steve & Weight & 144 \\
+Steve & Height & 165 \\
+\bottomrule
+\end{longtable}
+
+\hypertarget{pivoting}{%
+\subsection{Pivoting}\label{pivoting}}
+
+Pivoting converts data frame rows to columns.
+
+\hypertarget{pivoting-using-the-reshape-package}{%
+\subsubsection{\texorpdfstring{Pivoting using the \textbf{reshape} package}{Pivoting using the reshape package}}\label{pivoting-using-the-reshape-package}}
+
+The \textbf{reshape} package is a package created for restructuring and aggregating data using just two functions: \texttt{melt()} and \texttt{cast()}.
+
+The function \texttt{cast()} pivots data while \texttt{melt()} unpivots data.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# preparing long data}
+\NormalTok{dt }\OtherTok{\textless{}{-}} \FunctionTok{aggregate}\NormalTok{(}\FunctionTok{cbind}\NormalTok{(lifeExp, gdpPercap) }\SpecialCharTok{\textasciitilde{}}\NormalTok{ continent }\SpecialCharTok{+}\NormalTok{ year, }
+\NormalTok{                gapminder\_xlsx, }
+                \AttributeTok{subset =}\NormalTok{ year }\SpecialCharTok{\textgreater{}=} \DecValTok{1987}\NormalTok{, }
+\NormalTok{                mean)}
+\FunctionTok{head}\NormalTok{(dt,}\DecValTok{3}\NormalTok{)}
+\CommentTok{\#\textgreater{}   continent year  lifeExp gdpPercap}
+\CommentTok{\#\textgreater{} 1    Africa 1987 53.34479  2282.669}
+\CommentTok{\#\textgreater{} 2  Americas 1987 68.09072  7793.400}
+\CommentTok{\#\textgreater{} 3      Asia 1987 64.85118  7608.227}
+\FunctionTok{tail}\NormalTok{(dt,}\DecValTok{3}\NormalTok{)}
+\CommentTok{\#\textgreater{}    continent year  lifeExp gdpPercap}
+\CommentTok{\#\textgreater{} 23      Asia 2007 70.72848  12473.03}
+\CommentTok{\#\textgreater{} 24    Europe 2007 77.64860  25054.48}
+\CommentTok{\#\textgreater{} 25   Oceania 2007 80.71950  29810.19}
+
+\FunctionTok{library}\NormalTok{(reshape)}
+\CommentTok{\# converting from long to wide}
+\FunctionTok{cast}\NormalTok{(}\AttributeTok{data =}\NormalTok{ dt, }
+     \AttributeTok{formula =}\NormalTok{ continent }\SpecialCharTok{\textasciitilde{}}\NormalTok{ year, }
+     \AttributeTok{value =} \StringTok{\textquotesingle{}lifeExp\textquotesingle{}}\NormalTok{)}
+\CommentTok{\#\textgreater{}   continent     1987     1992     1997     2002     2007}
+\CommentTok{\#\textgreater{} 1    Africa 53.34479 53.62958 53.59827 53.32523 54.80604}
+\CommentTok{\#\textgreater{} 2  Americas 68.09072 69.56836 71.15048 72.42204 73.60812}
+\CommentTok{\#\textgreater{} 3      Asia 64.85118 66.53721 68.02052 69.23388 70.72848}
+\CommentTok{\#\textgreater{} 4    Europe 73.64217 74.44010 75.50517 76.70060 77.64860}
+\CommentTok{\#\textgreater{} 5   Oceania 75.32000 76.94500 78.19000 79.74000 80.71950}
+\end{Highlighting}
+\end{Shaded}
+
+The function \texttt{cast()} can perform aggregation through the \texttt{fun.aggregate=} argument and filtering through the subset argument.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# summarization}
+\FunctionTok{cast}\NormalTok{(}\AttributeTok{data =}\NormalTok{ gapminder\_xlsx\_2007, }
+     \AttributeTok{formula =}\NormalTok{ continent }\SpecialCharTok{\textasciitilde{}}\NormalTok{ year, }
+     \AttributeTok{value =} \StringTok{\textquotesingle{}pop\textquotesingle{}}\NormalTok{, }
+     \AttributeTok{fun.aggregate =}\NormalTok{ sum)}
+\CommentTok{\#\textgreater{}   continent       2007}
+\CommentTok{\#\textgreater{} 1    Africa  929539692}
+\CommentTok{\#\textgreater{} 2  Americas  898871184}
+\CommentTok{\#\textgreater{} 3      Asia 3811953827}
+\CommentTok{\#\textgreater{} 4    Europe  586098529}
+\CommentTok{\#\textgreater{} 5   Oceania   24549947}
+
+\CommentTok{\# filtering with subset}
+\FunctionTok{cast}\NormalTok{(}\AttributeTok{data =}\NormalTok{ gapminder\_xlsx,}
+\NormalTok{     continent }\SpecialCharTok{\textasciitilde{}}\NormalTok{ year,}
+     \AttributeTok{subset =}\NormalTok{ year }\SpecialCharTok{\textgreater{}=} \DecValTok{1987}\NormalTok{,}
+     \AttributeTok{value =} \StringTok{\textquotesingle{}lifeExp\textquotesingle{}}\NormalTok{, }
+     \AttributeTok{fun.aggregate =}\NormalTok{ mean)}
+\CommentTok{\#\textgreater{}   continent     1987     1992     1997     2002     2007}
+\CommentTok{\#\textgreater{} 1    Africa 53.34479 53.62958 53.59827 53.32523 54.80604}
+\CommentTok{\#\textgreater{} 2  Americas 68.09072 69.56836 71.15048 72.42204 73.60812}
+\CommentTok{\#\textgreater{} 3      Asia 64.85118 66.53721 68.02052 69.23388 70.72848}
+\CommentTok{\#\textgreater{} 4    Europe 73.64217 74.44010 75.50517 76.70060 77.64860}
+\CommentTok{\#\textgreater{} 5   Oceania 75.32000 76.94500 78.19000 79.74000 80.71950}
+
+\CommentTok{\# rounding numbers}
+\FunctionTok{cast}\NormalTok{(}\AttributeTok{data =}\NormalTok{ gapminder\_xlsx,}
+\NormalTok{     continent }\SpecialCharTok{\textasciitilde{}}\NormalTok{ year,}
+     \AttributeTok{subset =}\NormalTok{ year }\SpecialCharTok{\textgreater{}=} \DecValTok{1987}\NormalTok{,}
+     \AttributeTok{value =} \StringTok{\textquotesingle{}lifeExp\textquotesingle{}}\NormalTok{, }
+     \AttributeTok{fun.aggregate =} \ControlFlowTok{function}\NormalTok{(x)}\FunctionTok{round}\NormalTok{(}\FunctionTok{mean}\NormalTok{(x), }\DecValTok{1}\NormalTok{))}
+\CommentTok{\#\textgreater{}   continent 1987 1992 1997 2002 2007}
+\CommentTok{\#\textgreater{} 1    Africa 53.3 53.6 53.6 53.3 54.8}
+\CommentTok{\#\textgreater{} 2  Americas 68.1 69.6 71.2 72.4 73.6}
+\CommentTok{\#\textgreater{} 3      Asia 64.9 66.5 68.0 69.2 70.7}
+\CommentTok{\#\textgreater{} 4    Europe 73.6 74.4 75.5 76.7 77.6}
+\CommentTok{\#\textgreater{} 5   Oceania 75.3 76.9 78.2 79.7 80.7}
+
+\CommentTok{\# population by year by continent}
+\FunctionTok{cast}\NormalTok{(}\AttributeTok{data =}\NormalTok{ gapminder\_xlsx,}
+\NormalTok{     year }\SpecialCharTok{\textasciitilde{}}\NormalTok{ continent,}
+     \AttributeTok{subset =}\NormalTok{ year }\SpecialCharTok{\textgreater{}=} \DecValTok{1987}\NormalTok{,}
+     \AttributeTok{value =} \StringTok{\textquotesingle{}pop\textquotesingle{}}\NormalTok{,}
+     \AttributeTok{fun.aggregate =}\NormalTok{ sum)}
+\CommentTok{\#\textgreater{}   year    Africa  Americas       Asia    Europe  Oceania}
+\CommentTok{\#\textgreater{} 1 1987 574834110 682753971 2871220762 543094160 19574415}
+\CommentTok{\#\textgreater{} 2 1992 659081517 739274104 3133292191 558142797 20919651}
+\CommentTok{\#\textgreater{} 3 1997 743832984 796900410 3383285500 568944148 22241430}
+\CommentTok{\#\textgreater{} 4 2002 833723916 849772762 3601802203 578223869 23454829}
+\CommentTok{\#\textgreater{} 5 2007 929539692 898871184 3811953827 586098529 24549947}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{pivoting-using-the-reshape2-package}{%
+\subsubsection{\texorpdfstring{Pivoting using the \textbf{reshape2} package}{Pivoting using the reshape2 package}}\label{pivoting-using-the-reshape2-package}}
+
+The \textbf{reshape2} package is a reboot of the reshape package.
+
+The function \texttt{acast()} and \texttt{dcast()} are used to pivot data with the former returning a matrix while the later a data frame.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dt\_wide }\OtherTok{\textless{}{-}}\NormalTok{ reshape2}\SpecialCharTok{::}\FunctionTok{acast}\NormalTok{(}\AttributeTok{data =}\NormalTok{ dt, }
+                           \AttributeTok{formula =}\NormalTok{ continent }\SpecialCharTok{\textasciitilde{}}\NormalTok{ year, }
+                           \AttributeTok{value.var =} \StringTok{\textquotesingle{}lifeExp\textquotesingle{}}\NormalTok{)}
+\NormalTok{dt\_wide}
+\CommentTok{\#\textgreater{}              1987     1992     1997     2002     2007}
+\CommentTok{\#\textgreater{} Africa   53.34479 53.62958 53.59827 53.32523 54.80604}
+\CommentTok{\#\textgreater{} Americas 68.09072 69.56836 71.15048 72.42204 73.60812}
+\CommentTok{\#\textgreater{} Asia     64.85118 66.53721 68.02052 69.23388 70.72848}
+\CommentTok{\#\textgreater{} Europe   73.64217 74.44010 75.50517 76.70060 77.64860}
+\CommentTok{\#\textgreater{} Oceania  75.32000 76.94500 78.19000 79.74000 80.71950}
+\FunctionTok{class}\NormalTok{(dt\_wide)}
+\CommentTok{\#\textgreater{} [1] "matrix" "array"}
+
+\NormalTok{dt\_wide }\OtherTok{\textless{}{-}}\NormalTok{ reshape2}\SpecialCharTok{::}\FunctionTok{dcast}\NormalTok{(}\AttributeTok{data =}\NormalTok{ dt, }
+                           \AttributeTok{formula =}\NormalTok{ continent }\SpecialCharTok{\textasciitilde{}}\NormalTok{ year, }
+                           \AttributeTok{value.var =} \StringTok{\textquotesingle{}lifeExp\textquotesingle{}}\NormalTok{)}
+\NormalTok{dt\_wide}
+\CommentTok{\#\textgreater{}   continent     1987     1992     1997     2002     2007}
+\CommentTok{\#\textgreater{} 1    Africa 53.34479 53.62958 53.59827 53.32523 54.80604}
+\CommentTok{\#\textgreater{} 2  Americas 68.09072 69.56836 71.15048 72.42204 73.60812}
+\CommentTok{\#\textgreater{} 3      Asia 64.85118 66.53721 68.02052 69.23388 70.72848}
+\CommentTok{\#\textgreater{} 4    Europe 73.64217 74.44010 75.50517 76.70060 77.64860}
+\CommentTok{\#\textgreater{} 5   Oceania 75.32000 76.94500 78.19000 79.74000 80.71950}
+\FunctionTok{class}\NormalTok{(dt\_wide)}
+\CommentTok{\#\textgreater{} [1] "data.frame"}
+
+\CommentTok{\# filtering by year}
+\NormalTok{reshape2}\SpecialCharTok{::}\FunctionTok{dcast}\NormalTok{(}\AttributeTok{data =}\NormalTok{ gapminder\_xlsx[gapminder\_xlsx}\SpecialCharTok{$}\NormalTok{year }\SpecialCharTok{\textgreater{}=} \DecValTok{1987}\NormalTok{,], }
+                \AttributeTok{formula =}\NormalTok{ continent }\SpecialCharTok{\textasciitilde{}}\NormalTok{ year, }
+                \AttributeTok{value.var =} \StringTok{\textquotesingle{}lifeExp\textquotesingle{}}\NormalTok{, }
+                \AttributeTok{fun.aggregate =} \ControlFlowTok{function}\NormalTok{(x)}\FunctionTok{round}\NormalTok{(}\FunctionTok{mean}\NormalTok{(x), }\DecValTok{1}\NormalTok{))}
+\CommentTok{\#\textgreater{}   continent 1987 1992 1997 2002 2007}
+\CommentTok{\#\textgreater{} 1    Africa 53.3 53.6 53.6 53.3 54.8}
+\CommentTok{\#\textgreater{} 2  Americas 68.1 69.6 71.2 72.4 73.6}
+\CommentTok{\#\textgreater{} 3      Asia 64.9 66.5 68.0 69.2 70.7}
+\CommentTok{\#\textgreater{} 4    Europe 73.6 74.4 75.5 76.7 77.6}
+\CommentTok{\#\textgreater{} 5   Oceania 75.3 76.9 78.2 79.7 80.7}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{unpivoting}{%
+\subsection{Unpivoting}\label{unpivoting}}
+
+Unpivoting converts data frame columns to rows.
+
+The function \texttt{melt()} is used to unpivot data. It accepts the following:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{id.vars=}: columns not to be moved
+\item
+  \texttt{measure.vars=}: columns to move to rows
+\end{itemize}
+
+but can guess both by default.
+
+It is the same function name for \textbf{reshape} and \textbf{reshape2}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{dt\_long }\OtherTok{\textless{}{-}} \FunctionTok{melt}\NormalTok{(dt\_wide)}
+\CommentTok{\#\textgreater{} Using continent as id variables}
+\FunctionTok{head}\NormalTok{(dt\_long)}
+\CommentTok{\#\textgreater{}   continent variable    value}
+\CommentTok{\#\textgreater{} 1    Africa     1987 53.34479}
+\CommentTok{\#\textgreater{} 2  Americas     1987 68.09072}
+\CommentTok{\#\textgreater{} 3      Asia     1987 64.85118}
+\CommentTok{\#\textgreater{} 4    Europe     1987 73.64217}
+\CommentTok{\#\textgreater{} 5   Oceania     1987 75.32000}
+\CommentTok{\#\textgreater{} 6    Africa     1992 53.62958}
+
+\NormalTok{dt\_long }\OtherTok{\textless{}{-}}\NormalTok{ reshape2}\SpecialCharTok{::}\FunctionTok{melt}\NormalTok{(dt\_wide)}
+\CommentTok{\#\textgreater{} Using continent as id variables}
+\FunctionTok{head}\NormalTok{(dt\_long)}
+\CommentTok{\#\textgreater{}   continent variable    value}
+\CommentTok{\#\textgreater{} 1    Africa     1987 53.34479}
+\CommentTok{\#\textgreater{} 2  Americas     1987 68.09072}
+\CommentTok{\#\textgreater{} 3      Asia     1987 64.85118}
+\CommentTok{\#\textgreater{} 4    Europe     1987 73.64217}
+\CommentTok{\#\textgreater{} 5   Oceania     1987 75.32000}
+\CommentTok{\#\textgreater{} 6    Africa     1992 53.62958}
+\end{Highlighting}
+\end{Shaded}
+
+With the argument \texttt{measure.vars=}, we can filter the data frame.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# adding a variable name and filtering data}
+\NormalTok{dt\_long }\OtherTok{\textless{}{-}} \FunctionTok{melt}\NormalTok{(dt\_wide, }
+                \AttributeTok{id.vars =} \StringTok{\textquotesingle{}continent\textquotesingle{}}\NormalTok{, }
+                \AttributeTok{variable\_name =} \StringTok{\textquotesingle{}Year\textquotesingle{}}\NormalTok{,}
+                \AttributeTok{measure.vars =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}1997\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}2002\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}2007\textquotesingle{}}\NormalTok{))}
+\FunctionTok{head}\NormalTok{(dt\_long)}
+\CommentTok{\#\textgreater{}   continent Year    value}
+\CommentTok{\#\textgreater{} 1    Africa 1997 53.59827}
+\CommentTok{\#\textgreater{} 2  Americas 1997 71.15048}
+\CommentTok{\#\textgreater{} 3      Asia 1997 68.02052}
+\CommentTok{\#\textgreater{} 4    Europe 1997 75.50517}
+\CommentTok{\#\textgreater{} 5   Oceania 1997 78.19000}
+\CommentTok{\#\textgreater{} 6    Africa 2002 53.32523}
+
+\CommentTok{\# adding value, variable name, and filtering data}
+\NormalTok{dt\_long }\OtherTok{\textless{}{-}}\NormalTok{ reshape2}\SpecialCharTok{::}\FunctionTok{melt}\NormalTok{(dt\_wide, }
+                          \AttributeTok{id.vars =} \StringTok{\textquotesingle{}continent\textquotesingle{}}\NormalTok{, }
+                          \AttributeTok{variable.name =} \StringTok{\textquotesingle{}Year\textquotesingle{}}\NormalTok{,}
+                          \AttributeTok{value.name =} \StringTok{\textquotesingle{}lifeExp\textquotesingle{}}\NormalTok{, }
+                          \AttributeTok{measure.vars =} \FunctionTok{c}\NormalTok{(}\StringTok{\textquotesingle{}1997\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}2002\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}2007\textquotesingle{}}\NormalTok{))}
+\FunctionTok{head}\NormalTok{(dt\_long)}
+\CommentTok{\#\textgreater{}   continent Year  lifeExp}
+\CommentTok{\#\textgreater{} 1    Africa 1997 53.59827}
+\CommentTok{\#\textgreater{} 2  Americas 1997 71.15048}
+\CommentTok{\#\textgreater{} 3      Asia 1997 68.02052}
+\CommentTok{\#\textgreater{} 4    Europe 1997 75.50517}
+\CommentTok{\#\textgreater{} 5   Oceania 1997 78.19000}
+\CommentTok{\#\textgreater{} 6    Africa 2002 53.32523}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{detecting-and-dealing-with-missing-values}{%
+\section{Detecting and dealing with missing values}\label{detecting-and-dealing-with-missing-values}}
+
+The functions \texttt{anyNA()} and \texttt{is.na()} are used to check for \texttt{NA} values and return \texttt{TRUE} for \texttt{NA} value and \texttt{FALSE} for non-NA value. While the former checks if an object contains any missing value, the latter checks for missing values within an object.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{movies }\OtherTok{\textless{}{-}}\NormalTok{ mov[, }\FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{,}\DecValTok{7}\NormalTok{,}\DecValTok{11}\NormalTok{,}\DecValTok{12}\NormalTok{)]}
+\FunctionTok{head}\NormalTok{(movies)}
+\CommentTok{\#\textgreater{}                     Title Year Revenue Metascore}
+\CommentTok{\#\textgreater{} 1 Guardians of the Galaxy 2014  333.13        76}
+\CommentTok{\#\textgreater{} 2              Prometheus 2012  126.46        65}
+\CommentTok{\#\textgreater{} 3                   Split 2016  138.12        62}
+\CommentTok{\#\textgreater{} 4                    Sing 2016  270.32        59}
+\CommentTok{\#\textgreater{} 5           Suicide Squad 2016  325.02        40}
+\CommentTok{\#\textgreater{} 6          The Great Wall 2016   45.13        42}
+
+\CommentTok{\# checking if an object contains any NA}
+\FunctionTok{anyNA}\NormalTok{(}\ConstantTok{NA}\NormalTok{)}
+\CommentTok{\#\textgreater{} [1] TRUE}
+\FunctionTok{anyNA}\NormalTok{(}\FunctionTok{list}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{5}\NormalTok{, }\ConstantTok{NA}\NormalTok{))}
+\CommentTok{\#\textgreater{} [1] TRUE}
+\FunctionTok{anyNA}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{5}\NormalTok{, }\ConstantTok{NA}\NormalTok{))}
+\CommentTok{\#\textgreater{} [1] TRUE}
+\CommentTok{\# checking if data frame contains any NA values}
+\FunctionTok{anyNA}\NormalTok{(movies)}
+\CommentTok{\#\textgreater{} [1] TRUE}
+\FunctionTok{apply}\NormalTok{(movies, }\DecValTok{2}\NormalTok{, anyNA)}
+\CommentTok{\#\textgreater{}     Title      Year   Revenue Metascore }
+\CommentTok{\#\textgreater{}     FALSE     FALSE      TRUE      TRUE}
+\CommentTok{\# checking for NA values within an object}
+\FunctionTok{is.na}\NormalTok{(}\ConstantTok{NA}\NormalTok{)}
+\CommentTok{\#\textgreater{} [1] TRUE}
+\FunctionTok{is.na}\NormalTok{(}\FunctionTok{list}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{5}\NormalTok{, }\ConstantTok{NA}\NormalTok{))}
+\CommentTok{\#\textgreater{} [1] FALSE FALSE FALSE  TRUE}
+\FunctionTok{is.na}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{5}\NormalTok{, }\ConstantTok{NA}\NormalTok{))}
+\CommentTok{\#\textgreater{} [1] FALSE FALSE FALSE  TRUE}
+\FunctionTok{head}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(movies))}
+\CommentTok{\#\textgreater{}      Title  Year Revenue Metascore}
+\CommentTok{\#\textgreater{} [1,] FALSE FALSE   FALSE     FALSE}
+\CommentTok{\#\textgreater{} [2,] FALSE FALSE   FALSE     FALSE}
+\CommentTok{\#\textgreater{} [3,] FALSE FALSE   FALSE     FALSE}
+\CommentTok{\#\textgreater{} [4,] FALSE FALSE   FALSE     FALSE}
+\CommentTok{\#\textgreater{} [5,] FALSE FALSE   FALSE     FALSE}
+\CommentTok{\#\textgreater{} [6,] FALSE FALSE   FALSE     FALSE}
+\end{Highlighting}
+\end{Shaded}
+
+Since logical can be added, with \texttt{FALSE} = 0 and \texttt{TRUE} = 1, the results of \texttt{is.na()} can be added to determine the number of \texttt{NA} values in the dataset.
+
+To get the total number of \texttt{NA} values by columns, the function \texttt{colSums()} is used instead as it does addition by columns rather than the whole data frame.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# number of na values in a dataset}
+\FunctionTok{sum}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(movies))}
+\CommentTok{\#\textgreater{} [1] 192}
+
+\CommentTok{\# number of na values in each column}
+\FunctionTok{colSums}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(movies))}
+\CommentTok{\#\textgreater{}     Title      Year   Revenue Metascore }
+\CommentTok{\#\textgreater{}         0         0       128        64}
+\end{Highlighting}
+\end{Shaded}
+
+To get the number of non-NA values within each column, we simply reverse the results of \texttt{is.na()} with the not operator (!) or subtract from the total number of rows in the data frame.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# number of non{-}NA values within each column}
+\FunctionTok{colSums}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.na}\NormalTok{(movies))}
+\CommentTok{\#\textgreater{}     Title      Year   Revenue Metascore }
+\CommentTok{\#\textgreater{}      1000      1000       872       936}
+\FunctionTok{nrow}\NormalTok{(movies) }\SpecialCharTok{{-}} \FunctionTok{colSums}\NormalTok{(}\FunctionTok{is.na}\NormalTok{(movies))}
+\CommentTok{\#\textgreater{}     Title      Year   Revenue Metascore }
+\CommentTok{\#\textgreater{}      1000      1000       872       936}
+\end{Highlighting}
+\end{Shaded}
+
+To get the number of rows containing non-NA values, we use the function \texttt{complete.cases()} which returns \texttt{TRUE} for rows without \texttt{NA} values and \texttt{FALSE} for rows with \texttt{NA} values. Summing its result gives us the number of rows without \texttt{NA} values (complete cases). We can equally reverse \texttt{complete.cases()} with the not operator to obtain the number of rows with NA values or subtract from the total number of rows.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# number of rows without NA values}
+\FunctionTok{sum}\NormalTok{(}\FunctionTok{complete.cases}\NormalTok{(movies))}
+\CommentTok{\#\textgreater{} [1] 838}
+\CommentTok{\# number of rows with one or more NA values}
+\FunctionTok{sum}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{complete.cases}\NormalTok{(movies))}
+\CommentTok{\#\textgreater{} [1] 162}
+\FunctionTok{nrow}\NormalTok{(movies) }\SpecialCharTok{{-}} \FunctionTok{sum}\NormalTok{(}\FunctionTok{complete.cases}\NormalTok{(movies))}
+\CommentTok{\#\textgreater{} [1] 162}
+\end{Highlighting}
+\end{Shaded}
+
+Using \texttt{complete.cases()}, we can filter out either rows with NA values or rows without \texttt{NA} values.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# selecting rows without NA}
+\NormalTok{no\_na\_movies }\OtherTok{\textless{}{-}}\NormalTok{ movies[}\FunctionTok{complete.cases}\NormalTok{(movies), ]}
+\FunctionTok{head}\NormalTok{(no\_na\_movies, }\DecValTok{10}\NormalTok{)}
+\CommentTok{\#\textgreater{}                                      Title Year Revenue}
+\CommentTok{\#\textgreater{} 1                  Guardians of the Galaxy 2014  333.13}
+\CommentTok{\#\textgreater{} 2                               Prometheus 2012  126.46}
+\CommentTok{\#\textgreater{} 3                                    Split 2016  138.12}
+\CommentTok{\#\textgreater{} 4                                     Sing 2016  270.32}
+\CommentTok{\#\textgreater{} 5                            Suicide Squad 2016  325.02}
+\CommentTok{\#\textgreater{} 6                           The Great Wall 2016   45.13}
+\CommentTok{\#\textgreater{} 7                               La La Land 2016  151.06}
+\CommentTok{\#\textgreater{} 9                       The Lost City of Z 2016    8.01}
+\CommentTok{\#\textgreater{} 10                              Passengers 2016  100.01}
+\CommentTok{\#\textgreater{} 11 Fantastic Beasts and Where to Find Them 2016  234.02}
+\CommentTok{\#\textgreater{}    Metascore}
+\CommentTok{\#\textgreater{} 1         76}
+\CommentTok{\#\textgreater{} 2         65}
+\CommentTok{\#\textgreater{} 3         62}
+\CommentTok{\#\textgreater{} 4         59}
+\CommentTok{\#\textgreater{} 5         40}
+\CommentTok{\#\textgreater{} 6         42}
+\CommentTok{\#\textgreater{} 7         93}
+\CommentTok{\#\textgreater{} 9         78}
+\CommentTok{\#\textgreater{} 10        41}
+\CommentTok{\#\textgreater{} 11        66}
+
+\CommentTok{\# selecting rows with NA}
+\NormalTok{na\_movies }\OtherTok{\textless{}{-}}\NormalTok{ movies[}\SpecialCharTok{!}\FunctionTok{complete.cases}\NormalTok{(movies), ]}
+\FunctionTok{head}\NormalTok{(na\_movies, }\DecValTok{10}\NormalTok{)}
+\CommentTok{\#\textgreater{}                      Title Year Revenue Metascore}
+\CommentTok{\#\textgreater{} 8                 Mindhorn 2016      NA        71}
+\CommentTok{\#\textgreater{} 23          Hounds of Love 2016      NA        72}
+\CommentTok{\#\textgreater{} 26         Paris pieds nus 2016      NA        NA}
+\CommentTok{\#\textgreater{} 27 Bahubali: The Beginning 2015    6.50        NA}
+\CommentTok{\#\textgreater{} 28              Dead Awake 2016    0.01        NA}
+\CommentTok{\#\textgreater{} 40               5{-} 25{-} 77 2007      NA        NA}
+\CommentTok{\#\textgreater{} 43 Don\textquotesingle{}t Fuck in the Woods 2016      NA        NA}
+\CommentTok{\#\textgreater{} 48                  Fallen 2016      NA        NA}
+\CommentTok{\#\textgreater{} 50           The Last Face 2016      NA        16}
+\CommentTok{\#\textgreater{} 62 The Autopsy of Jane Doe 2016      NA        65}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{detecting-and-dealing-with-outliers}{%
+\section{Detecting and dealing with outliers}\label{detecting-and-dealing-with-outliers}}
+
+\hypertarget{what-is-an-outlier}{%
+\subsection{What is an outlier?}\label{what-is-an-outlier}}
+
+Outliers also known as anomalies are values that deviate extremely from other values within the same group of data. They occur because of errors committed while collecting or recording data, performing calculations or are just data points with extreme values.
+
+\hypertarget{identifying-outlier}{%
+\subsection{Identifying outlier}\label{identifying-outlier}}
+
+\hypertarget{using-summary-statistics}{%
+\subsubsection{Using summary statistics}\label{using-summary-statistics}}
+
+The first step in outlier detection is to look at summary statistics, most especially the minimum, maximum, median, and mean. For example, with a dataset of people's ages, if the maximum is 200 or the minimum is negative, then there is a problem.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{gapminder\_xlsx\_2007 }\OtherTok{\textless{}{-}}\NormalTok{ gapminder\_xlsx[gapminder\_xlsx}\SpecialCharTok{$}\NormalTok{year }\SpecialCharTok{==} \DecValTok{2007}\NormalTok{, ]}
+\FunctionTok{head}\NormalTok{(gapminder\_xlsx\_2007)}
+\CommentTok{\#\textgreater{}        country continent year lifeExp      pop  gdpPercap}
+\CommentTok{\#\textgreater{} 12 Afghanistan      Asia 2007  43.828 31889923   974.5803}
+\CommentTok{\#\textgreater{} 24     Albania    Europe 2007  76.423  3600523  5937.0295}
+\CommentTok{\#\textgreater{} 36     Algeria    Africa 2007  72.301 33333216  6223.3675}
+\CommentTok{\#\textgreater{} 48      Angola    Africa 2007  42.731 12420476  4797.2313}
+\CommentTok{\#\textgreater{} 60   Argentina  Americas 2007  75.320 40301927 12779.3796}
+\CommentTok{\#\textgreater{} 72   Australia   Oceania 2007  81.235 20434176 34435.3674}
+\CommentTok{\#\textgreater{}    country\_hun continent\_hun}
+\CommentTok{\#\textgreater{} 12 Afganisztán         Ázsia}
+\CommentTok{\#\textgreater{} 24     Albánia        Európa}
+\CommentTok{\#\textgreater{} 36     Algéria        Afrika}
+\CommentTok{\#\textgreater{} 48      Angola        Afrika}
+\CommentTok{\#\textgreater{} 60   Argentína       Amerika}
+\CommentTok{\#\textgreater{} 72  Ausztrália       Óceánia}
+\FunctionTok{summary}\NormalTok{(gapminder\_xlsx\_2007}\SpecialCharTok{$}\NormalTok{pop}\SpecialCharTok{/}\FloatTok{1e6}\NormalTok{)}
+\CommentTok{\#\textgreater{}      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. }
+\CommentTok{\#\textgreater{}    0.1996    4.5080   10.5175   44.0212   31.2100 1318.6831}
+\end{Highlighting}
+\end{Shaded}
+
+From the above, we see that the median and mean are 10 million and 44 million respectively while the maximum value is 1.3 billion. This tells us that there are some outliers since the maximum value varies greatly from the centre of the data.
+
+\hypertarget{using-plots}{%
+\subsubsection{Using plots}\label{using-plots}}
+
+Outliers are identified using univariate plots such as histogram, density plot and boxplot.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# plotting variable using histogram}
+\FunctionTok{hist}\NormalTok{(gapminder\_xlsx\_2007}\SpecialCharTok{$}\NormalTok{gdpPercap, }\AttributeTok{breaks =} \DecValTok{18}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{03-datamanipulation_files/figure-latex/unnamed-chunk-49-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+
+\CommentTok{\# density plot}
+\FunctionTok{plot}\NormalTok{(}\FunctionTok{density}\NormalTok{(gapminder\_xlsx\_2007}\SpecialCharTok{$}\NormalTok{gdpPercap))}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{03-datamanipulation_files/figure-latex/unnamed-chunk-49-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+
+\CommentTok{\# boxplot of population}
+\FunctionTok{boxplot}\NormalTok{(gapminder\_xlsx\_2007}\SpecialCharTok{$}\NormalTok{gdpPercap)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{03-datamanipulation_files/figure-latex/unnamed-chunk-49-3.pdf}
+
+Of the above data visualizations, the boxplot is the most relevant as it shows both the spread of data and outliers. The boxplot reveals the following:
+
+\begin{itemize}
+\tightlist
+\item
+  minimum value,
+\item
+  first quantile (Q1),
+\item
+  median (second quantile),
+\item
+  third quantile (Q3),
+\item
+  maximum value excluding outliers and
+\item
+  outliers.
+\end{itemize}
+
+The difference between Q3 and Q1 is known as the Interquartile Range (IQR). The outliers within the box plot are calculated as any value that falls beyond 1.5 * IQR.
+
+The function \texttt{boxplot.stats()} computes the data that is used to draw the box plot. Using this function, we can get our outliers.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{boxplot.stats}\NormalTok{(gapminder\_xlsx\_2007}\SpecialCharTok{$}\NormalTok{gdpPercap)}
+\CommentTok{\#\textgreater{} $stats}
+\CommentTok{\#\textgreater{} [1]   277.5519  1598.4351  6124.3711 18008.9444 40675.9964}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} $n}
+\CommentTok{\#\textgreater{} [1] 142}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} $conf}
+\CommentTok{\#\textgreater{} [1] 3948.491 8300.251}
+\CommentTok{\#\textgreater{} }
+\CommentTok{\#\textgreater{} $out}
+\CommentTok{\#\textgreater{} [1] 47306.99 49357.19 47143.18 42951.65}
+\end{Highlighting}
+\end{Shaded}
+
+The first element returned is the summary statistic as was calculated with \texttt{summary()}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{boxplot.stats}\NormalTok{(gapminder\_xlsx\_2007}\SpecialCharTok{$}\NormalTok{gdpPercap)}\SpecialCharTok{$}\NormalTok{stats}
+\CommentTok{\#\textgreater{} [1]   277.5519  1598.4351  6124.3711 18008.9444 40675.9964}
+\FunctionTok{summary}\NormalTok{(gapminder\_xlsx\_2007}\SpecialCharTok{$}\NormalTok{gdpPercap)}
+\CommentTok{\#\textgreater{}    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. }
+\CommentTok{\#\textgreater{}   277.6  1624.8  6124.4 11680.1 18008.8 49357.2}
+\end{Highlighting}
+\end{Shaded}
+
+The last element returned are the outliers.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{boxplot.stats}\NormalTok{(gapminder\_xlsx\_2007}\SpecialCharTok{$}\NormalTok{gdpPercap)}\SpecialCharTok{$}\NormalTok{out}
+\CommentTok{\#\textgreater{} [1] 47306.99 49357.19 47143.18 42951.65}
+\end{Highlighting}
+\end{Shaded}
+
+Recall outliers are calculated as 1.5 * IQR, this can be changed using the argument coef. By default, it is set to 1.5 but can be changed as need be.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# changing coef}
+\FunctionTok{boxplot.stats}\NormalTok{(gapminder\_xlsx\_2007}\SpecialCharTok{$}\NormalTok{gdpPercap, }\AttributeTok{coef =} \FloatTok{0.8}\NormalTok{)}\SpecialCharTok{$}\NormalTok{out}
+\CommentTok{\#\textgreater{}  [1] 34435.37 36126.49 33692.61 36319.24 35278.42 33207.08}
+\CommentTok{\#\textgreater{}  [7] 32170.37 39724.98 36180.79 40676.00 31656.07 47306.99}
+\CommentTok{\#\textgreater{} [13] 36797.93 49357.19 47143.18 33859.75 37506.42 33203.26}
+\CommentTok{\#\textgreater{} [19] 42951.65}
+\FunctionTok{boxplot.stats}\NormalTok{(gapminder\_xlsx\_2007}\SpecialCharTok{$}\NormalTok{gdpPercap, }\AttributeTok{coef =} \DecValTok{1}\NormalTok{)}\SpecialCharTok{$}\NormalTok{out}
+\CommentTok{\#\textgreater{}  [1] 34435.37 36126.49 36319.24 35278.42 39724.98 36180.79}
+\CommentTok{\#\textgreater{}  [7] 40676.00 47306.99 36797.93 49357.19 47143.18 37506.42}
+\CommentTok{\#\textgreater{} [13] 42951.65}
+\FunctionTok{boxplot.stats}\NormalTok{(gapminder\_xlsx\_2007}\SpecialCharTok{$}\NormalTok{gdpPercap, }\AttributeTok{coef =} \FloatTok{1.2}\NormalTok{)}\SpecialCharTok{$}\NormalTok{out}
+\CommentTok{\#\textgreater{} [1] 39724.98 40676.00 47306.99 49357.19 47143.18 42951.65}
+
+\CommentTok{\# selecting outliers}
+\NormalTok{gapminder\_xlsx\_2007[gapminder\_xlsx\_2007}\SpecialCharTok{$}\NormalTok{gdpPercap }\SpecialCharTok{\textgreater{}=} \FunctionTok{min}\NormalTok{(}\FunctionTok{boxplot.stats}\NormalTok{(gapminder\_xlsx\_2007}\SpecialCharTok{$}\NormalTok{gdpPercap)}\SpecialCharTok{$}\NormalTok{out),]}
+\CommentTok{\#\textgreater{}            country continent year lifeExp       pop}
+\CommentTok{\#\textgreater{} 864         Kuwait      Asia 2007  77.588   2505559}
+\CommentTok{\#\textgreater{} 1152        Norway    Europe 2007  80.196   4627926}
+\CommentTok{\#\textgreater{} 1368     Singapore      Asia 2007  79.972   4553009}
+\CommentTok{\#\textgreater{} 1620 United States  Americas 2007  78.242 301139947}
+\CommentTok{\#\textgreater{}      gdpPercap      country\_hun continent\_hun}
+\CommentTok{\#\textgreater{} 864   47306.99           Kuvait         Ázsia}
+\CommentTok{\#\textgreater{} 1152  49357.19         Norvégia        Európa}
+\CommentTok{\#\textgreater{} 1368  47143.18        Szingapúr         Ázsia}
+\CommentTok{\#\textgreater{} 1620  42951.65 Egyesült Államok       Amerika}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{dealing-with-duplicate-values}{%
+\section{Dealing with duplicate values}\label{dealing-with-duplicate-values}}
+
+\hypertarget{determining-duplicate-values}{%
+\subsection{Determining duplicate values}\label{determining-duplicate-values}}
+
+The function \texttt{duplicated()} determines which elements are duplicates in a vector or data frame while the function \texttt{anyDuplicated()} returns the index position of the first duplicate.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# checking for duplicates}
+\FunctionTok{duplicated}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{10}\NormalTok{)}
+\CommentTok{\#\textgreater{}  [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE}
+\CommentTok{\#\textgreater{} [10] FALSE}
+
+\FunctionTok{duplicated}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{6}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{8}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{0}\NormalTok{))}
+\CommentTok{\#\textgreater{}  [1] FALSE FALSE FALSE FALSE  TRUE FALSE FALSE FALSE  TRUE}
+\CommentTok{\#\textgreater{} [10]  TRUE  TRUE  TRUE FALSE  TRUE  TRUE}
+
+\CommentTok{\# get duplicate values}
+\NormalTok{vt }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{6}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{8}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{0}\NormalTok{)}
+\NormalTok{vt[}\FunctionTok{duplicated}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{6}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{8}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{0}\NormalTok{))]}
+\CommentTok{\#\textgreater{} [1] 2 3 3 2 2 4 0}
+
+\CommentTok{\# checking if an object contains any duplicates}
+\FunctionTok{any}\NormalTok{(}\FunctionTok{duplicated}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{10}\NormalTok{))}
+\CommentTok{\#\textgreater{} [1] FALSE}
+
+\FunctionTok{any}\NormalTok{(}\FunctionTok{duplicated}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{6}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{8}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{0}\NormalTok{)))}
+\CommentTok{\#\textgreater{} [1] TRUE}
+
+\CommentTok{\# get the first duplicate position}
+\FunctionTok{anyDuplicated}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{10}\NormalTok{)}
+\CommentTok{\#\textgreater{} [1] 0}
+
+\FunctionTok{anyDuplicated}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{6}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{8}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{0}\NormalTok{))}
+\CommentTok{\#\textgreater{} [1] 5}
+\end{Highlighting}
+\end{Shaded}
+
+The function \texttt{duplicated()} and \texttt{anyDuplicated()} also work on data frames. The former drops unique rows while keeping duplicate rows.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{movies\_2006 }\OtherTok{\textless{}{-}}\NormalTok{ mov[mov}\SpecialCharTok{$}\NormalTok{Year }\SpecialCharTok{==} \DecValTok{2006}\NormalTok{, }\FunctionTok{c}\NormalTok{(}\DecValTok{7}\NormalTok{,}\DecValTok{12}\NormalTok{)]}
+\NormalTok{movies\_2006 }\OtherTok{\textless{}{-}}\NormalTok{ movies\_2006[}\FunctionTok{order}\NormalTok{(movies\_2006}\SpecialCharTok{$}\NormalTok{Year, movies\_2006}\SpecialCharTok{$}\NormalTok{Metascore),]}
+\FunctionTok{head}\NormalTok{(movies\_2006)}
+\CommentTok{\#\textgreater{}     Year Metascore}
+\CommentTok{\#\textgreater{} 774 2006        36}
+\CommentTok{\#\textgreater{} 309 2006        45}
+\CommentTok{\#\textgreater{} 551 2006        45}
+\CommentTok{\#\textgreater{} 594 2006        45}
+\CommentTok{\#\textgreater{} 734 2006        46}
+\CommentTok{\#\textgreater{} 531 2006        47}
+
+\CommentTok{\# checking for any duplicates}
+\FunctionTok{any}\NormalTok{(}\FunctionTok{duplicated}\NormalTok{(movies\_2006))}
+\CommentTok{\#\textgreater{} [1] TRUE}
+
+\FunctionTok{anyDuplicated}\NormalTok{(movies\_2006)}
+\CommentTok{\#\textgreater{} [1] 3}
+
+\CommentTok{\# checking for duplicates}
+\FunctionTok{duplicated}\NormalTok{(movies\_2006)}
+\CommentTok{\#\textgreater{}  [1] FALSE FALSE  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE}
+\CommentTok{\#\textgreater{} [10]  TRUE FALSE  TRUE FALSE FALSE  TRUE FALSE FALSE FALSE}
+\CommentTok{\#\textgreater{} [19]  TRUE  TRUE FALSE FALSE  TRUE  TRUE  TRUE FALSE  TRUE}
+\CommentTok{\#\textgreater{} [28] FALSE  TRUE FALSE FALSE FALSE FALSE  TRUE FALSE  TRUE}
+\CommentTok{\#\textgreater{} [37] FALSE FALSE  TRUE FALSE FALSE FALSE  TRUE  TRUE}
+
+\CommentTok{\# returning duplicates}
+\NormalTok{movies\_2006\_dup }\OtherTok{\textless{}{-}}\NormalTok{ movies\_2006 [}\FunctionTok{duplicated}\NormalTok{(movies\_2006), ]}
+\FunctionTok{head}\NormalTok{(movies\_2006\_dup)}
+\CommentTok{\#\textgreater{}     Year Metascore}
+\CommentTok{\#\textgreater{} 551 2006        45}
+\CommentTok{\#\textgreater{} 594 2006        45}
+\CommentTok{\#\textgreater{} 859 2006        52}
+\CommentTok{\#\textgreater{} 960 2006        53}
+\CommentTok{\#\textgreater{} 902 2006        58}
+\CommentTok{\#\textgreater{} 670 2006        64}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{get-unique-values}{%
+\subsection{Get unique values}\label{get-unique-values}}
+
+The function \texttt{unique()} extracts unique values from a vector or data frame.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# return unique values}
+\FunctionTok{unique}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{10}\NormalTok{)}
+\CommentTok{\#\textgreater{}  [1]  1  2  3  4  5  6  7  8  9 10}
+
+\FunctionTok{unique}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{6}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{8}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{0}\NormalTok{))}
+\CommentTok{\#\textgreater{} [1] 2 1 3 6 4 7 0 8}
+
+\CommentTok{\# return unique values using duplicated()}
+\NormalTok{vt[}\SpecialCharTok{!}\FunctionTok{duplicated}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{6}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{7}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{3}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{8}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DecValTok{0}\NormalTok{))]}
+\CommentTok{\#\textgreater{} [1] 2 1 3 6 4 7 0 8}
+
+\CommentTok{\# returning unique rows}
+\NormalTok{movies\_2006\_uni }\OtherTok{\textless{}{-}} \FunctionTok{unique}\NormalTok{(movies\_2006)}
+\FunctionTok{head}\NormalTok{(movies\_2006\_uni)}
+\CommentTok{\#\textgreater{}     Year Metascore}
+\CommentTok{\#\textgreater{} 774 2006        36}
+\CommentTok{\#\textgreater{} 309 2006        45}
+\CommentTok{\#\textgreater{} 734 2006        46}
+\CommentTok{\#\textgreater{} 531 2006        47}
+\CommentTok{\#\textgreater{} 321 2006        48}
+\CommentTok{\#\textgreater{} 775 2006        51}
+
+\CommentTok{\# returning unique rows using duplicated()}
+\NormalTok{movies\_2006\_uni }\OtherTok{\textless{}{-}} \FunctionTok{subset}\NormalTok{(movies\_2006, }\SpecialCharTok{!}\FunctionTok{duplicated}\NormalTok{(movies\_2006))}
+\FunctionTok{head}\NormalTok{(movies\_2006\_uni)}
+\CommentTok{\#\textgreater{}     Year Metascore}
+\CommentTok{\#\textgreater{} 774 2006        36}
+\CommentTok{\#\textgreater{} 309 2006        45}
+\CommentTok{\#\textgreater{} 734 2006        46}
+\CommentTok{\#\textgreater{} 531 2006        47}
+\CommentTok{\#\textgreater{} 321 2006        48}
+\CommentTok{\#\textgreater{} 775 2006        51}
+\end{Highlighting}
+\end{Shaded}
 
 \hypertarget{modern-graphics}{%
 \chapter{Modern graphics}\label{modern-graphics}}

@@ -2,7 +2,7 @@
 
 This chapter focuses exclusively on advanced data manipulation. I therefore assume a basic level of comfort with data manipulation.
 
-## Importing data
+## Importing data{#br-import}
 
 Most of the data used for analysis is found in the outside world and needs to be imported into R. Data comes in different formats.
 
@@ -16,10 +16,10 @@ Most of the data used for analysis is found in the outside world and needs to be
 # help(gapminder, package = "gapminder")
 
 # importing the gapminder dataset - Delimited text files - ANSI (CP1250)
-gapminder_cp1250 <- read.table(file = "data/gapminder_ext_CP1250.txt", header = T, sep = "\t", dec = ",", fileEncoding = "latin2")
+gapminder_cp1250 <- read.table(file = "data/gapminder_ext_CP1250.txt", header = T, sep = "\t", dec = ",", quote = "\"", fileEncoding = "latin2")
 
 # importing the gapminder dataset - Delimited text files - UTF-8
-gapminder_utf8 <- read.table(file = "data/gapminder_ext_UTF-8.txt", header = T, sep = "\t", dec = ",", fileEncoding = "UTF-8")
+gapminder_utf8 <- read.table(file = "data/gapminder_ext_UTF-8.txt", header = T, sep = "\t", dec = ",", quote = "\"", fileEncoding = "UTF-8")
 
 # importing the gapminder dataset - Binary files
 library(rio)
@@ -74,7 +74,7 @@ str(pothoff)
 #>  $ agefac: num  8 10 12 14 8 10 12 14 8 10 ...
 ```
 
-## Exporting data
+## Exporting data{#br-export}
 
 The function `write.table()` are used to export data to delimited text file. The function `rio::export()` is used to export data to worksheets in an Excel file (or other binary file). The type of the binary file will depend on the extension given to the file name.
 
@@ -92,7 +92,7 @@ export(x = gapminder_xlsx, file = "output/data/gapminder.xlsx", overwrite = T)
 export(x = gapminder_xlsx, file = "output/data/gapminder.sav")
 ```
 
-## Inspecting a data frame
+## Inspecting a data frame{#br-inspect}
 
 We use the following functions to inspect a data frame:
 
@@ -186,7 +186,7 @@ str(gapminder_xlsx)
 #>  $ continent_hun: Factor w/ 5 levels "Afrika","Amerika",..: 3 3 3 3 3 3 3 3 3 3 ...
 ```
 
-### Renaming columns
+### Renaming columns{#br-col-names}
 
 After importing data, columns can be renamed by assigning new names to them.
 
@@ -214,7 +214,7 @@ names(gapminder_utf8)
 #> [7] "orszag_hun"    "kontinens_hun"
 ```
 
-### Insert and derive new columns
+### Insert and derive new columns{#br-changing}
 
 
 ```r
@@ -240,7 +240,7 @@ names(mov) <- c('Rank', 'Title', 'Genre', 'Description', 'Director', 'Actors', '
                 'Runtime', 'Rating', 'Votes', 'Revenue', 'Metascore')
 ```
 
-### Inserting a new column
+#### Inserting a new column
 
 To insert a new column, we index the data frame by the new column name and assign it values.
 
@@ -307,7 +307,7 @@ head(movies)
 plot(movies$Movie.Class)
 ```
 
-<img src="03-datamanipulation_files/figure-html/unnamed-chunk-10-1.png" width="672" />
+![](03-datamanipulation_files/figure-epub3/unnamed-chunk-10-1.png)<!-- -->
 
 #### Deriving a new column from a calculation
 
@@ -358,7 +358,7 @@ head(movies)
 
 ### Sorting and ranking
 
-#### Sorting a data frame
+#### Sorting a data frame{#br-sort}
 
 The `order()` function is used to sort a data frame. It takes a column and returns indices in ascending order. To reverse this, use `decreasing = TRUE`. Once the indices are sorted, they are used to index the data frame. The function `order()` also works on character columns as well and on multiple columns.
 
@@ -483,7 +483,7 @@ head(movies_ordered, 10)
 #> 502                 Carol 2015    0.25        95
 ```
 
-### Ranking
+#### Ranking
 
 The function `rank()` ranks column values. It does this in ascending order but can be reversed by placing a negative sign in front of the ranking column as there is no decreasing argument here as was the case with the `order()` function.
 
@@ -631,7 +631,7 @@ head(busiest_Airports)
 #> 6        Chicago, Illinois        United States  ORD KORD
 ```
 
-### Merging columns
+#### Merging columns
 
 The function `paste()` is used to merge columns.
 
@@ -657,14 +657,46 @@ head(busiest_Airports)
 #> 6  ORD-KORD
 ```
 
-### Deleting columns
+## Selecting columns{#br-filter-cols}
+
+The function `subset()` or `[` is used to select columns.
+
+
+```r
+head(gapminder_cp1250[, c(1, 3)])
+#>       country year
+#> 1 Afghanistan 1952
+#> 2 Afghanistan 1957
+#> 3 Afghanistan 1962
+#> 4 Afghanistan 1967
+#> 5 Afghanistan 1972
+#> 6 Afghanistan 1977
+head(gapminder_cp1250[, c("country", "gdpPercap")])
+#>       country gdpPercap
+#> 1 Afghanistan  779.4453
+#> 2 Afghanistan  820.8530
+#> 3 Afghanistan  853.1007
+#> 4 Afghanistan  836.1971
+#> 5 Afghanistan  739.9811
+#> 6 Afghanistan  786.1134
+head(subset(gapminder_cp1250, select = c("country", "gdpPercap")))
+#>       country gdpPercap
+#> 1 Afghanistan  779.4453
+#> 2 Afghanistan  820.8530
+#> 3 Afghanistan  853.1007
+#> 4 Afghanistan  836.1971
+#> 5 Afghanistan  739.9811
+#> 6 Afghanistan  786.1134
+```
+
+## Deleting columns
 
 There is no special function to delete columns but `[` and `NULL` can be used to drop unwanted columns.
 
 
 ```r
 str(gapminder_cp1250)
-#> 'data.frame':	1698 obs. of  8 variables:
+#> 'data.frame':	1704 obs. of  8 variables:
 #>  $ country      : chr  "Afghanistan" "Afghanistan" "Afghanistan" "Afghanistan" ...
 #>  $ continent    : chr  "Asia" "Asia" "Asia" "Asia" ...
 #>  $ year         : int  1952 1957 1962 1967 1972 1977 1982 1987 1992 1997 ...
@@ -675,7 +707,7 @@ str(gapminder_cp1250)
 #>  $ continent_hun: chr  "Ázsia" "Ázsia" "Ázsia" "Ázsia" ...
 gapminder_cp1250$pop <- NULL
 str(gapminder_cp1250)
-#> 'data.frame':	1698 obs. of  7 variables:
+#> 'data.frame':	1704 obs. of  7 variables:
 #>  $ country      : chr  "Afghanistan" "Afghanistan" "Afghanistan" "Afghanistan" ...
 #>  $ continent    : chr  "Asia" "Asia" "Asia" "Asia" ...
 #>  $ year         : int  1952 1957 1962 1967 1972 1977 1982 1987 1992 1997 ...
@@ -685,7 +717,7 @@ str(gapminder_cp1250)
 #>  $ continent_hun: chr  "Ázsia" "Ázsia" "Ázsia" "Ázsia" ...
 
 str(gapminder_cp1250)
-#> 'data.frame':	1698 obs. of  7 variables:
+#> 'data.frame':	1704 obs. of  7 variables:
 #>  $ country      : chr  "Afghanistan" "Afghanistan" "Afghanistan" "Afghanistan" ...
 #>  $ continent    : chr  "Asia" "Asia" "Asia" "Asia" ...
 #>  $ year         : int  1952 1957 1962 1967 1972 1977 1982 1987 1992 1997 ...
@@ -695,7 +727,7 @@ str(gapminder_cp1250)
 #>  $ continent_hun: chr  "Ázsia" "Ázsia" "Ázsia" "Ázsia" ...
 gapminder_cp1250 <- gapminder_cp1250[, c(1, 2, 5, 6)]
 str(gapminder_cp1250)
-#> 'data.frame':	1698 obs. of  4 variables:
+#> 'data.frame':	1704 obs. of  4 variables:
 #>  $ country    : chr  "Afghanistan" "Afghanistan" "Afghanistan" "Afghanistan" ...
 #>  $ continent  : chr  "Asia" "Asia" "Asia" "Asia" ...
 #>  $ gdpPercap  : num  779 821 853 836 740 ...
@@ -703,6 +735,49 @@ str(gapminder_cp1250)
 ```
 
 ## Manipulating Rows
+
+### Renaming rows{#br-row-names}
+
+After importing data, rows can be renamed by assigning new names to them.
+
+
+```r
+rownames(gapminder_utf8)[1:6]
+#> [1] "1" "2" "3" "4" "5" "6"
+rownames(gapminder_utf8) <- paste0("RN-", 1:nrow(gapminder_utf8))
+head(gapminder_utf8)
+#>           orszag kontinens year lifeExp      pop gdpPercap
+#> RN-1 Afghanistan      Asia 1952  28.801  8425333  779.4453
+#> RN-2 Afghanistan      Asia 1957  30.332  9240934  820.8530
+#> RN-3 Afghanistan      Asia 1962  31.997 10267083  853.1007
+#> RN-4 Afghanistan      Asia 1967  34.020 11537966  836.1971
+#> RN-5 Afghanistan      Asia 1972  36.088 13079460  739.9811
+#> RN-6 Afghanistan      Asia 1977  38.438 14880372  786.1134
+#>       orszag_hun kontinens_hun
+#> RN-1 Afganisztán         Ázsia
+#> RN-2 Afganisztán         Ázsia
+#> RN-3 Afganisztán         Ázsia
+#> RN-4 Afganisztán         Ázsia
+#> RN-5 Afganisztán         Ázsia
+#> RN-6 Afganisztán         Ázsia
+rownames(gapminder_utf8) <- 1:nrow(gapminder_utf8) # reset row names
+head(gapminder_utf8)
+#>        orszag kontinens year lifeExp      pop gdpPercap
+#> 1 Afghanistan      Asia 1952  28.801  8425333  779.4453
+#> 2 Afghanistan      Asia 1957  30.332  9240934  820.8530
+#> 3 Afghanistan      Asia 1962  31.997 10267083  853.1007
+#> 4 Afghanistan      Asia 1967  34.020 11537966  836.1971
+#> 5 Afghanistan      Asia 1972  36.088 13079460  739.9811
+#> 6 Afghanistan      Asia 1977  38.438 14880372  786.1134
+#>    orszag_hun kontinens_hun
+#> 1 Afganisztán         Ázsia
+#> 2 Afganisztán         Ázsia
+#> 3 Afganisztán         Ázsia
+#> 4 Afganisztán         Ázsia
+#> 5 Afganisztán         Ázsia
+#> 6 Afganisztán         Ázsia
+```
+
 
 ### Adding rows
 
@@ -925,6 +1000,86 @@ movies[sample(x = nrow(movies), size = 10), ]
 #> 211          San Andreas 2015  155.18        43
 ```
 
+### Filtering rows{#br-filter-rows}
+
+The function `subset()` or `[` is used to filter rows.
+
+
+```r
+head(gapminder_cp1250[gapminder_cp1250$continent == "Europe", c("country", "gdpPercap", "continent")])
+#>    country gdpPercap continent
+#> 13 Albania  1601.056    Europe
+#> 14 Albania  1942.284    Europe
+#> 15 Albania  2312.889    Europe
+#> 16 Albania  2760.197    Europe
+#> 17 Albania  3313.422    Europe
+#> 18 Albania  3533.004    Europe
+gapminder_cp1250[gapminder_cp1250$continent == "Europe" & gapminder_cp1250$gdpPercap > 2000 & gapminder_cp1250$gdpPercap < 4000, c("country", "gdpPercap", "continent")]
+#>                     country gdpPercap continent
+#> 15                  Albania  2312.889    Europe
+#> 16                  Albania  2760.197    Europe
+#> 17                  Albania  3313.422    Europe
+#> 18                  Albania  3533.004    Europe
+#> 19                  Albania  3630.881    Europe
+#> 20                  Albania  3738.933    Europe
+#> 21                  Albania  2497.438    Europe
+#> 22                  Albania  3193.055    Europe
+#> 148  Bosnia and Herzegovina  2172.352    Europe
+#> 149  Bosnia and Herzegovina  2860.170    Europe
+#> 150  Bosnia and Herzegovina  3528.481    Europe
+#> 153  Bosnia and Herzegovina  2546.781    Europe
+#> 181                Bulgaria  2444.287    Europe
+#> 182                Bulgaria  3008.671    Europe
+#> 373                 Croatia  3119.237    Europe
+#> 589                  Greece  3530.690    Europe
+#> 1009             Montenegro  2647.586    Europe
+#> 1010             Montenegro  3682.260    Europe
+#> 1237               Portugal  3068.320    Europe
+#> 1238               Portugal  3774.572    Europe
+#> 1273                Romania  3144.613    Europe
+#> 1274                Romania  3943.370    Europe
+#> 1333                 Serbia  3581.459    Europe
+#> 1417                  Spain  3834.035    Europe
+#> 1574                 Turkey  2218.754    Europe
+#> 1575                 Turkey  2322.870    Europe
+#> 1576                 Turkey  2826.356    Europe
+#> 1577                 Turkey  3450.696    Europe
+subset(gapminder_cp1250, 
+       subset =  continent == "Europe" & gdpPercap > 2000 & gdpPercap < 4000, 
+       select = c("country", "gdpPercap", "continent"))
+#>                     country gdpPercap continent
+#> 15                  Albania  2312.889    Europe
+#> 16                  Albania  2760.197    Europe
+#> 17                  Albania  3313.422    Europe
+#> 18                  Albania  3533.004    Europe
+#> 19                  Albania  3630.881    Europe
+#> 20                  Albania  3738.933    Europe
+#> 21                  Albania  2497.438    Europe
+#> 22                  Albania  3193.055    Europe
+#> 148  Bosnia and Herzegovina  2172.352    Europe
+#> 149  Bosnia and Herzegovina  2860.170    Europe
+#> 150  Bosnia and Herzegovina  3528.481    Europe
+#> 153  Bosnia and Herzegovina  2546.781    Europe
+#> 181                Bulgaria  2444.287    Europe
+#> 182                Bulgaria  3008.671    Europe
+#> 373                 Croatia  3119.237    Europe
+#> 589                  Greece  3530.690    Europe
+#> 1009             Montenegro  2647.586    Europe
+#> 1010             Montenegro  3682.260    Europe
+#> 1237               Portugal  3068.320    Europe
+#> 1238               Portugal  3774.572    Europe
+#> 1273                Romania  3144.613    Europe
+#> 1274                Romania  3943.370    Europe
+#> 1333                 Serbia  3581.459    Europe
+#> 1417                  Spain  3834.035    Europe
+#> 1574                 Turkey  2218.754    Europe
+#> 1575                 Turkey  2322.870    Europe
+#> 1576                 Turkey  2826.356    Europe
+#> 1577                 Turkey  3450.696    Europe
+```
+
+
+
 ### Deleting rows
 
 There is no special function to delete rows, but they can be filtered out using `[`.
@@ -938,7 +1093,7 @@ nrow(movies_without_first10)
 #> [1] 990
 ```
 
-## SQL like joins
+## SQL like joins{#br-joins}
 
 At the most basic level there are four types of SQL joins:
 
@@ -1172,7 +1327,7 @@ merge(employees, departments,
 #> 6      paris
 ```
 
-## Aggregating and grouping data
+## Aggregating and grouping data{#br-summary}
 
 The function `aggregate()` groups a data frame by a specific column value and performs summarization (sum, mean, median, length, min, max, etc.) based on those groups. It does a split-apply-combine, that is splitting a data frame by groups (category) after which it applies a calculation on each group and finally combines the results back together to create a single data frame which is presented as output.
 
@@ -1307,7 +1462,7 @@ aggregate(cbind(lifeExp, gdpPercap) ~ continent + year,
 #> 10   Oceania 2007    80.7   29810.2
 ```
 
-## Pivoting and unpivoting data
+## Pivoting and unpivoting data{#br-reshape}
 
 Tabular data exist in two forms: long and wide. The wide form is ideal for reporting while the long form is ideal for the computer. Most often, when performing data analysis, data in the wide form has to be converted to the long form (unpivoting) while when preparing reports, data in the long has to be converted to the wide form (pivoting).
 
@@ -1493,7 +1648,6 @@ It is the same function name for **reshape** and **reshape2**.
 
 ```r
 dt_long <- melt(dt_wide)
-#> Using continent as id variables
 head(dt_long)
 #>   continent variable    value
 #> 1    Africa     1987 53.34479
@@ -1504,7 +1658,6 @@ head(dt_long)
 #> 6    Africa     1992 53.62958
 
 dt_long <- reshape2::melt(dt_wide)
-#> Using continent as id variables
 head(dt_long)
 #>   continent variable    value
 #> 1    Africa     1987 53.34479
@@ -1731,7 +1884,7 @@ Outliers are identified using univariate plots such as histogram, density plot a
 hist(gapminder_xlsx_2007$gdpPercap, breaks = 18)
 ```
 
-<img src="03-datamanipulation_files/figure-html/unnamed-chunk-49-1.png" width="672" />
+![](03-datamanipulation_files/figure-epub3/unnamed-chunk-52-1.png)<!-- -->
 
 ```r
 
@@ -1739,7 +1892,7 @@ hist(gapminder_xlsx_2007$gdpPercap, breaks = 18)
 plot(density(gapminder_xlsx_2007$gdpPercap))
 ```
 
-<img src="03-datamanipulation_files/figure-html/unnamed-chunk-49-2.png" width="672" />
+![](03-datamanipulation_files/figure-epub3/unnamed-chunk-52-2.png)<!-- -->
 
 ```r
 
@@ -1747,7 +1900,7 @@ plot(density(gapminder_xlsx_2007$gdpPercap))
 boxplot(gapminder_xlsx_2007$gdpPercap)
 ```
 
-<img src="03-datamanipulation_files/figure-html/unnamed-chunk-49-3.png" width="672" />
+![](03-datamanipulation_files/figure-epub3/unnamed-chunk-52-3.png)<!-- -->
 
 Of the above data visualizations, the boxplot is the most relevant as it shows both the spread of data and outliers. The boxplot reveals the following:
 
@@ -1946,3 +2099,1313 @@ head(movies_2006_uni)
 #> 321 2006        48
 #> 775 2006        51
 ```
+
+
+## Factors in Base R{#br-factor}
+
+### What are factors?
+
+Factors are variables in R which take on a limited number of different values which are usually known as categorical values e.g. male and female or months of the year. They can contain either strings or integers but are stored internally as a vector of integers with each integer corresponding to one category.
+Factors can either be ordered or unordered e.g. low, medium, high for ordered and male or female for unordered.
+
+### Creating a factor
+
+While the function `factor()` is used to create a factor, the function `is.factor()` is used to check for factor.
+
+
+```r
+# creating a factor
+(fac <- factor(c('female', 'male', 'male', 'female', 'male', 'male', 'male', 'female')))
+#> [1] female male   male   female male   male   male   female
+#> Levels: female male
+
+# looking at type and class
+typeof(fac)
+#> [1] "integer"
+class(fac)
+#> [1] "factor"
+
+# checking if the object is a factor
+is.factor(fac)
+#> [1] TRUE
+```
+
+### Factor attributes and structure
+
+A factor has as attribute levels which represent the categories of the factor.
+The function `levels()` is used to get and set levels while `nlevels()` returns the number of categories.
+
+
+```r
+# get levels
+levels(fac)
+#> [1] "female" "male"
+
+# set levels
+(levels(fac) <- c('f', 'm'))
+#> [1] "f" "m"
+
+# resetting levels
+(levels(fac) <- c('female', 'male'))
+#> [1] "female" "male"
+
+# number of categories
+nlevels(fac)
+#> [1] 2
+
+# structure of the factor
+str(fac)
+#>  Factor w/ 2 levels "female","male": 1 2 2 1 2 2 2 1
+
+attributes(fac)
+#> $levels
+#> [1] "female" "male"  
+#> 
+#> $class
+#> [1] "factor"
+
+# count of elements by category
+table(fac)
+#> fac
+#> female   male 
+#>      3      5
+
+# internally factors are stored as integers
+unclass(fac)
+#> [1] 1 2 2 1 2 2 2 1
+#> attr(,"levels")
+#> [1] "female" "male"
+```
+
+
+### Rearranging levels
+
+The argument levels is used to rearrange the levels of a factor.
+
+
+```r
+lev <- c('male', 'female')
+(fac1 <- factor(c('female', 'male', 'male', 'female', 'male', 'male', 'male', 'female'), 
+               levels = lev))
+#> [1] female male   male   female male   male   male   female
+#> Levels: male female
+
+# comparing fac and fac1
+attributes(fac)
+#> $levels
+#> [1] "female" "male"  
+#> 
+#> $class
+#> [1] "factor"
+attributes(fac1)
+#> $levels
+#> [1] "male"   "female"
+#> 
+#> $class
+#> [1] "factor"
+
+table(fac) 
+#> fac
+#> female   male 
+#>      3      5
+table(fac1)
+#> fac1
+#>   male female 
+#>      5      3
+```
+
+### Dropping levels
+
+The function `droplevels()` is used to drop unused levels from a factor.
+
+
+```r
+(fac1 <- factor(c('female', 'male', 'male', 'female', 'male', 'male', 'male', 'female'), 
+               levels = c('male', 'female', 'boy', 'girl')))
+#> [1] female male   male   female male   male   male   female
+#> Levels: male female boy girl
+(fac1 <- droplevels(fac1))
+#> [1] female male   male   female male   male   male   female
+#> Levels: male female
+```
+
+### Changing labels
+
+The argument label is used to change the labels of a factor.
+
+
+```r
+# changing from male to M and from female to F
+(fac1 <- factor(c('female', 'male', 'male', 'female', 'male', 'male', 'male', 'female'), 
+               levels = c('male', 'female'), 
+               label = c('M', 'F')))
+#> [1] F M M F M M M F
+#> Levels: M F
+```
+
+### Ordered factors
+
+Ordered factors are factors whose orders matter for example with grading; A is greater than B and B greater than C, and so forth. The argument `order = TRUE` is used to create an ordered factor. Also, the function `ordered()` can be used to create an ordered factor while the function `is.ordered()` is used to check for ordered factor. With ordered factors, we can use the function `min()` and `max()` on them to determine the minimum and maximum values, respectively.
+
+
+```r
+(fac2 <- factor(c('female', 'male', 'male', 'female', 'male', 'male', 'male', 'female'), 
+               levels = lev, 
+               ordered = T))
+#> [1] female male   male   female male   male   male   female
+#> Levels: male < female
+attributes(fac)
+#> $levels
+#> [1] "female" "male"  
+#> 
+#> $class
+#> [1] "factor"
+attributes(fac1)
+#> $levels
+#> [1] "M" "F"
+#> 
+#> $class
+#> [1] "factor"
+attributes(fac2)
+#> $levels
+#> [1] "male"   "female"
+#> 
+#> $class
+#> [1] "ordered" "factor"
+
+# getting minimum and maximum values
+min(fac2)
+#> [1] male
+#> Levels: male < female
+max(fac2)
+#> [1] female
+#> Levels: male < female
+
+# checking for ordered factor
+is.ordered(fac2)
+#> [1] TRUE
+
+ordered(c('female', 'male', 'male', 'female', 'male', 'male', 'male', 'female'))
+#> [1] female male   male   female male   male   male   female
+#> Levels: female < male
+ordered(c('female', 'male', 'male', 'female', 'male', 'male', 'male', 'female'), 
+        levels = c('male', 'female'))
+#> [1] female male   male   female male   male   male   female
+#> Levels: male < female
+```
+
+The functions `max()` and `min()` do not work for `fac` and `fac1` because they are not ordered, hence have no minimum or maximum.
+
+### Converting from character to factor
+
+The function `as.factor()` converts to a factor, if possible but is less flexible than `factor()`. It is used when we do not care about levels, label or order.
+
+
+```r
+month.name
+#>  [1] "January"   "February"  "March"     "April"    
+#>  [5] "May"       "June"      "July"      "August"   
+#>  [9] "September" "October"   "November"  "December"
+class(month.name)
+#> [1] "character"
+
+# converting to factor
+(month_fac <- as.factor(month.name))
+#>  [1] January   February  March     April     May      
+#>  [6] June      July      August    September October  
+#> [11] November  December 
+#> 12 Levels: April August December February January ... September
+```
+
+### Converting from factor to character
+
+The function `as.character()` converts from factor to character.
+
+`(month_char <- as.character(month_fac))`
+
+
+### Converting from numeric to factor
+
+The function `cut()` is used to convert from numeric vector to factor. It bins numbers into ranges which can be treated as categories.
+
+
+```r
+scores <- c(15,65,68,46,15,61,32,13,15,46,13,21,89,89,44,51,32,16,18,95,46,16,65,46)
+
+# create factors from numeric
+cut(scores, breaks = 5)
+#>  [1] (12.9,29.4] (62.2,78.6] (62.2,78.6] (45.8,62.2]
+#>  [5] (12.9,29.4] (45.8,62.2] (29.4,45.8] (12.9,29.4]
+#>  [9] (12.9,29.4] (45.8,62.2] (12.9,29.4] (12.9,29.4]
+#> [13] (78.6,95.1] (78.6,95.1] (29.4,45.8] (45.8,62.2]
+#> [17] (29.4,45.8] (12.9,29.4] (12.9,29.4] (78.6,95.1]
+#> [21] (45.8,62.2] (12.9,29.4] (62.2,78.6] (45.8,62.2]
+#> 5 Levels: (12.9,29.4] (29.4,45.8] ... (78.6,95.1]
+
+# return categories
+levels(cut(scores, breaks = 5))
+#> [1] "(12.9,29.4]" "(29.4,45.8]" "(45.8,62.2]" "(62.2,78.6]"
+#> [5] "(78.6,95.1]"
+
+# number of levels
+nlevels(cut(scores, breaks = 5))
+#> [1] 5
+
+# check class
+class(cut(scores, breaks = 5))
+#> [1] "factor"
+
+# controlling breaks
+cut(scores, breaks = c(0, 40 , 50, 60, 80, 100))
+#>  [1] (0,40]   (60,80]  (60,80]  (40,50]  (0,40]   (60,80] 
+#>  [7] (0,40]   (0,40]   (0,40]   (40,50]  (0,40]   (0,40]  
+#> [13] (80,100] (80,100] (40,50]  (50,60]  (0,40]   (0,40]  
+#> [19] (0,40]   (80,100] (40,50]  (0,40]   (60,80]  (40,50] 
+#> Levels: (0,40] (40,50] (50,60] (60,80] (80,100]
+
+# adding labels
+cut(scores, breaks = c(0, 40 , 50, 60, 80, 100), labels = c('F', 'D', 'C', 'B', 'A'))
+#>  [1] F B B D F B F F F D F F A A D C F F F A D F B D
+#> Levels: F D C B A
+
+# majority of the students failed
+table(cut(scores, breaks = c(0, 40 , 50, 60, 80, 100), labels = c('F', 'D', 'C', 'B', 'A')))
+#> 
+#>  F  D  C  B  A 
+#> 11  5  1  4  3
+```
+
+
+###  Converting from factor to numeric
+
+To convert from a factor to numeric, the function `as.numeric()` does not work. To use it, we first have to convert the factor to character using `as.character()` or `levels(fac)[fac]`. Below we make use of both methods to achieve our objective.
+
+
+```r
+num_vec <- c(15,65,68,46,15,61,32,13,15,46,13,21,89,89,44,51,32,16,18,95,46,16,65,46)
+mean(num_vec)
+#> [1] 42.375
+
+#converting to factor
+(fac3 <- factor(num_vec))
+#>  [1] 15 65 68 46 15 61 32 13 15 46 13 21 89 89 44 51 32 16
+#> [19] 18 95 46 16 65 46
+#> Levels: 13 15 16 18 21 32 44 46 51 61 65 68 89 95
+
+# calculating mean
+mean(fac3)
+#> [1] NA
+
+
+# as.numeric() doesn't seem to work 
+mean(as.numeric(fac3))
+#> [1] 6.958333
+
+
+# using as.character
+mean(as.numeric(as.character(fac3)))
+#> [1] 42.375
+
+# using levels()
+mean(as.numeric(levels(fac3)[fac3]))
+#> [1] 42.375
+```
+
+## String manipulation with base R{#br-string}
+
+### String length and character count
+
+The function `length()` returns the count of elements in a vector.
+The function `nchar()` returns the count of letters in a string.
+
+
+```r
+month.name
+#>  [1] "January"   "February"  "March"     "April"    
+#>  [5] "May"       "June"      "July"      "August"   
+#>  [9] "September" "October"   "November"  "December"
+
+#count of elements
+length(month.name)
+#> [1] 12
+
+# count of letters
+month.name
+#>  [1] "January"   "February"  "March"     "April"    
+#>  [5] "May"       "June"      "July"      "August"   
+#>  [9] "September" "October"   "November"  "December"
+nchar(month.name)
+#>  [1] 7 8 5 5 3 4 4 6 9 7 8 8
+```
+
+
+### Strings formatting (case-folding)
+
+The functions `toupper()` and `tolower()` are used to convert to upper and lower cases, respectively while `casefold()` is a wrapper to these functions.
+
+
+```r
+# uppercase
+toupper(month.name)
+#>  [1] "JANUARY"   "FEBRUARY"  "MARCH"     "APRIL"    
+#>  [5] "MAY"       "JUNE"      "JULY"      "AUGUST"   
+#>  [9] "SEPTEMBER" "OCTOBER"   "NOVEMBER"  "DECEMBER"
+casefold(month.name, upper = TRUE)
+#>  [1] "JANUARY"   "FEBRUARY"  "MARCH"     "APRIL"    
+#>  [5] "MAY"       "JUNE"      "JULY"      "AUGUST"   
+#>  [9] "SEPTEMBER" "OCTOBER"   "NOVEMBER"  "DECEMBER"
+
+# lowercase
+tolower(month.name)
+#>  [1] "january"   "february"  "march"     "april"    
+#>  [5] "may"       "june"      "july"      "august"   
+#>  [9] "september" "october"   "november"  "december"
+casefold(month.name, upper = FALSE)
+#>  [1] "january"   "february"  "march"     "april"    
+#>  [5] "may"       "june"      "july"      "august"   
+#>  [9] "september" "october"   "november"  "december"
+```
+
+### Join and Split strings
+
+#### Joining strings using cat()
+
+The function `cat()` converts its arguments to strings and concatenates them after appending a separator string (given by sep) to them.
+
+
+```r
+a <- month.name[1]
+b <- month.name[2]
+c <- month.name[3]
+cat(b,'comes after', a ,'but comes before', c)
+#> February comes after January but comes before March
+cat(b,'comes before', a ,'but comes after', c, sep = '/')
+#> February/comes before/January/but comes after/March
+cat(month.name[1:6], sep = ' - ')
+#> January - February - March - April - May - June
+cat(month.name[1:6], sep = ' <> ')
+#> January <> February <> March <> April <> May <> June
+```
+
+Newlines and tabs can be added by using `\n` for newline and `\t` for tabs.
+
+
+```r
+# adding a new line
+cat(b,'comes after\n', a ,'but comes before', c)
+#> February comes after
+#>  January but comes before March
+
+# adding a tab
+cat(b,'comes after\t', a ,'but comes before', c)
+#> February comes after	 January but comes before March
+```
+
+The function `cat()` can write its output directly to a file if a file name is passed to it.
+
+
+```r
+# writing to disc
+cat(month.name, sep = ' <> ', file = "output/data/months.txt")
+
+# checking if file exists
+file.exists('output/data/months.txt')
+#> [1] TRUE
+
+# removing file
+file.remove('output/data/months.txt')
+#> [1] TRUE
+```
+
+
+#### Joining strings using paste() and paste0()
+
+The function `paste()` concatenate vectors after converting them to character and separating them by a string given by sep. It concatenates multiple vectors element by element to give a new character vector and if one is shorter, recycling occurs with zero-length arguments being recycled to "".
+With a single vector, it is simply converted to a character vector and if the argument collapse is set, the elements are condensed into a single string.
+
+The function `paste0(...)` is equivalent to `paste(…, sep = ’’)`, but slightly more efficient.
+
+
+```r
+# combining elements into a character vector
+paste('a', 'b')
+#> [1] "a b"
+paste(1, 2, 3, 4)
+#> [1] "1 2 3 4"
+
+
+# using a sep
+paste('a', 'b', sep = '')
+#> [1] "ab"
+paste(1, 2, 3, 4, sep = '')
+#> [1] "1234"
+
+
+# using paste0
+paste0('a', 'b')
+#> [1] "ab"
+paste0(1, 2, 3 ,4)
+#> [1] "1234"
+
+# on a single vector
+paste(c('a', 'b'), sep = ' <> ')
+#> [1] "a" "b"
+paste(c(1, 2), sep = ' <> ')
+#> [1] "1" "2"
+
+# two or more vectors
+paste(c('a', 'b'), c('c', 'd'), sep = ' <> ')
+#> [1] "a <> c" "b <> d"
+paste0(c('a', 'b'), c('c', 'd'))
+#> [1] "ac" "bd"
+paste0(1:5, 6:10)
+#> [1] "16"  "27"  "38"  "49"  "510"
+paste(1:5, 10:20)
+#>  [1] "1 10" "2 11" "3 12" "4 13" "5 14" "1 15" "2 16" "3 17"
+#>  [9] "4 18" "5 19" "1 20"
+paste(1:5, 10:20, c('a','b','c'))
+#>  [1] "1 10 a" "2 11 b" "3 12 c" "4 13 a" "5 14 b" "1 15 c"
+#>  [7] "2 16 a" "3 17 b" "4 18 c" "5 19 a" "1 20 b"
+
+# combining character and variables with paste
+paste(b,'comes after', a ,'but comes before', c)
+#> [1] "February comes after January but comes before March"
+paste(b,'comes after', a ,'but comes before', c, sep = "    ")
+#> [1] "February    comes after    January    but comes before    March"
+paste(b,'comes after', a ,'but comes before', c, sep = "/")
+#> [1] "February/comes after/January/but comes before/March"
+paste('version 1.', 1:5, sep = '')
+#> [1] "version 1.1" "version 1.2" "version 1.3" "version 1.4"
+#> [5] "version 1.5"
+
+# combining character and variables with paste0
+paste0(b,' comes after ', a ,' but comes before ', c)
+#> [1] "February comes after January but comes before March"
+paste0(b,'    comes after    ', a ,'    but comes before    ', c)
+#> [1] "February    comes after    January    but comes before    March"
+
+paste0(b,'/comes after/', a ,'/but comes before/', c)
+#> [1] "February/comes after/January/but comes before/March"
+paste0('version 1.', 1:5)
+#> [1] "version 1.1" "version 1.2" "version 1.3" "version 1.4"
+#> [5] "version 1.5"
+```
+
+The collapse argument is used to collapse elements returned into a single string.
+
+
+```r
+# collapsing vectors
+paste(1:10, collapse = '~')
+#> [1] "1~2~3~4~5~6~7~8~9~10"
+paste(c('a', 'b'), c('c', 'd'), collapse = ' <> ')
+#> [1] "a c <> b d"
+paste0(c('a', 'b'), c('c', 'd'), collapse = ' <> ')
+#> [1] "ac <> bd"
+
+paste0(1:5, 6:10, collapse = '--')
+#> [1] "16--27--38--49--510"
+paste(month.name[1:6], collapse = " - ")
+#> [1] "January - February - March - April - May - June"
+```
+
+#### Joining strings using sprintf()
+
+The function `sprintf()` returns a character vector containing a formatted combination of text and variable values.
+The format of the variables is passed using one of the following characters `aAdifeEgGosxX%` and should start with %.
+
+##### Formatting with integers
+
+The command `%d` is used for formatting integers.
+
+
+```r
+# using an integer as a variable
+x <- 2
+sprintf('%d * %d = %d', x, x, x ** 2)
+#> [1] "2 * 2 = 4"
+x <- c(1:4)
+y <- x ** 2
+sprintf('%d squared is equal to %d', x, y)
+#> [1] "1 squared is equal to 1"  "2 squared is equal to 4" 
+#> [3] "3 squared is equal to 9"  "4 squared is equal to 16"
+
+### padding integers with zeros
+num <- c(123, 1, 100, 200, 10200, 25000)
+sprintf('my registration number is %05d', num)
+#> [1] "my registration number is 00123"
+#> [2] "my registration number is 00001"
+#> [3] "my registration number is 00100"
+#> [4] "my registration number is 00200"
+#> [5] "my registration number is 10200"
+#> [6] "my registration number is 25000"
+```
+
+##### Formatting with strings
+
+The command `%s` is used for formatting strings.
+
+
+```r
+# using a string as a variable
+x <- 'my name is'
+y <- 'james'
+z <- 'london'
+sprintf('%s %s and i live and work in %s', x, y, z)
+#> [1] "my name is james and i live and work in london"
+
+# combining strings and integers
+x <- 'my name is'
+y <- 'james'
+z <- 35
+sprintf('%s %s and i am %d years', x, y, z)
+#> [1] "my name is james and i am 35 years"
+
+names = c('paul', 'alphonse', 'michael', 'james', 'samson', 'terence', 'derin')
+age = c(30, 35, 32, 37, 29, 40, 30)
+sprintf('i am %s and i am %d years old', names, age)
+#> [1] "i am paul and i am 30 years old"    
+#> [2] "i am alphonse and i am 35 years old"
+#> [3] "i am michael and i am 32 years old" 
+#> [4] "i am james and i am 37 years old"   
+#> [5] "i am samson and i am 29 years old"  
+#> [6] "i am terence and i am 40 years old" 
+#> [7] "i am derin and i am 30 years old"
+```
+
+##### Formatting with doubles or floating-points
+
+The command `%f` is used for formatting doubles while either `%e` or `%E` for formatting exponential.
+
+
+```r
+# using doubles as a variable
+x <- 1000/6
+sprintf('1000 divided by 3 is %f', x)
+#> [1] "1000 divided by 3 is 166.666667"
+
+# rounding a double to the nearest decimal
+sprintf('1000 divided by 3 is %.3f', x)
+#> [1] "1000 divided by 3 is 166.667"
+sprintf('1000 divided by 3 is %.2f', x)
+#> [1] "1000 divided by 3 is 166.67"
+sprintf('1000 divided by 3 is %.1f', x)
+#> [1] "1000 divided by 3 is 166.7"
+
+# rounding a double to the nearest whole number
+sprintf('1000 divided by 3 is %1.f', x)
+#> [1] "1000 divided by 3 is 167"
+
+# printing a plus (+) in front of a double
+sprintf('+1000 divided by 3 is %+.1f', x)
+#> [1] "+1000 divided by 3 is +166.7"
+
+# printing space in front of a double
+sprintf('1000 divided by 3 is %f', x)
+#> [1] "1000 divided by 3 is 166.666667"
+sprintf('1000 divided by 3 is % f', x)
+#> [1] "1000 divided by 3 is  166.666667"
+
+# exponential
+sprintf("%e", pi)
+#> [1] "3.141593e+00"
+```
+
+#### Splitting strings using strsplit()
+
+The function `strsplit()` splits the elements of a character vector into substrings by a specific split character. It returns a list.
+
+
+```r
+str(strsplit(c('2020-01-01', '2019-03-31', '2018-06-30'), split = "-"))
+#> List of 3
+#>  $ : chr [1:3] "2020" "01" "01"
+#>  $ : chr [1:3] "2019" "03" "31"
+#>  $ : chr [1:3] "2018" "06" "30"
+str(strsplit(c('2020 01 01', '2019 03 31', '2018 06 30'), split = " "))
+#> List of 3
+#>  $ : chr [1:3] "2020" "01" "01"
+#>  $ : chr [1:3] "2019" "03" "31"
+#>  $ : chr [1:3] "2018" "06" "30"
+str(strsplit(c('2020, 01, 01', '2019, 03, 31', '2018, 06, 30'), split = ", "))
+#> List of 3
+#>  $ : chr [1:3] "2020" "01" "01"
+#>  $ : chr [1:3] "2019" "03" "31"
+#>  $ : chr [1:3] "2018" "06" "30"
+```
+
+### Extract and Replace part of strings
+
+#### Extracting substring using substr()
+
+The function `substr()` extracts a substring from a string by indexing. It uses start for the beginning position and stop for the ending position. It is like indexing but applied to a string.
+
+
+```r
+var <- c('2020-01-01', '2019-03-31', '2018-06-30')
+substr(var, start = 1, stop = 4)
+#> [1] "2020" "2019" "2018"
+substr(var, start = 6, stop = 7)
+#> [1] "01" "03" "06"
+substr(var, start = 9, stop = 10)
+#> [1] "01" "31" "30"
+```
+
+#### Replacing substring using substr()
+
+The function `substr()` is also used to replace substring in a string by assigning a different string to the extracted substring.
+
+
+```r
+var <- c('2020-01-01', '2019-03-31', '2018-06-30')
+substr(var, start = 1, stop = 4) <- c('2010', '2011', '2012')
+var
+#> [1] "2010-01-01" "2011-03-31" "2012-06-30"
+
+weekdays <- c('monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday')
+substr(weekdays, start = 1, stop = 1) <- toupper(substr(weekdays, start = 1, stop = 1))
+weekdays
+#> [1] "Monday"    "Tuesday"   "Wednesday" "Thursday" 
+#> [5] "Friday"    "Saturday"  "Sunday"
+```
+
+
+#### Replacing substrings using sub()
+
+The function `sub()` replaces a substring at first occurrence in a string.
+
+
+```r
+var <- c('2020-01-01', '2019-03-31', '2018-06-30')
+sub("-", "", var)
+#> [1] "202001-01" "201903-31" "201806-30"
+sub("-", " ", var)
+#> [1] "2020 01-01" "2019 03-31" "2018 06-30"
+```
+
+
+#### Replacing substrings using gsub()
+
+The function `gsub()` replaces a substring throughout a string.
+
+
+```r
+var <- c('2020-01-01', '2019-03-31', '2018-06-30')
+gsub("-", "/", var)
+#> [1] "2020/01/01" "2019/03/31" "2018/06/30"
+gsub("-", " ", var)
+#> [1] "2020 01 01" "2019 03 31" "2018 06 30"
+```
+
+#### Replacing substring using chartr()
+
+The function `chartr()` replaces a substring throughout a string.
+
+
+```r
+var <- c('2020-01-01', '2019-03-31', '2018-06-30')
+chartr(old = "-", new = "/", var)
+#> [1] "2020/01/01" "2019/03/31" "2018/06/30"
+chartr(old = "-", new = " ", var)
+#> [1] "2020 01 01" "2019 03 31" "2018 06 30"
+```
+
+#### Remove white spaces and clean string values
+
+The function `trimws()` removes white spaces.
+
+
+```r
+trimws(c(' 2020-01-01 ', ' 2019-03-31 ', ' 2018-06-30 '))
+#> [1] "2020-01-01" "2019-03-31" "2018-06-30"
+```
+
+###  Pattern matching using regular expression
+
+#### Regex functions
+
+* `grep()`
+* `grepl()`
+* `regexpr()`
+* `gregexpr()`
+* `regexec()`
+* `sub()`
+* `gsub()`
+
+##### The `grep()` function
+
+The function `grep()` returns the index position or value of elements that match a pattern.
+
+
+```r
+# returning index position
+month.name
+#>  [1] "January"   "February"  "March"     "April"    
+#>  [5] "May"       "June"      "July"      "August"   
+#>  [9] "September" "October"   "November"  "December"
+grep(pattern = 'uary', month.name)
+#> [1] 1 2
+
+# returning values
+grep('uary', month.name, value = TRUE)
+#> [1] "January"  "February"
+
+# ignoring case
+grep('ju', month.name, value = TRUE)
+#> character(0)
+grep('ju', month.name, ignore.case = TRUE, value = TRUE)
+#> [1] "June" "July"
+```
+
+#### The grepl() function
+
+The function `grepl()` returns `TRUE` for pattern match and FALSE for no pattern match.
+
+
+```r
+grepl('uary', month.name)
+#>  [1]  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE
+#> [10] FALSE FALSE FALSE
+grepl('ju', month.name, ignore.case = TRUE)
+#>  [1] FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE FALSE FALSE
+#> [10] FALSE FALSE FALSE
+```
+
+#### The `regexpr()` function
+
+The function `regexpr()` returns the position of the first pattern match in an element with -1 representing no pattern match.
+
+
+```r
+regexpr('ber', month.name, ignore.case = TRUE)
+#>  [1] -1 -1 -1 -1 -1 -1 -1 -1  7  5  6  6
+#> attr(,"match.length")
+#>  [1] -1 -1 -1 -1 -1 -1 -1 -1  3  3  3  3
+#> attr(,"index.type")
+#> [1] "chars"
+#> attr(,"useBytes")
+#> [1] TRUE
+(st <- state.name[20:25])
+#> [1] "Maryland"      "Massachusetts" "Michigan"     
+#> [4] "Minnesota"     "Mississippi"   "Missouri"
+regexpr('ss', st, ignore.case = TRUE)
+#> [1] -1  3 -1 -1  3  3
+#> attr(,"match.length")
+#> [1] -1  2 -1 -1  2  2
+#> attr(,"index.type")
+#> [1] "chars"
+#> attr(,"useBytes")
+#> [1] TRUE
+```
+
+#### The `gregexpr()` function
+
+The function `gregexpr()` returns the position of all pattern matches in an element with -1 representing no pattern match.
+
+
+```r
+# same as as.list(regexpr())
+(st <- state.name[23:25])
+#> [1] "Minnesota"   "Mississippi" "Missouri"
+gregexpr('ss', st, ignore.case = TRUE)
+#> [[1]]
+#> [1] -1
+#> attr(,"match.length")
+#> [1] -1
+#> attr(,"index.type")
+#> [1] "chars"
+#> attr(,"useBytes")
+#> [1] TRUE
+#> 
+#> [[2]]
+#> [1] 3 6
+#> attr(,"match.length")
+#> [1] 2 2
+#> attr(,"index.type")
+#> [1] "chars"
+#> attr(,"useBytes")
+#> [1] TRUE
+#> 
+#> [[3]]
+#> [1] 3
+#> attr(,"match.length")
+#> [1] 2
+#> attr(,"index.type")
+#> [1] "chars"
+#> attr(,"useBytes")
+#> [1] TRUE
+```
+
+#### Regex Operations
+
+##### Matching spaces
+
+* [[:blank:]] matches space and tab characters
+* [[:space:]] matches tab, newline, vertical tab, form feed, carriage return, and space
+* \\s matches space character
+* \\S matches non-space character
+
+
+
+```r
+# creating a character vector
+var <- c('2020 01 01', '2019 03 31', '2018 06 30')
+
+# POSIX Character
+gsub('[[:space:]]', '-', var)
+#> [1] "2020-01-01" "2019-03-31" "2018-06-30"
+gsub('[[:space:]]', '/', var)
+#> [1] "2020/01/01" "2019/03/31" "2018/06/30"
+gsub('[[:blank:]]', '_', var)
+#> [1] "2020_01_01" "2019_03_31" "2018_06_30"
+gsub('[[:blank:]]', '/', var)
+#> [1] "2020/01/01" "2019/03/31" "2018/06/30"
+
+# Sequences
+gsub('\\s', '-', var)
+#> [1] "2020-01-01" "2019-03-31" "2018-06-30"
+gsub('\\s', '/', var)
+#> [1] "2020/01/01" "2019/03/31" "2018/06/30"
+gsub('\\s', '_', var)
+#> [1] "2020_01_01" "2019_03_31" "2018_06_30"
+gsub('\\s', '/', var)
+#> [1] "2020/01/01" "2019/03/31" "2018/06/30"
+
+# using strsplit() to split based on a pattern
+var <- c('2020 01 01', '2019 03 31', '2018 06 30')
+str(strsplit(var, split = '\\s'))
+#> List of 3
+#>  $ : chr [1:3] "2020" "01" "01"
+#>  $ : chr [1:3] "2019" "03" "31"
+#>  $ : chr [1:3] "2018" "06" "30"
+
+# matching non-space character with \\S
+var <- c('2020 01 01', '2019 03 31', '2018 06 30')
+gsub('\\S', '-', var)
+#> [1] "---- -- --" "---- -- --" "---- -- --"
+gsub('\\S', '/', var)
+#> [1] "//// // //" "//// // //" "//// // //"
+gsub('\\S', '_', var)
+#> [1] "____ __ __" "____ __ __" "____ __ __"
+gsub('\\S', '/', var)
+#> [1] "//// // //" "//// // //" "//// // //"
+```
+
+
+Matching alphabetic characters
+
+* [[:alpha:]] matches alphabetic characters
+* [[:lower:]] matches lowercase characters
+* [[:upper:]] matches uppercase characters
+
+
+```r
+var <- 'a1b2c3d4e5f'
+
+# matching alphabetic characters
+gsub('[[:alpha:]]', '', var)
+#> [1] "12345"
+gsub('[[:alpha:]]', '-', var)
+#> [1] "-1-2-3-4-5-"
+
+# matching lowercase letters
+gsub('[[:lower:]]', '', month.name)
+#>  [1] "J" "F" "M" "A" "M" "J" "J" "A" "S" "O" "N" "D"
+
+# matching uppercase letters
+gsub('[[:upper:]]', '', month.name)
+#>  [1] "anuary"   "ebruary"  "arch"     "pril"     "ay"      
+#>  [6] "une"      "uly"      "ugust"    "eptember" "ctober"  
+#> [11] "ovember"  "ecember"
+```
+
+Matching numerical digits
+
+* [[:digit:]] and \\d matches numbers from 0-9.
+
+
+```r
+var <- 'a1b2c3d4e5f'
+
+# POSIX Character
+gsub('[[:digit:]]', '', var)
+#> [1] "abcdef"
+gsub('[[:digit:]]', '-', var)
+#> [1] "a-b-c-d-e-f"
+
+# Sequences
+gsub('\\d', '', var)
+#> [1] "abcdef"
+gsub('\\d', '-', var)
+#> [1] "a-b-c-d-e-f"
+```
+
+
+Matching letters and numbers (alphanumeric characters)
+
+* [[:alnum:]] matches alphanumeric characters ([[:alpha:]] and [[:digit:]])
+* [[:xdigit:]] matches Hexadecimal digits (0 1 2 3 4 5 6 7 8 9 A B C D E F a b c d e f)
+* \\w matches word characters
+
+
+```r
+var <- 'a1@; 2#4c $8`*%f^!1~0&^h*()j'
+
+# alphanumeric characters
+gsub('[[:alnum:]]', '', var)
+#> [1] "@; # $`*%^!~&^*()"
+gsub('[[:alnum:]]', '-', var)
+#> [1] "--@; -#-- $-`*%-^!-~-&^-*()-"
+
+# Hexadecimal digits
+gsub('[[:xdigit:]]', '', var)
+#> [1] "@; # $`*%^!~&^h*()j"
+gsub('[[:xdigit:]]', '-', var)
+#> [1] "--@; -#-- $-`*%-^!-~-&^h*()j"
+
+# matching word characters
+gsub('\\w', '', var)
+#> [1] "@; # $`*%^!~&^*()"
+gsub('\\w', '-', var)
+#> [1] "--@; -#-- $-`*%-^!-~-&^-*()-"
+```
+
+Matching punctuation
+
+* [[:punct:]] matches punctuation characters.
+* \\W matches non-word characters.
+
+
+```r
+var <- 'a1@; 2#4c $8`*%f^!1~0&^h*()j'
+
+# matching punctuation characters
+gsub('[[:punct:]]', '', var)
+#> [1] "a1 24c 8f10hj"
+gsub('[[:punct:]]', '-', var)
+#> [1] "a1-- 2-4c -8---f--1-0--h---j"
+
+# matching non-word characters
+gsub('\\W', '', var)
+#> [1] "a124c8f10hj"
+gsub('\\W', '-', var)
+#> [1] "a1---2-4c--8---f--1-0--h---j"
+```
+
+Matching letters, numbers, and punctuation
+
+* [[:graph:]] matches graphical characters ([[:alpha:]] and [[:punct:]])
+* . matches any character (except newline character)
+
+
+```r
+# matching graphical characters
+var <- 'a1@; 2#4c $8%f^!10&^h*()j'
+gsub('[[:graph:]]', ' ', var)
+#> [1] "                         "
+
+# matching anything but newline characters
+var <- 'a1@; 2#4c $8%f^!10&^h*()j'
+gsub('.', ' ', var)
+#> [1] "                         "
+```
+
+
+Matching whitespace
+
+* \\s is used to match whitespaces.
+
+
+```r
+# removing whitespace
+gsub('\\s', '', c(' 2020-01-01 ', ' 2019-03-31 ', ' 2018-06-30 '))
+#> [1] "2020-01-01" "2019-03-31" "2018-06-30"
+```
+
+Matching a newline
+
+* \\n is used to match a newline.
+
+
+```r
+cat('good morning \n i am fru kinglsy \n i will be your instructor')
+#> good morning 
+#>  i am fru kinglsy 
+#>  i will be your instructor
+
+# replacing newline with tab
+gsub('\\n', '\t', 'good morning \n i am fru kinglsy \n i will be your instructor')
+#> [1] "good morning \t i am fru kinglsy \t i will be your instructor"
+
+# print it out
+cat(gsub('\\n', '\t', 'good morning \n i am fru kinglsy \n i will be your instructor'))
+#> good morning 	 i am fru kinglsy 	 i will be your instructor
+```
+
+Matching tab
+
+* \\t is used to match tabs.
+
+
+```r
+# replacing tab by newline
+gsub('\\t', '\n', 'good morning \t i am fru kinglsy \t i will your instructor')
+#> [1] "good morning \n i am fru kinglsy \n i will your instructor"
+
+# printing it out
+cat(gsub('\\t', '\n', 'good morning \t i am fru kinglsy \t i will your instructor'))
+#> good morning 
+#>  i am fru kinglsy 
+#>  i will your instructor
+```
+
+#### Matching metacharacters
+
+Metacharacters consist of non-alphanumeric symbols such as $ . ^ * | + ! ? \ () {} [].
+They are matched, by escaping them with a double backslash \\.
+
+
+```r
+# matching $
+sales <- 
+  c('$25000', '$20000', '$22500', '$24000', '$30000', '$35000')
+sub('\\$', '', sales)
+#> [1] "25000" "20000" "22500" "24000" "30000" "35000"
+
+# matching +
+sales <- 
+  c('+25000', '+20000', '+22500', '+24000', '+30000', '+35000')
+sub('\\+', '', sales)
+#> [1] "25000" "20000" "22500" "24000" "30000" "35000"
+
+# matching .
+dates <- 
+  c('01.01.2012', '01.02.2012', '01.03.2012', '01.04.2012', '01.05.2012', '01.06.2012')
+gsub('\\.', '-', dates)
+#> [1] "01-01-2012" "01-02-2012" "01-03-2012" "01-04-2012"
+#> [5] "01-05-2012" "01-06-2012"
+
+# matching *
+dates <- 
+  c('01*01*2012', '01*02*2012', '01*03*2012', '01*04*2012', '01*05*2012', '01*06*2012')
+gsub('\\*', '-', dates)
+#> [1] "01-01-2012" "01-02-2012" "01-03-2012" "01-04-2012"
+#> [5] "01-05-2012" "01-06-2012"
+#> [1] "01-01-2012" "01-02-2012" "01-03-2012" "01-04-2012" "01-05-2012"
+#> [6] "01-06-2012"
+
+# matching ^
+dates <- 
+  c('01^01^2012', '01^02^2012', '01^03^2012', '01^04^2012', '01^05^2012', '01^06^2012')
+gsub('\\^', '-', dates)
+#> [1] "01-01-2012" "01-02-2012" "01-03-2012" "01-04-2012"
+#> [5] "01-05-2012" "01-06-2012"
+
+# matching |
+dates <- 
+  c('01|01|2012', '01|02|2012', '01|03|2012', '01|04|2012', '01|05|2012', '01|06|2012')
+gsub('\\|', '-', dates)
+#> [1] "01-01-2012" "01-02-2012" "01-03-2012" "01-04-2012"
+#> [5] "01-05-2012" "01-06-2012"
+
+# matching \
+dates <- 
+  c('01\\01\\2012', '01\\02\\2012', '01\\03\\2012', 
+    '01\\04\\2012', '01\\05\\2012', '01\\06\\2012')
+gsub('\\\\', '-', dates)
+#> [1] "01-01-2012" "01-02-2012" "01-03-2012" "01-04-2012"
+#> [5] "01-05-2012" "01-06-2012"
+
+# matching \\.
+dates <- 
+  c('01\\.01\\.2012', '01\\.02\\.2012', '01\\.03\\.2012', 
+    '01\\.04\\.2012', '01\\.05\\.2012', '01\\.06\\.2012')
+gsub('\\\\\\.', '-', dates)
+#> [1] "01-01-2012" "01-02-2012" "01-03-2012" "01-04-2012"
+#> [5] "01-05-2012" "01-06-2012"
+```
+
+
+
+Alternates and ranges
+
+Either or (|)
+
+
+```r
+# replacing either uary or ember or ober
+gsub('uary|ember|ober', '-', month.name)
+#>  [1] "Jan-"   "Febr-"  "March"  "April"  "May"    "June"  
+#>  [7] "July"   "August" "Sept-"  "Oct-"   "Nov-"   "Dec-"
+```
+
+
+set of characters ([]) matches a set of characters.
+
+ranges (-) matches a range of characters.
+
+
+```r
+# matching vowels
+gsub('[aeiou]', '*', month.name)
+#>  [1] "J*n**ry"   "F*br**ry"  "M*rch"     "Apr*l"    
+#>  [5] "M*y"       "J*n*"      "J*ly"      "A*g*st"   
+#>  [9] "S*pt*mb*r" "Oct*b*r"   "N*v*mb*r"  "D*c*mb*r"
+
+# matching lower cases
+gsub('[a-z]', '*', month.name)
+#>  [1] "J******"   "F*******"  "M****"     "A****"    
+#>  [5] "M**"       "J***"      "J***"      "A*****"   
+#>  [9] "S********" "O******"   "N*******"  "D*******"
+
+# matching upper cases
+gsub('[A-Z]', '*', month.name)
+#>  [1] "*anuary"   "*ebruary"  "*arch"     "*pril"    
+#>  [5] "*ay"       "*une"      "*uly"      "*ugust"   
+#>  [9] "*eptember" "*ctober"   "*ovember"  "*ecember"
+
+# matching the letters m to z
+gsub('[m-z]', '*', month.name)
+#>  [1] "Ja**a**"   "Feb**a**"  "Ma*ch"     "A**il"    
+#>  [5] "Ma*"       "J**e"      "J*l*"      "A*g***"   
+#>  [9] "Se**e*be*" "Oc**be*"   "N**e*be*"  "Dece*be*"
+
+# matching the numbers 0 to 9
+gsub('[0-9]', '*', c('1a8g9u93l48p51359p78'))
+#> [1] "*a*g*u**l**p*****p**"
+
+# matching the numbers 1 to 5
+gsub('[1-5]', '*', c('1a8g9u93l48p51359p78'))
+#> [1] "*a8g9u9*l*8p****9p78"
+
+# matching alphanumeric
+gsub('[a-zA-Z0-9]', '*', c('1a8#g9u/93l48p51*395(9p78'))
+#> [1] "***#***/************(****"
+```
+
+
+Not [^abc]
+
+
+```r
+# matching everything but vowels
+gsub('[^aeiou]', '*', month.name)
+#>  [1] "*a*ua**"   "*e**ua**"  "*a***"     "***i*"    
+#>  [5] "*a*"       "*u*e"      "*u**"      "*u*u**"   
+#>  [9] "*e**e**e*" "***o*e*"   "*o*e**e*"  "*e*e**e*"
+
+# matching everything but lowercase letters
+gsub('[^a-z]', '*', month.name)
+#>  [1] "*anuary"   "*ebruary"  "*arch"     "*pril"    
+#>  [5] "*ay"       "*une"      "*uly"      "*ugust"   
+#>  [9] "*eptember" "*ctober"   "*ovember"  "*ecember"
+```
+
+Anchors
+
+* ^ matches a pattern at the start of a string.
+/ $ matches a pattern at the end of a string.
+
+
+```r
+# start of a string
+gsub('^J', 'j', month.name)
+#>  [1] "january"   "February"  "March"     "April"    
+#>  [5] "May"       "june"      "july"      "August"   
+#>  [9] "September" "October"   "November"  "December"
+
+# end of a string
+gsub('ber$', 'ba', month.name)
+#>  [1] "January"  "February" "March"    "April"    "May"     
+#>  [6] "June"     "July"     "August"   "Septemba" "Octoba"  
+#> [11] "Novemba"  "Decemba"
+```
+
+Quantifiers
+
+* * matches a pattern 0 or more times
+* + matches a pattern 1 or more times
+* ? matches a pattern 0 or one time
+* x{m} matches x exactly m times
+* x{m,} matches x exactly m or more times
+* x{m,n} matches x exactly m or n times
+
+
+```r
+# match 's' zero or one time
+grep('s?', month.name, value = TRUE)
+#>  [1] "January"   "February"  "March"     "April"    
+#>  [5] "May"       "June"      "July"      "August"   
+#>  [9] "September" "October"   "November"  "December"
+
+# match 'J' one or more times
+grep('J+', month.name, value = TRUE)
+#> [1] "January" "June"    "July"
+
+# match 'e' one or more times
+grep('e+', state.name, value = TRUE)
+#>  [1] "Connecticut"   "Delaware"      "Georgia"      
+#>  [4] "Kentucky"      "Maine"         "Massachusetts"
+#>  [7] "Minnesota"     "Nebraska"      "Nevada"       
+#> [10] "New Hampshire" "New Jersey"    "New Mexico"   
+#> [13] "New York"      "Oregon"        "Pennsylvania" 
+#> [16] "Rhode Island"  "Tennessee"     "Texas"        
+#> [19] "Vermont"       "West Virginia"
+
+# matched 'y', zero or more times
+grep('y*', month.name, value = TRUE)
+#>  [1] "January"   "February"  "March"     "April"    
+#>  [5] "May"       "June"      "July"      "August"   
+#>  [9] "September" "October"   "November"  "December"
+
+# matched 'a', zero or more times
+grep('a*', month.name, value = TRUE)
+#>  [1] "January"   "February"  "March"     "April"    
+#>  [5] "May"       "June"      "July"      "August"   
+#>  [9] "September" "October"   "November"  "December"
+
+# match 'a' zero or more times and 'y'
+grep('a*y', month.name, value = TRUE)
+#> [1] "January"  "February" "May"      "July"
+
+# match 'y' zero or more times and 'a'
+grep('y*a', month.name, value = TRUE)
+#> [1] "January"  "February" "March"    "May"
+
+# match 's', exactly 2 times
+grep(pattern = "s{2}", state.name, value = TRUE)
+#> [1] "Massachusetts" "Mississippi"   "Missouri"     
+#> [4] "Tennessee"
+
+# match 's', exactly 1 or more times
+grep(pattern = "s{1,}", state.name, value = TRUE)
+#>  [1] "Alaska"        "Arkansas"      "Illinois"     
+#>  [4] "Kansas"        "Louisiana"     "Massachusetts"
+#>  [7] "Minnesota"     "Mississippi"   "Missouri"     
+#> [10] "Nebraska"      "New Hampshire" "New Jersey"   
+#> [13] "Pennsylvania"  "Rhode Island"  "Tennessee"    
+#> [16] "Texas"         "Washington"    "West Virginia"
+#> [19] "Wisconsin"
+
+# match 's', exactly 1 or 2 times
+grep(pattern = "s{1,2}", state.name, value = TRUE)
+#>  [1] "Alaska"        "Arkansas"      "Illinois"     
+#>  [4] "Kansas"        "Louisiana"     "Massachusetts"
+#>  [7] "Minnesota"     "Mississippi"   "Missouri"     
+#> [10] "Nebraska"      "New Hampshire" "New Jersey"   
+#> [13] "Pennsylvania"  "Rhode Island"  "Tennessee"    
+#> [16] "Texas"         "Washington"    "West Virginia"
+#> [19] "Wisconsin"
+```
+
+Groups
+
+() matches group patterns.
+
+
+```r
+# match 2 repeating 's' followed by an 'e'
+grep(pattern = '(s{2})e', state.name, value = TRUE)
+#> [1] "Tennessee"
+```
+

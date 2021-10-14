@@ -5,5 +5,8 @@ options(width = 60)
 knitr::opts_chunk$set(
   comment = "#>",
   collapse = TRUE,
-  tidy = T
+  tidy = TRUE,
+  cache=TRUE,
+  message = FALSE,
+  warning = FALSE
   )

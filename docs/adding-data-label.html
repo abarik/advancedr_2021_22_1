@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 29 adding data label | Advanced R</title>
+<meta name="author" content="Kálmán Abari">
+<meta name="description" content="ggplot(data = pop_growth, aes(y = pop, x = year)) + geom_line() + geom_point() + geom_text(aes(label = round(pop, 2)), nudge_x = -3) + theme_classic() ggplot(data = pop_growth, aes(y = pop, x =...">
+<meta name="generator" content="bookdown 0.24 with bs4_book()">
+<meta property="og:title" content="Chapter 29 adding data label | Advanced R">
+<meta property="og:type" content="book">
+<meta property="og:description" content="ggplot(data = pop_growth, aes(y = pop, x = year)) + geom_line() + geom_point() + geom_text(aes(label = round(pop, 2)), nudge_x = -3) + theme_classic() ggplot(data = pop_growth, aes(y = pop, x =...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 29 adding data label | Advanced R">
+<meta name="twitter:description" content="ggplot(data = pop_growth, aes(y = pop, x = year)) + geom_line() + geom_point() + geom_text(aes(label = round(pop, 2)), nudge_x = -3) + theme_classic() ggplot(data = pop_growth, aes(y = pop, x =...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.0/transition.js"></script><script src="libs/bs3compat-0.3.0/tabs.js"></script><script src="libs/bs3compat-0.3.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><link rel="stylesheet" href="bs4_style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Advanced R</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html"><span class="header-section-number">1</span> Introduction</a></li>
+<li><a class="" href="warm-up-exercise.html"><span class="header-section-number">2</span> Warm-up exercise</a></li>
+<li><a class="" href="rmarkdown.html"><span class="header-section-number">3</span> RMarkdown</a></li>
+<li><a class="" href="advanced-data-manipulation.html"><span class="header-section-number">4</span> Advanced data manipulation</a></li>
+<li><a class="" href="modern-graphics.html"><span class="header-section-number">5</span> Modern graphics</a></li>
+<li><a class="" href="count-of-countries-by-continent.html"><span class="header-section-number">6</span> count of countries by continent</a></li>
+<li><a class="" href="preparing-data.html"><span class="header-section-number">7</span> preparing data</a></li>
+<li><a class="" href="sorting-columns-ascending.html"><span class="header-section-number">8</span> sorting columns ascending</a></li>
+<li><a class="" href="producing-a-column-chart.html"><span class="header-section-number">9</span> producing a column chart</a></li>
+<li><a class="" href="preparing-data-1.html"><span class="header-section-number">10</span> preparing data</a></li>
+<li><a class="" href="adding-space-between-bars.html"><span class="header-section-number">11</span> adding space between bars</a></li>
+<li><a class="" href="adding-data-labels.html"><span class="header-section-number">12</span> adding data labels</a></li>
+<li><a class="" href="data.html"><span class="header-section-number">13</span> data</a></li>
+<li><a class="" href="preparing-data-2.html"><span class="header-section-number">14</span> preparing data</a></li>
+<li><a class="" href="expanding-x-axis.html"><span class="header-section-number">15</span> expanding x-axis</a></li>
+<li><a class="" href="filling-area-under-the-curve.html"><span class="header-section-number">16</span> filling area under the curve</a></li>
+<li><a class="" href="fill-and-colour.html"><span class="header-section-number">17</span> fill and colour</a></li>
+<li><a class="" href="plotting-density-with-geom_line.html"><span class="header-section-number">18</span> plotting density with geom_line()</a></li>
+<li><a class="" href="adding-a-line.html"><span class="header-section-number">19</span> adding a line</a></li>
+<li><a class="" href="by-groups.html"><span class="header-section-number">20</span> by groups</a></li>
+<li><a class="" href="removing-outliers.html"><span class="header-section-number">21</span> removing outliers</a></li>
+<li><a class="" href="box-width.html"><span class="header-section-number">22</span> box width</a></li>
+<li><a class="" href="width-by-the-count-of-values.html"><span class="header-section-number">23</span> width by the count of values</a></li>
+<li><a class="" href="adding-mean.html"><span class="header-section-number">24</span> adding mean</a></li>
+<li><a class="" href="removing-trim.html"><span class="header-section-number">25</span> removing trim</a></li>
+<li><a class="" href="preparing-plot.html"><span class="header-section-number">26</span> preparing plot</a></li>
+<li><a class="" href="adding-line.html"><span class="header-section-number">27</span> adding line</a></li>
+<li><a class="" href="combining-line-and-points.html"><span class="header-section-number">28</span> combining line and points</a></li>
+<li><a class="active" href="adding-data-label.html"><span class="header-section-number">29</span> adding data label</a></li>
+<li><a class="" href="tidyverse-r.html"><span class="header-section-number">30</span> Tidyverse R</a></li>
+<li><a class="" href="bioconductor.html"><span class="header-section-number">31</span> Bioconductor</a></li>
+<li><a class="" href="rna-seq-an-example.html"><span class="header-section-number">32</span> RNA-Seq (an example)</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/abarik/advancedr_2021_22_1">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="adding-data-label" class="section level1" number="29">
+<h1>
+<span class="header-section-number">29</span> adding data label<a class="anchor" aria-label="anchor" href="#adding-data-label"><i class="fas fa-link"></i></a>
+</h1>
+<p>ggplot(data = pop_growth, aes(y = pop, x = year)) +
+geom_line() +
+geom_point() +
+geom_text(aes(label = round(pop, 2)), nudge_x = -3) +
+theme_classic()</p>
+<p>ggplot(data = pop_growth, aes(y = pop, x = year)) +
+geom_segment(aes(y = pop, x = year, yend = 0, xend = year)) +
+theme_classic()</p>
+<p>Lollipop plot
+By combining the functions geom_segment() and geom_point(), we can produce a lollipop plot.</p>
+<p>ggplot(data = pop_growth, aes(y = pop, x = year)) +
+geom_segment(aes(yend = 0, xend = year)) +
+geom_point(aes(y = pop, x = year), size = 3) +
+theme_classic()</p>
+<p>Area plot
+The function geom_area() is used to create an area plot.</p>
+<p>ggplot(data = pop_growth, aes(y = pop, x = year)) +
+geom_area() +
+theme_classic()</p>
+<p>Step plot
+The function geom_step() is used to create a step plot with the argument direction indicating the direction of the plot.</p>
+<p>ggplot(data = pop_growth, aes(y = pop, x = year)) +
+geom_step(aes(y = pop, x = year)) +
+theme_classic()
+# vh (vertical then horizontal)
+ggplot(data = pop_growth, aes(y = pop, x = year)) +
+geom_step(aes(y = pop, x = year), direction = ‘vh’) +
+theme_classic()</p>
+<p>Line width
+The argument size, control line width.</p>
+<p>ggplot(data = pop_growth, aes(y = pop, x = year)) +
+geom_line(size = 1) +
+theme_classic()</p>
+<p>Line style
+The argument linetype controls line style. It accepts the same values as base graphics that is, integers ranging from 0 to 6 and</p>
+<p>‘blank’ = 0,
+‘solid’ = 1 (default)
+‘dashed’ = 2
+‘dotted’ = 3
+‘dotdash’ = 4
+‘longdash’ = 5
+‘twodash’ = 6
+ggplot(data = pop_growth, aes(y = pop, x = year)) +
+geom_line(size = 1, linetype = 2) +
+theme_classic()</p>
+<p>ggplot(data = pop_growth, aes(y = pop, x = year)) +
+geom_line(size = 1, linetype = ‘twodash’) +
+theme_classic()</p>
+<p>Multiple line plot
+# preparing data
+pop_growth_cont &lt;- aggregate(pop ~ year + continent, gapminder, sum)
+head(pop_growth_cont)
+&gt; year continent pop
+&gt; 1 1952 Africa 237640501
+&gt; 2 1957 Africa 264837738
+&gt; 3 1962 Africa 296516865
+&gt; 4 1967 Africa 335289489
+&gt; 5 1972 Africa 379879541
+&gt; 6 1977 Africa 433061021</p>
+<p>ggplot(data = pop_growth_cont,
+aes(y = pop/1e6, x = year, colour = continent, fill = continent)) +
+geom_line() +
+geom_point()
+ggplot(data = pop_growth_cont, aes(y = pop, x = year, colour = continent, fill = continent)) +
+geom_area() +
+scale_colour_brewer(palette = “Dark2”) +
+theme_classic()</p>
+<p>32.11 Summary
+functions Description
+ggplot() initializes a ggplot object
+qplot() creates ggplot plots quickly
+geom_point() creates a scatter plot
+geom_line() creates a line plot
+geom_area() creates an area plot
+geom_step() creates a step plot
+geom_dotplot() creates a dot plot
+geom_histogram() creates a histogram
+geom_density() creates a density plot
+geom_qq() and geom_qq_line() creates a q-q plot
+geom_boxplot() creates a box plot
+geom_violin() creates a violin plot
+geom_smooth() adds pattern to a plot
+geom_rug() adds rug to a plot
+geom_jitter() adds jitter to a plot
+geom_bar() and geom_col() creates bar charts
+geom_text() and geom_label() adds text and label to a plot
+stat_summary() computes and adds aggregations e.g. mean to a plot
+scale_shape_manual() sets mapped shapes
+scale_radius(), scale_size() and scale_size_area controls mapped sizes
+scale_colour_hue() and scale_fill_hue() default colour scale for categorical variables
+scale_colour_grey() defines grey colours for discrete variable
+scale_colour_manual() and scale_fill_manual() controls mapped colours manually
+scale_colour_gradient() and scale_fill_gradient() defines a two-colour gradient
+scale_colour_gradient2() and scale_fill_gradient2() defines a three-colour gradient (low-mid-high)
+scale_colour_gradientn() and scale_fill_gradientn() defines a more then three colour gradient
+scale_colour_brewer() and scale_fill_brewer() defines colour scale for discrete variables
+scale_colour_distiller() and scale_fill_distiller() defines colour scale for continuous variables
+scale_colour_viridis() and scale_fill_viridis() defines colour scale for discrete and continuous variables
+coord_cartesian() zooms a plot without changing the underlying data
+coord_fixed() controls the aspect ratio.
+coord_flip() flips a plot along its diagonal
+coord_polar() converts bar chart to pie chart
+facet_grid() and facet_wrap() creates subplots
+labs() modifies title, subtitle, and axis labels
+ggtitle() modifies title
+xlab() modifies x-axis label
+ylab() modifies y-axis label
+guides() controls legend
+ggsave() saves ggplot to disc
+theme() controls non-data elements</p>
+
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="combining-line-and-points.html"><span class="header-section-number">28</span> combining line and points</a></div>
+<div class="next"><a href="tidyverse-r.html"><span class="header-section-number">30</span> Tidyverse R</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav"><li><a class="nav-link" href="#adding-data-label"><span class="header-section-number">29</span> adding data label</a></li></ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/abarik/advancedr_2021_22_1/blob/master/04-ggplot2.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/abarik/advancedr_2021_22_1/edit/master/04-ggplot2.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Advanced R</strong>" was written by Kálmán Abari. It was last built on 2021-10-09.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+</body>
+</html>

@@ -21,3 +21,4 @@ rmarkdown::render("_rmarkdown_example.Rmd", "pdf_document")
 rmarkdown::render("_rmarkdown_example.Rmd", "word_document")
 
 rmarkdown::render("_rmarkdown_example_2.Rmd", "word_document")
+

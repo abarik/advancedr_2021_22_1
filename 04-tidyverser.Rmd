@@ -1,0 +1,2553 @@
+# Tidyverse R
+
+Hadley Wickham and Garrett Grolemund, in their excellent and freely available
+book [R for Data Science](https://r4ds.had.co.nz/){target="_blank"}, promote the concept of “tidy data.” The Tidyverse collection of R packages attempt to realize this concept in concrete libraries. 
+
+In brief, tidy data carefully separates variables (the columns of a table, also called
+features or fields) from observations (the rows of a table, also called samples). At
+the intersection of these two, we find values, one data item (datum) in each cell.
+Unfortunately, the data we encounter is often not arranged in this useful way, and
+it requires normalization. In particular, what are really values are often represented
+either as columns or as rows instead. To demonstrate what this means, let us
+consider an example (a small elementary school class).
+
+```{r}
+library(tidyverse)
+# inline reading, tibble version
+students <- tribble(
+  ~'Last Name', ~'First Name', ~'4th Grade', ~'5th Grade', ~'6th Grade',
+  "Johnson", "Mia", "A", "B+", "A-",
+  "Lopez", "Liam", "B", "B", "A+",
+  "Lee", "Isabella", "C", "C-", "B-",
+  "Fisher", "Mason", "B", "B-", "C+",
+  "Gupta", "Olivia", "B", "A+", "A",
+  "Robinson", "Sophia", "A+", "B-", "A"
+)
+students
+```
+
+This view of the data is easy for humans to read. We can see trends in the scores
+each student received over several years of education. Moreover, this format might
+lend itself to useful visualizations fairly easily:
+
+```{r}
+# Generic conversion of letter grades to numbers
+recodes.str <- "'A+'=4.3;'A'=4;'A-'=3.7;'B+'=3.3;'B'=3;'B-'=2.7;'C+'=2.3;'C'= 2;'C-'=1.7"
+students$`4th Grade` <- car::recode(students$`4th Grade`, recodes.str)
+students$`5th Grade` <- car::recode(students$`5th Grade`, recodes.str)
+students$`6th Grade` <- car::recode(students$`6th Grade`, recodes.str)
+
+# create plot
+matplot(t(students[,c(3:5)]), type = "b", pch = 11:16, col = 2:7, xaxt="n", ylab="")
+Axis(labels = names(students)[3:5], side=1, at = 1:3)
+legend(1.2, 3, paste(substr(x = students$`Last Name`, 1, 1), students$`First Name`, sep = ". "),
+       pch = 11:16, col = 2:7)
+```
+
+This data layout exposes its limitations once the class advances to 7th grade, or if we were to obtain 3rd grade information. To accommodate such additional data, we would need to change the number and position of columns, not simply add additional rows. It is natural to make new observations or identify new samples (rows) but usually awkward to change the underlying variables (columns).
+
+The particular class level (e.g. 4th grade) that a letter grade pertains to is, at heart, a value, not a variable. Another way to think of this is in terms of independent variables versus dependent variables, or in machine learning terms, features versus target. In some ways, the class level might correlate with or influence the resulting letter grade; perhaps the teachers at the different levels have different biases, or children of a certain age lose or gain interest in schoolwork, for example.
+
+For most analytic purposes, this data would be more useful if we made it tidy (normalized) before further processing. In Base R, the `reshape2::melt()` method can perform this tidying. We pin some of the columns as id_vars, and we set a name for the combined columns as a variable and the letter grade as a single new column. 
+
+
+```{r}
+reshape2::melt(data = students, id=c("Last Name", "First Name"))
+```
+
+
+Within the Tidyverse, specifically within the tidyr package, there is a function `pivot_longer()` that is similar to Base R’s `reshape2::melt()`. The aggregation names and values have parameters spelled `names_to=` and `values_to=`, but the operation is the same:
+
+```{r}
+s.l <- students %>%
+ pivot_longer(c('4th Grade', '5th Grade', '6th Grade'),
+ names_to = "Level",
+ values_to = "Score")
+s.l
+```
+
+
+The simple example above gives you a first feel for tidying tabular data. To reverse the tidying operation that moves variables (columns) to values (rows), the `pivot_wider()` function in **tidyr** can be used. In Base R there are several related methods on data frames, including `reshape::cast()` and `reshape2::dcast()`.
+
+```{r}
+s.l %>% 
+  pivot_wider(names_from = Level, values_from = Score)
+```
+
+
+## The tibble
+
+Tibbles inherits the attributes of a data frame and enhances some of them. The tibble is the central data structure for a set of packages known as the **tidyverse**.
+
+Tibbles when printed out returns:
+
+* the first 10 rows and
+* all the columns that can fit on screen and
+* column types.
+
+### Importing data{#tr-import}
+
+The functions `read_csv()`, `read_delim()`, `read_excel_csv()`, `read_tsv()` are used to import data.
+
+```{r}
+# loading package
+library(readr)
+
+# reading data
+gapminder <- read_delim(file = 'data/gapminder_ext_UTF-8.txt', 
+                        delim = "\t", 
+                        col_names = T, 
+                        locale = locale(decimal_mark = ",",  encoding = "UTF-8"))
+head(gapminder, 3)
+
+# class checking
+class(gapminder)
+
+# checking for data frame 
+is.data.frame(gapminder)
+```
+
+### Tibbles are data frames
+
+Since Tibbles are data frames, functions which operate on data frames also operate on them.
+
+```{r}
+head(gapminder, 3)
+tail(gapminder, 3)
+nrow(gapminder)
+ncol(gapminder)
+summary(gapminder)
+```
+
+### Exporting data{#tr-export}
+
+The functions `write_csv()`, `write_delim()`, `write_excel_csv()`, `write_tsv()` are used to export data. To export Tibbles, they have first to be converted into data frames.
+
+```{r}
+# exporting Tibbles
+write_delim(x = data.frame(gapminder), delim = " ", file = 'output/data/gapminderfixedwidth.txt')
+write_csv(x = data.frame(gapminder), file = 'output/data/gapminder_csv.txt')
+write_tsv(x = data.frame(gapminder), file = 'output/data/gapminder_tsv.txt')
+
+# checking if files exist?
+file.exists(c('output/data/gapminderfixedwidth.txt', 'output/data/gapminder_csv.txt', 'output/data/gapminder_tsv.txt'))
+
+# removing files
+file.remove(c('output/data/gapminderfixedwidth.txt', 'output/data/gapminder_csv.txt', 'output/data/gapminder_tsv.txt'))
+```
+
+### Check for tibble{#tr-inspect}
+
+Tibbles come from the package **tibble**.
+
+The function `is_tibble()` is used to check for tibble.
+The function `glimpse()` is a better option of `str()`.
+
+```{r}
+# loading tibble
+library(tibble)
+
+# glimpse() a better option to str()
+glimpse(gapminder)
+
+# checking whether an object is a tibble
+is_tibble(gapminder)
+```
+
+### Creating a tibble
+
+The function `tibble()` is like `data.frame()` but creates a tibble.
+
+```{r}
+# creating named vectors
+country <- c('China', 'India', 'United States', 'Indonesia', 'Brazil', 
+             'Pakistan', 'Bangladesh', 'Nigeria', 'Japan', 'Mexico')
+continent <- c('Asia', 'Asia', 'Americas', 'Asia', 'Americas', 
+               'Asia', 'Asia', 'Africa', 'Asia', 'Americas')
+population <- c(1318683096, 1110396331, 301139947, 223547000, 190010647, 
+                169270617, 150448339, 135031164, 127467972, 108700891)
+lifeExpectancy <- c(72.961, 64.698, 78.242, 70.65, 72.39, 
+                    65.483, 64.062, 46.859, 82.603, 76.195)
+percapita <- c(4959, 2452, 42952, 3541, 9066, 2606, 1391, 2014, 31656, 11978)
+
+# creating a tibble from named vectors
+top_10 <- tibble(country, population, lifeExpectancy)
+head(top_10, 3)
+class(top_10)
+```
+
+### Adding columns
+
+The function `add_column()` is used to add columns to a tibble or data frames.
+
+```{r}
+# adding a column to a tibble
+# defaults to the last column
+add_column(top_10, continent)
+
+# also works for data frames
+add_column(as.data.frame(top_10), continent)
+
+# adding multiple columns
+add_column(top_10, continent, percapita)
+
+# adding multiple columns directly
+add_column(top_10, 
+           continent = c('Asia', 'Asia', 'Americas', 'Asia', 'Americas', 
+                         'Asia', 'Asia', 'Africa', 'Asia', 'Americas'),
+           percapita = c(4959, 2452, 42952, 3541, 9066, 2606, 1391, 2014, 31656, 11978))
+
+# add a column before an index position
+add_column(top_10, continent, .before = 2)
+
+# add a column after an index position
+top_10 <- add_column(top_10, continent, .after = 1)
+top_10
+```
+
+
+### Adding rows
+
+The function `add_row()` is used to add rows to a tibble or a data frame.
+
+```{r}
+# adding a row
+# defaults to the tail of the data frame
+add_row(top_10, 
+        country = 'Philippines',
+        continent = 'Asia', 
+        population = 91077287, 
+        lifeExpectancy = 71.688)
+
+# adding rows before an index position
+add_row(top_10, 
+        country = 'Philippines',
+        continent = 'Asia', 
+        population = 91077287, 
+        lifeExpectancy = 71.688, 
+        .before = 2)
+
+# adding rows after an index position
+add_row(top_10, 
+        country = 'Philippines',
+        continent = 'Asia', 
+        population = 91077287, 
+        lifeExpectancy = 71.688, 
+        .after = 2)
+
+# adding multiple rows
+add_row(top_10, 
+        country = c('Philippines', 'Vietnam', 'Germany', 'Egypt', 'Ethiopia', 
+                    'Turkey', 'Iran', 'Thailand', 'Congo, Dem. Rep.', 'France'),
+        continent = c('Asia', 'Asia', 'Europe', 'Africa', 'Africa', 
+                      'Europe', 'Asia', 'Asia', 'Africa', 'Europe'),
+        population = c(91077287, 85262356, 82400996, 80264543, 76511887, 
+                       71158647, 69453570, 65068149, 64606759, 61083916),
+        lifeExpectancy = c(71.688, 74.249, 79.406, 71.338, 52.947, 
+                           71.777, 70.964, 70.616, 46.462, 80.657)
+       )
+```
+
+### Converting to tibble
+
+The function `as_tibble()` is used to convert to a tibble, if possible.
+
+```{r}
+# creating a matrix
+mat = matrix(seq(1,12), 3, 4, 
+             dimnames = list('a' = c('a1', 'a2', 'a3'), 'b' = c('b1', 'b2', 'b3', 'b4')))
+mat
+
+# converting a matrix to tibble
+# removes the rownames
+mat_tbl <- as_tibble(mat)
+mat_tbl
+class(mat_tbl)
+
+# creating a data frame
+top_10_df <- data.frame(
+country = c('China', 'India', 'United States', 'Indonesia', 'Brazil', 
+            'Pakistan', 'Bangladesh', 'Nigeria', 'Japan', 'Mexico'),
+continent = c('Asia', 'Asia', 'Americas', 'Asia', 'Americas', 
+              'Asia', 'Asia', 'Africa', 'Asia', 'Americas'),
+population = c(1318683096, 1110396331, 301139947, 223547000, 190010647, 
+               169270617, 150448339, 135031164, 127467972, 108700891),
+lifeExpectancy = c(72.961, 64.698, 78.242, 70.65, 72.39, 
+                   65.483, 64.062, 46.859, 82.603, 76.195)
+    )
+head(top_10_df, 3)
+class(top_10_df)
+
+# converting data frame to tibble
+top_tbl <- as_tibble(top_10_df)
+top_tbl
+class(top_tbl)
+```
+
+
+### Manipulating row names{#tr-row-names}
+
+Tibble does not support row names but the package tibble has the following functions for dealing with row names:
+
+* `has_rownames()` checks if a data frame has row names.
+* `remove_rownames()` removes row names.
+* `column_to_rownames()` moves a column to row names.
+* `rowid_to_column()` moves a row index to column.
+
+```{r}
+# creating a data frame
+top_10_df <- data.frame(
+continent = c('Asia', 'Asia', 'Americas', 'Asia', 'Americas', 
+              'Asia', 'Asia', 'Africa', 'Asia', 'Americas'),
+population = c(1318683096, 1110396331, 301139947, 223547000, 190010647, 
+               169270617, 150448339, 135031164, 127467972, 108700891),
+lifeExpectancy = c(72.961, 64.698, 78.242, 70.65, 72.39, 
+                   65.483, 64.062, 46.859, 82.603, 76.195)
+    )
+top_10_df
+
+# vector of country names
+country <- c('China', 'India', 'United States', 'Indonesia', 'Brazil', 
+             'Pakistan', 'Bangladesh', 'Nigeria', 'Japan', 'Mexico')
+
+# adding row names
+rownames(top_10_df) <- country
+top_10_df
+
+# check if the data frame contains row names
+has_rownames(top_10_df)
+
+# delete row names
+remove_rownames(top_10_df)
+
+# convert row names to a column
+top_10_df <- rownames_to_column(top_10_df, var = "country")
+top_10_df
+
+# convert a column to row names
+column_to_rownames(top_10_df, var = "country")
+
+# convert row index to a column
+rowid_to_column(top_10_df, var = "rank")
+```
+
+
+## Manipulating categorical data with forcats{#tr-factor}
+
+The package **forcats** comes with a series of functions all beginning with fct_ for working with categorical data. This package is developed and maintained by Hadley Wickham and is part of the tidyverse universe of packages.
+
+Categorical data in R is represented by factors.
+
+```{r}
+# install.packages(forcats)
+library(forcats)
+library(gapminder)
+# loading data
+data(gapminder)
+# preparing data
+gapminder_2007 <- subset(gapminder, year == 2007, -3)
+head(gapminder_2007)
+sapply(gapminder_2007, class)
+```
+
+### Inspecting factors
+
+#### Get categories
+
+The functions `levels()` and `fct_unique()` are used to get levels or categories.
+
+```{r}
+# get levels using base R
+levels(gapminder_2007$continent)
+
+# get levels using forcats
+fct_unique(gapminder_2007$continent)
+```
+
+#### Get the number of categories
+
+The functions `nlevels()` and `length(fct_unique())` are used to get the number of categories or levels.
+
+```{r}
+# get the number of categories using base R
+nlevels(gapminder_2007$continent)
+
+# get the number of categories using forcats
+length(fct_unique(gapminder_2007$continent))
+```
+
+
+#### Count of values by categories
+
+The function `table()` and `fct_count()` are used to get count of values by categories with the later returning a tibble.
+
+```{r}
+# count of elements by categories using base R
+table(gapminder_2007$continent)
+
+# count of elements by categories using forcats
+fct_count(gapminder_2007$continent)
+```
+
+#### Reordering levels
+
+```{r}
+# get levels
+table(gapminder_2007$continent)
+```
+
+##### Manually reordering levels
+
+The function `fct_relevel()` is used to manually reorder levels.
+
+```{r}
+# manually reorder levels
+gapminder_2007$continent <- fct_relevel(gapminder_2007$continent, 
+                                        c('Asia', 'Africa', 'Americas', 'Europe', 'Oceania'))
+table(gapminder_2007$continent)
+# oceania first
+gapminder_2007$continent <- fct_relevel(gapminder_2007$continent, 'Oceania')
+table(gapminder_2007$continent)
+```
+
+#### Reordering levels by frequency of occurrence
+
+The function `fct_infreq()` reorders levels by the number of times they occur in the data with the highest first.
+
+```{r}
+# ordering levels by the frequency they appear in a dataset
+gapminder_2007$continent <- fct_infreq(gapminder_2007$continent, ordered = NA)
+table(gapminder_2007$continent)
+```
+
+The argument `ordered = TRUE` returns an ordered factor.
+
+```{r}
+# unordered factor
+class(fct_infreq(gapminder_2007$continent, ordered = NA))
+
+# ordered factor
+class(fct_infreq(gapminder_2007$continent, ordered = TRUE))
+```
+
+
+### Reordering levels by their order in data
+
+The function `fct_inorder()` reorders levels by the order in which they appear in the data set.
+
+```{r}
+# ordering levels by the order in which they appear in a dataset
+gapminder_2007$continent <- fct_inorder(gapminder_2007$continent, ordered = NA)
+table(gapminder_2007$continent)
+```
+
+#### Reversing the order
+
+The function `fct_rev()` reverses the order of the levels.
+
+```{r}
+# reversing level order
+gapminder_2007$continent <- fct_rev(gapminder_2007$continent)
+table(gapminder_2007$continent)
+```
+
+#### Random order
+
+The function `fct_shuffle()` randomly shuffles levels.
+
+```{r}
+# randomly shuffling level order
+gapminder_2007$continent <- fct_shuffle(gapminder_2007$continent)
+table(gapminder_2007$continent)
+```
+
+#### Reordering level by another column
+
+The function `fct_reorder()` reorders levels by another column or vector.
+
+```{r}
+# ordering levels by another column
+gapminder_2007$continent <- 
+  fct_reorder(gapminder_2007$continent, gapminder_2007$pop, .fun = sum, .desc = TRUE)
+levels(gapminder_2007$continent)
+
+
+# using median
+gapminder_2007$continent <- 
+  fct_reorder(gapminder_2007$continent, gapminder_2007$pop, .fun = median, .desc = TRUE)
+levels(gapminder_2007$continent)
+
+# ascending
+gapminder_2007$continent <- 
+  fct_reorder(gapminder_2007$continent, gapminder_2007$pop, .fun = median, .desc = FALSE)
+levels(gapminder_2007$continent)
+
+# population by continent
+(pop_cont <- aggregate(pop ~ continent, gapminder, sum, subset = year == 2007))
+
+# plotting a barchart 
+with(pop_cont, barplot(pop/1e6, names.arg = continent))
+
+
+# reordering continent by population
+pop_cont$continent <- fct_reorder(pop_cont$continent, pop_cont$pop, .desc = TRUE)
+levels(pop_cont$continent)
+
+# sorting data frame by continent
+pop_cont <- with(pop_cont, pop_cont[order(continent),])
+pop_cont
+
+# plotting barplot
+with(pop_cont, barplot(pop/1e6, names.arg = continent))
+
+# producing an ascending bar chart
+pop_cont$continent <- fct_reorder(pop_cont$continent, pop_cont$pop, .desc = FALSE)
+pop_cont <- with(pop_cont, pop_cont[order(continent),])
+with(pop_cont, barplot(pop/1e6, names.arg = continent))
+```
+
+### Restructuring levels and their labels
+
+####  Renaming labels
+
+The function `fct_recode()` is used to rename levels. It takes the form `new_name = old_name`.
+
+```{r}
+levels(fct_recode(gapminder_2007$continent, 'AS' = 'Asia', 'Af' = 'Africa', 'Eu' = 'Europe'))
+```
+
+#### collapsing levels
+
+The function `fct_collapse()` is used to collapse levels into a new one.
+
+```{r}
+# collapsing europe and africa into euroafrica
+gapminder_2007$continent <- 
+  fct_collapse(gapminder_2007$continent, Euroafrica = c('Africa', 'Europe'))
+table(gapminder_2007$continent)
+
+# population by continent
+(pop_cont <- aggregate(pop ~ continent, gapminder_2007, sum))
+```
+
+#### combining levels
+
+The functions `fct_lump()` and `fct_lump_min()` combines levels together based on the frequency of occurrence of each level.
+
+```{r}
+# combining the least frequent levels
+gapminder_2007 <- subset(gapminder, year == 2007, -3)
+table(fct_lump(gapminder_2007$continent))
+```
+
+Using the arguments `n=` and `p=` we can specify the type of combining to perform; with positive values indicating combining rarest levels while negative values indicate combining most common levels.
+
+
+```{r}
+# combining all except the first most common
+table(fct_lump(gapminder_2007$continent, n = 1))
+
+# combining all except the first 2 most common
+table(fct_lump(gapminder_2007$continent, n = 2))
+
+# combining all except the first 3 most common
+table(fct_lump(gapminder_2007$continent, n = 3))
+
+# combining all except the first rarest
+table(fct_lump(gapminder_2007$continent, n = -1))
+
+# combining all except the first 2 rarest
+table(fct_lump(gapminder_2007$continent, n = -2))
+
+# combining all except the first 3 rarest
+table(fct_lump(gapminder_2007$continent, n = -3))
+
+# using prop positive
+table(fct_lump(gapminder_2007$continent, prop = 0.25))
+table(fct_lump(gapminder_2007$continent, prop = 0.22))
+table(fct_lump(gapminder_2007$continent, prop = 0.2))
+
+# using prop negative
+table(fct_lump(gapminder_2007$continent, prop = -0.25))
+table(fct_lump(gapminder_2007$continent, prop = -0.22))
+table(fct_lump(gapminder_2007$continent, prop = -0.2))
+```
+
+With `fct_lump_min()` combining is done based on whether a threshold declared by the min argument is met.
+
+```{r}
+table(gapminder_2007$continent)
+
+# combining levels with less than 25 counts
+table(fct_lump_min(gapminder_2007$continent, min = 25))
+
+# combining levels with less than 30 counts
+table(fct_lump_min(gapminder_2007$continent, min = 30))
+
+# combining levels with less than 33 counts
+table(fct_lump_min(gapminder_2007$continent, min = 33))
+```
+
+### Remove and add levels
+
+#### dropping levels
+
+The function `fct_other()` will drop levels and replace them with the argument other_level = other by default.
+
+```{r}
+# keeping asia and europe 
+table(fct_other(gapminder_2007$continent, keep = c('Asia', 'Europe')))
+
+# dropping asia and europe
+table(fct_other(gapminder_2007$continent, drop = c('Asia', 'Europe')))
+
+# replacing other continents with nonEurasia
+table(fct_other(gapminder_2007$continent, 
+                keep = c('Asia', 'Europe'), 
+                other_level = 'nonEurasia'))
+
+# replacing europe and asia with Eurasia
+table(fct_other(gapminder_2007$continent, 
+                drop = c('Asia', 'Europe'), 
+                other_level = 'Eurasia'))
+```
+
+### dropping unused levels
+
+The function `fct_drop()` is used to drop unused levels. Unused levels are usually a problem while plotting as they appear on the graph though they contain no data.
+
+```{r}
+# dropping Oceania
+gapminder_oc <- subset(gapminder_2007, continent != 'Oceania')
+table(gapminder_oc$continent)
+# Because the level Oceania has not been dropped, it appears on the above plot.
+plot(gapminder_oc$continent)
+
+# dropping unused level
+table(fct_drop(gapminder_oc$continent))
+plot(fct_drop(gapminder_oc$continent))
+```
+
+#### adding levels
+
+The function `fct_expand()` is used to add levels.
+
+```{r}
+# adding the level arctic
+table(fct_expand(gapminder_oc$continent, 'arctic'))
+
+# adding the levels arctic and antarctica
+table(fct_expand(gapminder_oc$continent, c('arctic', 'antarctica')))
+# newly added levels appear on the plot though they have no data
+plot(fct_expand(gapminder_oc$continent, c('arctic', 'antarctica')))
+```
+
+## Data Manipulation with dplyr and tidyr
+
+The package **dplyr** is one of the core packages in a group of packages known as the tidyverse. It was developed and released in 2014 by Hadley Wickham and others. **dplyr** is meant to be for data manipulation what **ggplot2** is for data visualization, that is the grammar of data manipulation. It focuses solely on data frame manipulation and transformation using a set of verbs (functions) which are consistent and easy to understand.
+
+Since **dyplr** belongs to the tidyverse world, it can be installed either by installing tidyverse or by installing **dplyr** itself.
+
+### Rename columns and rows
+
+#### Renaming columns {#tr-col-names}
+
+The function `rename()` is used to rename columns.
+
+`rename(new_name = old_name)`
+
+```{r}
+library(readr)
+library(dplyr)
+library(gapminder)
+
+# loading data
+data(gapminder)
+# get column names
+names(gapminder)
+
+# set column names
+gapminder <- rename(gapminder, 
+                    Country = country, 
+                    Continent = continent, 
+                    Year = year, 
+                    `Life Expectancy` = lifeExp, 
+                    Population = pop, 
+                    `GDP per Capita` = gdpPercap)
+# get column names
+colnames(gapminder)
+```
+
+####  Renaming rows
+
+Tibble does not support row names. See [this](tidyverse-r.html#row-names).
+
+###  Select columns and filter rows
+
+####  Selecting and dropping columns{#tr-filter-cols}
+
+The function `select()` is used to select and rename columns.
+
+```{r}
+# preparing data
+column_names <- c('Rank', 'Title', 'Genre', 'Description', 'Director', 'Actors', 
+                  'Year', 'Runtime', 'Rating', 'Votes', 'Revenue', 'Metascore')
+mov <- read.table(file = "data/IMDB-Movie-Data.csv", header = T, sep = ",", dec = ".", fileEncoding = "UTF-8", quote = "\"",
+                  comment.char = "")
+head(mov, 3)
+names(mov) <- c('Rank', 'Title', 'Genre', 'Description', 'Director', 'Actors', 
+                  'Year', 'Runtime', 'Rating', 'Votes', 'Revenue', 'Metascore')
+
+
+# selecting columns by column names
+movies <- select(mov, c('Title', 'Year', 'Revenue', 'Metascore'))
+head(movies, 3)
+
+# columns can be passed directly without quotation marks
+movies <- select(mov, Title, Year, Revenue, Metascore)
+head(movies, 3)
+
+# renaming column
+movies <- select(mov, 
+                 Title, 
+                 `Release Year` = Year, 
+                 `Revenue in Millions` = Revenue, 
+                 Metascore)
+head(movies, 3)
+
+# selecting columns by position
+movies <- select(mov, 2, 7, 11, 12)
+head(movies, 3)
+
+# selecting columns by sequencing
+movies <- select(mov, 7:12)
+head(movies, 3)
+
+# : works with column names
+movies <- select(mov, Year:Metascore)
+head(movies, 3)
+
+# dropping columns by column names
+movies <- select(mov, -Rank, -Genre, -Description, 
+                  -Director, -Actors, -Runtime, -Rating, -Votes)
+head(movies, 3)
+
+# dropping columns by sequence
+movies <- select(mov, -(1:6))
+head(movies, 3)
+
+movies <- select(mov, -(Rank:Actors))
+head(movies, 3)
+
+# dropping columns by index position
+movies <- select(mov, -c(1, 3, 4, 5, 6, 8, 9, 10))
+head(movies, 3)
+
+# dropping columns by index position
+movies <- select(mov, -1, -3, -4, -5, -6, -8, -9, -10)
+head(movies, 3)
+```
+
+#### Selecting column based on a condition
+
+The functions `starts_with()`, `ends_with()`, `matches()`, and `contains()` are used to select columns based on a specific pattern. The function
+
+* `starts_with()`: returns columns that start with a specific prefix
+* `ends_with()`: returns columns that end with a specific suffix
+* `matches()`: returns columns that match a particular regex pattern
+* `contains()`: returns columns that contain a particular string
+
+```{r}
+# selecting columns starting with R
+movies <- select(mov, starts_with('R'))
+head(movies, 3)
+
+# selecting columns starting with R and D
+movies <- select(mov, starts_with(c('R', 'M')))
+head(movies)
+
+# selecting columns containing ea
+movies <- select(mov, contains('ea'))
+head(movies)
+
+# selecting columns ending with r
+movies <- select(mov, ends_with('r'))
+head(movies)
+
+# selecting columns ending with r and e
+movies <- select(mov, ends_with(c('k','r')))
+head(movies)
+```
+
+### Selecting a single column
+
+Selecting a single column with `select()` returns a one-column data frame. Often, a vector is wanted instead, to that end there is the function `pull()`.
+
+The function `pull()` is used to select a single column and return a vector.
+
+```{r}
+movies <- select(mov, c('Title', 'Year', 'Revenue', 'Metascore'))
+
+# using select returns a tibble
+head(select(movies, 'Title'), 3)
+class(select(movies, 'Title'))
+
+# using pull returns a vector whose type depends on the data type of the column
+head(pull(movies, var = 1))
+class(pull(movies, var = 1))
+```
+
+###  Filtering rows{#tr-filter-rows}
+
+The function `filter()` is used to filter rows.
+
+```{r}
+movies <- select(mov, -c(1, 3, 4, 6, 8, 10))
+
+# using the filter() function
+movies. <- filter(movies, Year == 2006)
+head(movies., 3)
+tail(movies., 3)
+
+# selecting movies released in 2006 with a rating above 8
+filter(movies, Year == 2006 & Rating >= 8)
+
+# without the & operator
+filter(movies, Year == 2006, Rating >= 8)
+
+# selecting rows with NA values on the Metascore column
+movies. <- filter(movies, is.na(Metascore))
+head(movies.)
+
+# selecting rows with NA values on the Revenue and Metascore column
+movies. <- filter(movies, is.na(Revenue), is.na(Metascore))
+head(movies.)
+
+# selecting rows with NA values on either the Revenue or Metascore column
+movies. <- filter(movies, is.na(Revenue) | is.na(Metascore))
+head(movies.)
+
+# selecting rows without NA values on the Metascore column 
+movies. <- filter(movies, !is.na(Metascore))
+head(movies.)
+
+# selecting rows without NA values on the Revenue and Metascore columns
+movies. <- filter(movies, !is.na(Revenue), !is.na(Metascore))
+head(movies.)
+nrow(movies.)
+
+# selecting rows without NA values on either the Revenue or Metascore columns
+movies. <- filter(movies, !is.na(Revenue) | !is.na(Metascore))
+head(movies.)
+
+nrow(movies.)
+
+# selecting films released in 2006 and 2008
+movies. <- filter(movies, Year %in% c(2006, 2008))
+head(movies.)
+
+# selecting films released by 'James Gunn' or 'James Marsh'
+movies. <- filter(movies, Director %in% c('James Gunn', 'James Marsh'))
+head(movies.)
+
+# selecting films released between 2006 and 2008
+movies. <- filter(movies, between(Year, 2006, 2008))
+head(movies., 3)
+tail(movies., 3)
+```
+
+#### Randomly selecting rows
+
+The function `sample_frac()` randomly samples rows and returns a fixed fraction of them.
+
+```{r}
+# sampling by a proportion
+sample_frac(movies, 0.005, replace = TRUE)
+```
+
+The function `sample_n()` randomly samples rows and returns a fixed number of them.
+
+```{r}
+# sampling by number
+sample_n(movies, 5, replace = TRUE)
+```
+
+### Slicing
+
+The function `slice()` is used to slice a data set.
+
+```{r}
+slice(movies, 200:205)
+```
+
+### Top values
+
+The function `top_n()` returns the top nth number of elements in a column.
+
+```{r}
+# top 5 movies by revenue
+top_n(movies, 5, Revenue)
+
+# if no column is specified, the last is used.
+top_n(movies, 5)
+```
+
+The function `top_frac()` returns the top nth elements in a column by proportion.
+
+```{r}
+# top 0.5% of movies by revenue
+top_frac(movies, 0.005, Revenue)
+
+# if no column is specified, the last is used.
+top_frac(movies, 0.005)
+```
+
+
+### Using select and filter
+
+```{r}
+select(filter(mov, Year == 2006, Rating >= 8), 2, 7, 9, 11, 12)
+filter(select(mov, 2, 7, 9, 11, 12), Year == 2006, Rating >= 8)
+```
+
+With such an operation, it is better to use the pipe operator.
+
+### Pipe operator
+
+The pipe operator (`%>%`) passes an object forward into a function. The shortcut `Ctrl + Shift + M` for PC and `Cmd + Shift + M` for Mac is used to insert this operator. Below, we pass the dataset mov into the function `filter()`, which after processing, passes its output to `select()`.
+
+```{r}
+# passing movies dataset into filter and then to select
+mov %>%
+  filter(Year == 2006 & Rating >= 8) %>%
+  select(2, 7, 9, 11, 12)
+
+mov %>%
+  select(2, 7, 9, 11, 12) %>%
+  filter(Year == 2006 & Rating >= 8)
+```
+
+Using `.` as a placeholder for the data set. The period will be replaced in the function by the data frame or tibble.
+
+```{r}
+mov %>%
+  filter(.$Year == 2006 & .$Rating >= 8) %>%
+  select(2, 7, 9, 11, 12)
+```
+
+## Manipulating Columns{#tr-changing}
+
+### Inserting a new column
+
+The function `mutate()` and transmutate are used to manipulate columns. They are used to:
+
+* insert new columns
+* duplicate columns
+* deriving new columns
+* update existing ones
+
+```{r}
+# adding a new column known as example
+select(mov, c('Title', 'Year', 'Revenue', 'Metascore')) %>%
+mutate(example = sample(1000)) %>%
+  head()
+
+# duplicating the Revenue column
+select(mov, c('Title', 'Year', 'Revenue', 'Metascore')) %>%
+mutate(Metascore.2 = Metascore) %>%
+  head()
+
+# deriving the new column Movie Class
+labels <- c('Very Low', 'Low', 'Moderate', 'High', 'Very High')
+
+select(mov, c('Title', 'Year', 'Rating', 'Revenue', 'Metascore')) %>%
+  mutate(`Movie Class` = cut(Rating, breaks = c(0, 5.5, 6.5, 7, 7.5, 10), 
+                           labels = labels)) %>%
+  head()
+
+# Updating the Director column to uppercase
+select(mov, c(Title, Director, Year, Rating, Revenue, Metascore)) %>%
+  mutate(Director = toupper(Director)) %>%
+  head()
+
+# using a customized function
+# defining a function
+fin_crisis <- function(x) {
+    if(x < 2008){
+        return('pre financial crisis')
+    }else if(x < 2010 ){
+        return('financial crisis')
+    }else{
+        return('post financial crisis')
+    }
+}
+
+select(mov, 2, 7, 11, 12) %>%
+  mutate('fin crisis Class' = sapply(Year, fin_crisis)) %>%
+  head()
+
+# deriving a new column from a calculation  
+select(mov, 2, 5, 7, 8, 11) %>%
+  mutate('Rev/Run' = round(Revenue/Runtime, 2)) %>%
+  head()
+```
+
+The function `case_when()` is a condensed form of if else statement or CASE THEN in SQL.
+
+```{r}
+# classifying movies by ratings
+select(mov, 2, 7, 9, 11, 12) %>%
+  mutate(category = case_when(Rating < 5.5 ~ 'Very Low', 
+                              Rating < 6.5 ~ 'Low', 
+                              Rating < 7 ~ 'Moderate', 
+                              Rating < 7.5 ~ 'High', 
+                              Rating <= 10 ~ 'Very High')) %>%
+  head()
+```
+
+The function `coalesce()` which is modelled after the COALESCE function in SQL returns the first non-missing element. Using it, we can replace NA values in a column. 
+
+```{r}
+# selecting some rows containing NA values
+select(mov, 2, 5, 7, 9, 11, 12) %>%
+  filter(is.na(Revenue)) %>%
+  slice(c(8, 23, 26, 40, 43, 48))
+
+# replacing NA values with a value
+select(mov, 2, 5, 7, 9, 11, 12) %>%
+  mutate(Revenue = coalesce(Revenue, 50)) %>%
+  slice(c(8, 23, 26, 40, 43, 48))
+
+# replacing NA values with a computed value (mean/median)
+select(mov, 2, 5, 7, 9, 11, 12) %>%
+  mutate(Revenue = coalesce(Revenue, round(median(Revenue, na.rm = T))), 
+         Metascore = coalesce(Metascore, round(mean(Metascore, na.rm = T)))) %>%
+  slice(c(8, 23, 26, 40, 43, 48))
+```
+
+The function `transmutate()` behaves like `mutate()` but drops other columns that are not selected.
+
+```{r}
+# transmutate drops unselected columns
+select(mov, c(Title, Director, Year, Rating, Revenue, Metascore)) %>%
+  transmute(Director = toupper(Director)) %>%
+  head()
+
+# transmutate keeps selected columns
+select(mov, c(Title, Director, Year, Runtime, Revenue, Metascore)) %>%
+  transmute(Director = toupper(Director), 
+            Year,
+            Revenue = round(Revenue/Runtime, 2)) %>%
+head()
+```
+
+
+##  Sorting and ranking
+
+### Sorting {#tr-sort}
+
+The function `arrange()` is used to sort data frames. It does an ascending sort but to do a descending sort, we use the function `desc()` or the negative sign.
+
+```{r}
+# sort increasing
+select(mov, c(Title, Year, Runtime, Revenue, Metascore)) %>%
+  arrange(Revenue) %>%
+  head(10)
+
+# sort decreasing using the negative sign
+select(mov, c(Title, Year, Runtime, Revenue, Metascore)) %>%
+  arrange(-Revenue) %>%
+  head(10)
+
+# sort decreasing using desc()
+select(mov, c(Title, Year, Runtime, Revenue, Metascore)) %>%
+  arrange(desc(Revenue)) %>%
+  head(10)
+
+
+# sorting on multiple columns
+select(mov, c(Title, Year, Runtime, Revenue, Metascore)) %>%
+  arrange(-Metascore, Revenue) %>%
+  head(10)
+```
+
+
+### Ranking
+
+The functions `row_number()`, `ntile()`, `min_rank()`, `dense_rank()`, `percent_rank()` and `cume_dist()` are used for ranking.
+
+```{r}
+# ranking by revenue ascending
+select(mov, Title, Year, Revenue, Metascore) %>%
+  mutate(rank_by_revenue = dense_rank(Revenue)) %>%
+  head()
+
+# ranking by revenue decreasing using desc()
+select(mov, Title, Year, Revenue, Metascore) %>%
+  mutate(rank_by_revenue = dense_rank(desc(Revenue))) %>%
+  head()
+
+# ranking by revenue decreasing using negative sign
+select(mov, Title, Year, Revenue, Metascore) %>%
+  mutate(rank_by_revenue = dense_rank(-Revenue)) %>%
+  head()
+
+# rank and arrange
+select(mov, Title, Year, Revenue, Metascore) %>%
+  mutate(rank_by_revenue = dense_rank(desc(Revenue))) %>%
+  arrange(desc(Revenue)) %>%
+  head()
+
+# adding row numbers
+select(mov, Title, Year, Revenue, Metascore) %>%
+  arrange(Year, Revenue) %>%
+  mutate(`row number` = row_number()) %>%
+  head()
+
+# dividing data into evenly sized buckets
+movies <-
+select(mov, Title, Year, Revenue, Metascore) %>%
+  arrange(Year) %>%
+  mutate(buckets = ntile(Revenue, 5))
+head(movies)
+
+table(movies$buckets)
+
+# calculating mean by buckets
+tapply(movies$Metascore, movies$buckets, function(x)round(mean(x, na.rm = T), 1))
+```
+
+##  Splitting and Merging columns
+
+### Splitting columns
+
+The function `separate()` from the package tidyr is used to split columns.
+
+```{r}
+# reading data
+busiestAirports <- read.table(file = "data/busiestAirports.csv", 
+                              header = T, 
+                              sep=",", 
+                              dec = ".", 
+                              quote = "\"")
+
+busiestAirports <- select(busiestAirports, c('iata_icao' = 5, 'location', 'country'))
+head(busiestAirports)
+
+# splitting the column iata_icao into iata and icao
+busiest_Airports <- 
+  tidyr::separate(busiestAirports, col = 'iata_icao', into = c('iata', 'icao'), sep = '/')
+head(busiest_Airports)
+```
+
+Also, we can make use of mutate() and substring() from base R or str_sub() from stringr to split by position.
+
+```{r}
+# using substring
+busiestAirports %>%
+  mutate(iata = substring(iata_icao, 1, 3), icao = substring(iata_icao, 5, 7)) %>%
+  select(-1) %>%
+  head()
+
+# using str_sub
+busiestAirports %>%
+  mutate(iata = stringr::str_sub(iata_icao, 1, 3), icao = stringr::str_sub(iata_icao, 5, 7)) %>%
+  select(-1) %>%
+  head()
+```
+
+### Merging columns
+
+The function `unite()` from the package tidyr is used to merge columns.
+
+```{r}
+# reading data
+busiestAirports <- read.table(file = "data/busiestAirports.csv", 
+                              header = T, 
+                              sep=",", 
+                              dec = ".", 
+                              quote = "\"")
+busiestAirports <- select(busiestAirports, c('iata_icao' = 5, 'location', 'country'))
+head(busiestAirports)
+
+# merging the columns iata, icao into iata_icao
+busiestAirports <- 
+  tidyr::unite(busiestAirports, location, country, col = `location country`, sep = ', ')
+head(busiestAirports)
+```
+
+### Rearranging columns
+
+The function `relocate()` is used to rearrange columns. It was added with dplr 1.0.0.
+
+```{r}
+# rearranging columns
+select(mov, c(Title, Year, Runtime, Revenue, Metascore)) %>%
+  relocate(Revenue, Metascore) %>%
+  head(3)
+
+# placing year after metascore
+select(mov, c(Title, Year, Runtime, Revenue, Metascore)) %>%
+  relocate(Year, .after = Metascore) %>%
+  head(3)
+
+# placing year before title
+select(mov, c(Title, Year, Runtime, Revenue, Metascore)) %>%
+  relocate(Year, .before = Title) %>%
+  head(3)
+
+# placing year at the end
+select(mov, c(Title, Year, Runtime, Revenue, Metascore)) %>%
+  relocate(Year, .after = last_col()) %>%
+  head(3)
+
+# numeric columns last
+select(mov, c(Title, Year, Runtime, Revenue, Metascore)) %>%
+  relocate(where(is.numeric), .after = where(is.character)) %>%
+  head(3)
+
+# numeric columns first
+select(mov, c(Title, Year, Runtime, Revenue, Metascore)) %>%
+  relocate(where(is.numeric), .before = where(is.character)) %>%
+  head(3)
+
+# selecting character columns only
+select(mov, c(Title, Year, Runtime, Revenue, Metascore)) %>%
+  relocate(where(is.character)) %>%
+  head(3)
+```
+
+### Deleting columns of data
+
+There is no special function to delete columns but the function `select()` can be used to select or drop columns.
+
+## Manipulating Rows
+
+### Inserting rows
+
+The function `add_row()` is used to add row(s) to data frames. It adds:
+
+* single row with add_row(dt, column_name = value)
+* multiple rows with add_row(dt, column_name = values)
+
+```{r}
+# adding a single row of data
+select(mov, c(2, 5, 7, 9, 11, 12)) %>%
+add_row(Title = "the big g", 
+        Director = "goro lovic", 
+        Year = 2015, 
+        Rating = 9.9, 
+        Revenue = 1000, 
+        Metascore = 100) %>%
+tail()
+
+# adding multiple rows of data
+select(mov, c(2, 5, 7, 9, 11, 12)) %>%
+  add_row(Title= c("the big g", "everyday", "true colors"), 
+          Director = c("goro lovic", "fk", "tupac"), 
+          Year = c(2015, 2016, 2014), 
+          Rating = c(9.9, 6.6, 8), 
+          Revenue = c(1000, 250, 350), 
+          Metascore = c(100, 60, 40)) %>%
+  tail()
+```
+
+Rows can also be added using the function `bind_rows()` which is an efficient implementation of `do.call(rbind, dfs)` in base R.
+
+```{r}
+# adding a single row
+select(mov, 2, 5, 7, 9, 11, 12) %>%
+  bind_rows(list(Title = "the big g", 
+                 Director = "goro lovic", 
+                 Year = 2015, 
+                 Rating = 9.9, 
+                 Revenue = 1000, 
+                 Metascore = 100)) %>%
+tail(3)
+
+# adding multiple rows
+select(mov, 2, 5, 7, 9, 11, 12) %>%
+  bind_rows(list(Rank= c(1, 3, 5),
+                 Title= c("the big g", "everyday", "true colors"), 
+                 Director = c("goro lovic", "fk", "tupac"), 
+                 Year = c(2015, 2016, 2014), 
+                 Rating = c(9.9, 6.6, 8), 
+                 Revenue = c(1000, 250, 350), 
+                 Metascore = c(100, 60, 40))) %>%
+tail()
+```
+
+The function `rows_insert()` which is modelled after the SQL INSERT clause is also used to insert rows. It requires a column with unique value to uniquely identify each row. This function works on two tibbles, therefore the rows to be inserted must be converted to a tibble using the function `tibble()` before use.
+It should be noted that this function was added in version 1.0.0 of the package, therefore you should do well to update your package to make use of it.
+The function `rows_insert()` requires the argument by which identifies the unique row.
+
+```{r}
+# creating a tibble
+tb <- 
+  tibble(Rank = 1001, 
+         Title = "the big g", 
+         Director = "goro lovic", 
+         Year = 2015, 
+         Rating = 9.9, 
+         Revenue = 1000, 
+         Metascore = 100)
+		 
+# inserting a single value
+select(mov, 1, 2, 5, 7, 9, 11, 12) %>%
+  rows_insert(tb, by = "Rank") %>%
+  tail()
+
+# inserting multiple values
+tb <- 
+  tibble(Rank= 1001:1003,
+         Title= c("the big g", "everyday", "true colors"), 
+         Director = c("goro lovic", "fk", "tupac"), 
+         Year = c(2015, 2016, 2014), 
+         Rating = c(9.9, 6.6, 8), 
+         Revenue = c(1000, 250, 350), 
+         Metascore = c(100, 60, 40))
+
+select(mov, 1, 2, 5, 7, 9, 11, 12) %>%
+  rows_insert(tb, by = "Rank") %>%
+  tail()
+```
+
+### Updating rows of data
+
+The function `rows_update()` and `rows_upsert()` which are modelled after the SQL UPDATE and UPSERT clauses are used to update row values. While the former updates row values, the later updates existing rows and inserts new ones, if not present. They both required a column with unique value to uniquely identify each row. As with `rows_insert()`, these functions work on two tibbles, therefore the rows to be inserted must be converted to a tibble using the function `tibble()` before use.
+
+```{r}
+# updating a single row
+tb <- 
+  tibble(Rank = 5, 
+         Title = "the big g", 
+         Director = "goro lovic", 
+         Year = 2015, 
+         Rating = 9.9, 
+         Revenue = 1000, 
+         Metascore = 100)
+
+select(mov, 1, 2, 5, 7, 9, 11, 12) %>%
+  rows_update(tb, by = "Rank") %>%
+  head()
+  
+# updating multiple rows
+tb <- 
+  tibble(Rank= c(1, 3, 5),
+         Title= c("the big g", "everyday", "true colors"), 
+         Director = c("goro lovic", "fk", "tupac"), 
+         Year = c(2015, 2016, 2014), 
+         Rating = c(9.9, 6.6, 8), 
+         Revenue = c(1000, 250, 350), 
+         Metascore = c(100, 60, 40))
+
+select(mov, 1, 2, 5, 7, 9, 11, 12) %>%
+  rows_update(tb, by = "Rank") %>%
+  head()
+
+# update existing rows and insert new ones
+tb <- 
+  tibble(Rank= c(2,3, 1001),
+         Title= c("the big g", "everyday", "true colors"), 
+         Director = c("goro lovic", "fk", "tupac"), 
+         Year = c(2015, 2016, 2014), 
+         Rating = c(9.9, 6.6, 8), 
+         Revenue = c(1000, 250, 350), 
+         Metascore = c(100, 60, 40))
+
+select(mov, 1, 2, 5, 7, 9, 11, 12) %>%
+  rows_upsert(tb, by = "Rank") %>%
+  slice(c(1:5, 1001))
+```
+
+
+### Updating a single value
+
+To update a single value, we make use of mutate() with either ifelse() from base R or if_else() from dplyr or replace() from base R. The function if_else() is an implementation of ifelse() in dplyr.
+
+```{r}
+mov %>%
+  select(1, 2, 5, 7, 9, 11, 12) %>%
+  filter(Director == 'Christopher Nolan')
+
+# replacing a value using ifelse()
+mov %>%
+  select(1, 2, 5, 7, 9, 11, 12) %>%
+  mutate(Director = ifelse(Director == 'Christopher Nolan', 'C. Nolan', Director)) %>%
+  slice(c(37, 55, 65, 81, 125))
+
+# increasing revenues for movies produced by Christopher Nolan by 20%
+mov %>%
+  select(1, 2, 5, 7, 9, 11, 12) %>%
+  mutate(Revenue = ifelse(Director == 'Christopher Nolan', Revenue * 1.2, Revenue)) %>%
+  slice(c(37, 55, 65, 81, 125))
+
+# replacing a value using if_else()
+mov %>%
+  select(1, 2, 5, 7, 9, 11, 12) %>%
+  mutate(Director = if_else(Director == 'Christopher Nolan', 'C. Nolan', Director)) %>%
+  slice(c(37, 55, 65, 81, 125))
+
+# replacing a value using replace()
+select(mov, 2, 5, 7, 9, 11, 12) %>%
+  mutate(Director = replace(Director, Director == 'Christopher Nolan', 'C. Nolan')) %>%
+  slice(c(37, 55, 65, 81, 125))
+
+# increasing revenues for movies produced by Christopher Nolan by 20%
+select(mov, 2, 5, 7, 9, 11, 12) %>%
+  mutate(Revenue = replace(Director, Director == 'Christopher Nolan', 
+                           Revenue[Director == 'Christopher Nolan'] * 1.2)) %>%
+  slice(c(37, 55, 65, 81, 125))
+```
+
+### Deleting rows of data
+
+There is no special function to delete rows but the functions `filter()` and `slice()` can be used to keep or drop rows.
+
+#### Unique rows
+
+The function `distinct()` removes duplicate rows.
+
+```{r}
+# selecting unique values
+select(mov, 2, 5, 7, 9, 11, 12) %>%
+distinct(Year) %>%
+pull()
+
+# selecting unique rows
+select(mov, 2, 5, 7, 9, 11, 12) %>%
+distinct(Year, Director) %>%
+nrow()
+```
+
+## Combine data: concatenate, join and merge{#tr-joins}
+
+### Concatenating tibbles
+
+Combining datasets using `bind_rows()`
+
+The function `bind_rows()` acts like `rbind()` in Base R.
+
+```{r}
+top_5 <- tibble(country = c('China', 'India', 'United States', 'Indonesia', 'Brazil'),
+                continent = c('Asia', 'Asia', 'Americas', 'Asia', 'Americas'),
+                population = c(1318683096, 1110396331, 301139947, 223547000, 190010647),
+                lifeExpectancy = c(72.961, 64.698, 78.242, 70.65, 72.39))
+top_5
+
+top_5_10 <- tibble(country = c('Pakistan', 'Bangladesh', 'Nigeria', 'Japan', 'Mexico'),
+                   continent = c('Asia', 'Asia', 'Africa', 'Asia', 'Americas'),
+                   population = c(169270617, 150448339, 135031164, 127467972, 108700891),
+                   lifeExpectancy = c(65.483, 64.062, 46.859, 82.603, 76.195))
+top_5_10
+
+# binding data frames
+bind_rows(top_5, top_5_10)
+```
+
+### Combining datasets using `bind_cols()`
+
+The function `bind_cols()` acts like `cbind()` in Base R.
+
+```{r}
+country <- 
+tibble(country = c('China', 'India', 'United States', 'Indonesia', 'Brazil'),
+       continent = c('Asia', 'Asia', 'Americas', 'Asia', 'Americas'))
+country
+
+variables <- 
+tibble(country = c('China', 'India', 'United States', 'Indonesia', 'Brazil'),
+       population = c(1318683096, 1110396331, 301139947, 223547000, 190010647),
+       lifeExpectancy = c(72.961, 64.698, 78.242, 70.65, 72.39),
+       perCapita = c(4959, 2452, 42952, 3541, 9066))
+variables
+
+# binding data frames
+bind_cols(country, variables[-1])
+```
+
+
+### Joining data frames using Set Operations
+
+```{r}
+group_one <- 
+tibble(country = c('Ethiopia', 'Congo, Dem. Rep.', 'Egypt', 'United States', 
+                   'Mexico', 'India', 'Pakistan', 'Thailand', 'Japan'),
+       population = c(76511887, 64606759, 80264543, 301139947, 108700891, 
+                      1110396331, 169270617, 65068149, 127467972))
+group_one
+group_two <-
+tibble(country = c('Ethiopia', 'Vietnam', 'Bangladesh', 'Thailand', 'India'),           
+       population = c(76511887, 85262356, 150448339, 65068149, 111039633))
+group_two
+```
+
+
+#### Intersection
+
+The function `intersect()` keeps rows that appear in both datasets.
+
+```{r}
+intersect(group_one, group_two)
+```
+
+### Union
+
+The function `union()` keeps rows that appear in either of the datasets.
+
+`union(group_one, group_two)`
+
+### Differences
+
+The function `setdiff()` keeps rows that appear in the first dataset but not in the second.
+
+```{r}
+setdiff(group_one, group_two)
+```
+
+
+####  SQL like joins
+
+```{r}
+# preparing data
+employees <- tibble(
+    name = c('john', 'mary', 'david', 'paul', 'susan', 'cynthia', 'Joss', 'dennis'),
+    age = c(45, 55, 35, 58, 40, 30, 39, 25),
+    gender = c('m', 'f', 'm', 'm', 'f', 'f', 'm', 'm'),
+    salary =c(40000, 50000, 35000, 25000, 48000, 32000, 20000, 45000),
+    department = c('commercial', 'production', NA, 'human resources', 
+                   'commercial', 'commercial', 'production', NA))
+employees
+
+departments <- tibble(
+    department = c('commercial', 'human resources', 'production', 'finance', 'maintenance'),
+    location = c('washington', 'london', 'paris', 'dubai', 'dublin'))
+departments
+```
+
+### Left join
+
+The left join returns all records from the left dataset and the matched records from the right dataset. The result is NULL from the right side if there is no match.
+
+```{r}
+left_join(employees, departments)
+```
+
+### Right join
+
+The right join returns all records from the right dataset, and the matched records from the left dataset. The result is NULL from the left side when there is no match.
+
+```{r}
+right_join(employees, departments)
+
+# reversing tables produces the same results as a left join
+right_join(departments, employees)
+```
+
+### Inner join
+
+The inner join selects records that have matching values in both datasets
+
+```{r}
+inner_join(employees, departments)
+```
+
+### Full join
+
+The full join returns all records between the left and right dataset
+
+```{r}
+full_join(employees, departments)
+```
+
+### Anti join
+
+The anti join returns all records found on the left dataset but absent in the right one
+
+```{r}
+anti_join(employees, departments)
+```
+
+
+Tibbles with different column names
+
+```{r}
+# recreating employee table with different column names
+employees <- tibble(
+    name = c('john', 'mary', 'david', 'paul', 'susan', 'cynthia', 'Joss', 'dennis'),
+    age = c(45, 55, 35, 58, 40, 30, 39, 25),
+    gender = c('m', 'f', 'm', 'm', 'f', 'f', 'm', 'm'),
+    salary =c(40000, 50000, 35000, 25000, 48000, 32000, 20000, 45000),
+    dep_name = c('commercial', 'production', NA, 'human resources', 
+                 'commercial', 'commercial', 'production', NA))
+employees
+
+left_join(employees, departments, by = c('dep_name' = 'department'))
+```
+
+Joining on more than one joining column
+
+```{r}
+# adding a subdepartment
+employees <- tibble(
+    name = c('john', 'mary', 'david', 'paul', 'susan', 'cynthia', 'Joss', 'dennis'),
+    age = c(45, 55, 35, 58, 40, 30, 39, 25),
+    gender = c('m', 'f', 'm', 'm', 'f', 'f', 'm', 'm'),
+    salary =c(40000, 50000, 35000, 25000, 48000, 32000, 20000, 45000),
+    department = c('commercial', 'production', NA, 'human resources', 'commercial', 
+                   'commercial', 'production', NA),
+    subdepartment = c('marketing', 'production', NA, 'human resources', 'sales', 
+                      'sales', 'production', NA))
+employees
+
+departments <- tibble(
+    department = c('commercial', 'commercial', 'human resources', 'production', 
+                   'finance', 'finance', 'maintenance'),
+    subdepartment = c('marketing', 'sales', 'human resources', 'production', 'finance', 
+                      'accounting', 'maintenance'),
+    location = c('washington', 'washington', 'london', 'paris', 'dubai', 'dubai', 'dublin'))
+departments
+
+# since columns have the same names, joining is done automatically
+left_join(employees, departments)
+
+
+# declaring column names explicitly
+left_join(employees, departments, by = c("department", "subdepartment"))
+
+# with different names
+employees <- tibble(
+    name = c('john', 'mary', 'david', 'paul', 'susan', 'cynthia', 'Joss', 'dennis'),
+    age = c(45, 55, 35, 58, 40, 30, 39, 25),
+    gender = c('m', 'f', 'm', 'm', 'f', 'f', 'm', 'm'),
+    salary =c(40000, 50000, 35000, 25000, 48000, 32000, 20000, 45000),
+    dep = c('commercial', 'production', NA, 'human resources', 'commercial', 
+            'commercial', 'production', NA),
+    sub = c('marketing', 'production', NA, 'human resources', 'sales', 
+            'sales', 'production', NA))
+employees
+
+left_join(employees, departments, by = c('dep' = 'department', 'sub' = 'subdepartment'))
+```
+
+## Aggregating and grouping data{#tr-summary}
+
+### Aggregating
+
+The function `summarise()` aggregates data using various summarization functions from both Base R and dplyr itself. In addition to the summarization functions like `mean()`, `median()`, `sum()`, etc. Which come with base R, dplyr comes with the following:
+
+
+* `n()` for counts of rows,
+* `n_distinct()` for counts of unique elements
+* `first()` for first value
+* `last()` for last value
+* `nth()` for nth value
+
+```{r}
+data(gapminder)
+
+# performing aggregations
+gapminder %>%
+  filter(year == 2007) %>%
+  summarize(`total pop` = sum(pop, na.rm = T), 
+            `mean pop` = mean(pop, na.rm = T), 
+            `median pop` = median(pop, na.rm = T), 
+            `country count` = n())
+```
+
+The function `summarise_at()` affects variables selected with a character vector or `vars()`.
+
+```{r}
+# using multiple summarization function
+gapminder %>%
+  filter(year == 2007) %>%
+  summarise_at(vars(lifeExp), list(mean = mean, median = median, count = ~n()))
+
+gapminder %>%
+  filter(year == 2007) %>%
+  summarise_at(vars(lifeExp), list(~ mean(.), ~ median(.), ~ n()))
+
+# multiple columns with vars
+gapminder %>%
+  filter(year == 2007) %>%
+  summarise_at(vars(lifeExp, gdpPercap), list(mean = mean, median = median))
+
+# multiple columns with vectors
+gapminder %>%
+  filter(year == 2007) %>%
+  summarise_at(c('lifeExp', 'gdpPercap'), list(mean = mean, median = median))
+
+# using a custom function
+gapminder %>%
+  filter(year == 2007) %>%
+  summarise_at(vars(lifeExp, gdpPercap), list(mean = function(x)round(mean(x), 1), 
+                                              median = function(x)round(median(x), 1)))  
+```
+
+### Grouping data
+
+The function `group_by()` is used to group data while the function `ungroup()` is used to ungroup data after applying grouping. It is always a good idea to ungroup data after working with groupings as functions in dplyr will behave differently with grouped data.
+
+```{r}
+# grouping by single column (continent)
+gapminder %>%
+  filter(year == 2007) %>%
+  group_by(continent) %>%
+  summarize(`total pop` = sum(pop, na.rm = T), 
+            `mean pop` = mean(pop, na.rm = T), 
+            `median pop` = median(pop, na.rm = T), 
+            `country count` = n()) %>%
+  ungroup()
+
+# grouping by two categorical columns (continent and year)
+gapminder %>%
+  filter(year %in% c(1987, 2007)) %>%
+  group_by(continent, year) %>%
+  summarize(`total pop` = sum(pop, na.rm = T), 
+            `mean pop` = mean(pop, na.rm = T), 
+            `median pop` = median(pop, na.rm = T), 
+            `country count` = n()) %>%
+  ungroup()
+
+# sorting by group
+gap_data <-
+gapminder %>%
+  group_by(year) %>%
+  arrange(pop, .by_group = TRUE) %>%
+  ungroup()
+head(gap_data)
+
+tail(gap_data)
+
+# ranking by group
+select(mov, Title, Year, Revenue, Metascore) %>%
+  arrange(Year, Revenue) %>%
+  group_by(Year) %>%
+  mutate(rank_by_revenue = rank(Revenue, ties.method = "first")) %>%
+  ungroup() %>%
+  slice(43:47)
+
+## NB: Notice as ranking restarts once as 2007 is reached.
+```
+
+### Splitting data frame by groups
+
+The `group_split()` is like `base::split()` in that it splits a data frame.
+
+```{r}
+movies_year <- 
+select(mov, Title, Year, Revenue, Metascore) %>%
+  group_split(Year)
+length(movies_year)
+movies_year[1]
+```
+
+## Pivoting and unpivoting data with tidyr{#tr-reshape}
+
+### Pivoting
+
+The function `pivot_wider()` pivots data that is converting it from long to wide. It expects the following:
+
+* names_from: rows to move to columns
+* values_from: values to be placed between the intersection of rows and columns (cell values)
+
+```{r}
+library(tidyr)
+
+# preparing data
+dt <-
+gapminder %>%
+  filter(year %in% c(1987, 1997, 2007)) %>%
+  group_by(continent, year) %>%
+  summarize(total_pop = sum(pop, na.rm = T)) %>%
+  ungroup()
+dt
+
+# pivoting data
+dt %>%
+  pivot_wider(names_from = year, values_from = total_pop, names_prefix = 'Y')
+```
+
+
+### Unpivoting
+
+The function `pivot_longer()` unpivots data, that is converting it from wide to long. It expects:
+
+* cols: columns to move to row
+* names_to: name of the new column for moved columns
+* values_to: name of the new column for moved cell values
+
+```{r}
+# preparing data 
+dt_wide <-
+dt %>%
+  pivot_wider(names_from = year, values_from = total_pop, names_prefix = 'Y')
+dt_wide
+
+# unpivoting data
+dt_wide %>%
+  pivot_longer(cols = c(Y1987, Y1997, Y2007)) %>%
+  head()
+
+# replacing name and value
+dt_wide %>%
+  pivot_longer(cols = c(Y1987, Y1997, Y2007), names_to = 'year', values_to = 'population') %>%
+  head()
+```
+
+## Dealing with duplicate values with dplyr
+
+The function `distinct()` is used to extract unique values while `n_distinct()` returns the count of unique values.
+
+```{r}
+library(readr)
+library(dplyr)
+
+# reading data
+movies <- read.table(file = "data/IMDB-Movie-Data.csv", header = T, sep = ",", dec = ".", fileEncoding = "UTF-8", quote = "\"",
+                  comment.char = "")
+
+
+# preparing data
+movies %>%
+select(7, 12) %>%
+filter(Year == 2006) %>%
+arrange(Metascore) %>%
+head()
+
+# extracting unique values
+movies %>%
+select(7, 12) %>%
+filter(Year == 2006) %>%
+arrange(Metascore) %>%
+distinct() %>%
+head()
+
+# count of unique values
+movies %>%
+select(7, 12) %>%
+filter(Year == 2006) %>%
+arrange(Year, Metascore) %>%
+n_distinct()
+
+# extracting unique values by column
+movies %>%
+arrange(Year, Metascore) %>%
+distinct(Year)
+
+# keeping other columns
+movies %>%
+select(7, 12) %>%
+arrange(Year, Metascore) %>%
+distinct(Year, .keep_all= TRUE)
+```
+
+## Dealing with NA values with tidyr
+
+### Replacing missing values by LOCF
+
+The function `fill()` performs NA replacement both by LOCF and NOCB.
+
+```{r}
+library(tidyr)
+
+
+# reading data
+movies <- read.table(file = "data/IMDB-Movie-Data.csv", header = T, sep = ",", dec = ".", fileEncoding = "UTF-8", quote = "\"",
+                  comment.char = "")
+
+
+names(movies)[c(2,7,11,12)] <- c('Title', 'Year', 'RevenueMillions', 'Metascore')
+
+# replacing NA values to values that precede it
+movies %>%
+dplyr::arrange(Year) %>%
+fill(RevenueMillions, .direction = "down") %>%
+tail(10)
+```
+
+###  Replacing missing values by NOCB
+
+```{r}
+# replacing NA values with proceeding values
+fill(movies, RevenueMillions, .direction = "up") %>%
+head(10)
+
+# on more than one column
+fill(movies, c(RevenueMillions, Metascore), .direction = "up") %>%
+head(10)
+
+fill(movies, RevenueMillions:Metascore, .direction = "up") %>%
+head()
+```
+
+### Replacing NA values by a constant
+
+The function `replace_na()` replaces NA values with a constant value. It requires a named list of column names and values to replace NA values with. Pass in empty strings for the columns not to be affected.
+
+```{r}
+# creating a named list of column values
+lst <- list('','', 200, 50)
+names(lst) <- names(movies)[1:3]
+lst
+
+# replacing NA values with the named list
+replace_na(movies, lst) %>%
+head(10)
+
+# creating named list of computed values
+lst <- list('',
+            '', 
+            round(median(movies$RevenueMillions, na.rm = T), 2), 
+            round(mean(movies$Metascore, na.rm = T)))
+names(lst) <- names(movies)[1:4]
+lst
+
+# replacing NA values
+replace_na(movies, lst) %>%
+head(10)
+```
+
+### Replacing NA values by groups
+
+```{r}
+# splitting data frame
+movies_split <- base::split(movies, movies$Year)
+
+# replacing NA values
+lapply(movies_split, function(x) {
+    lst <- list('',
+                '', 
+                round(median(x[x$RevenueMillions, 'RevenueMillions'], na.rm = T),2), 
+                round(mean(x[x$Metascore, 'Metascore'], na.rm = T)))
+    names(lst) <- names(movies)[1:4]
+    x <- replace_na(x, lst)
+    return(x)
+}) %>%
+dplyr::bind_rows() %>%
+tail(10)
+```
+
+### Dropping NA values
+
+The function `drop_na()` drops all rows containing NA values.
+
+```{r}
+drop_na(movies) %>%
+head(10)
+
+drop_na(movies) %>%
+nrow()
+```
+
+
+## Outliers
+
+### What is an outlier?
+
+Outliers also known as anomalies are values that deviate extremely from other values within the same group of data. They occur because of errors committed while collecting or recording data, performing calculations or are just data points with extreme values.
+
+### Identifying outlier
+
+#### Using summary statistics
+
+The first step in outlier detection is to look at summary statistics, most especially the minimum, maximum, median, and mean. For example, with a dataset of people’s ages, if the maximum is 200 or the minimum is negative, then there is a problem.
+
+```{r}
+library(gapminder)
+data(gapminder)
+gapminder_2007 <- subset(gapminder, year == '2007', select = -year)
+head(gapminder_2007)
+
+summary(gapminder_2007$pop/1e6)
+```
+
+From the above, we see that the median and mean are 10 million and 44 million respectively while the maximum value is 1.3 billion. This tells us that there are some outliers since the maximum value varies greatly from the centre of the data.
+
+### Using plots
+
+Outliers are identified using univariate plots such as histogram, density plot and boxplot.
+
+```{r}
+# plotting variable using histogram
+hist(gapminder_2007$gdpPercap, breaks = 18)
+
+
+# density plot
+plot(density(gapminder_2007$gdpPercap))
+
+
+# boxplot of population
+boxplot(gapminder_2007$gdpPercap)
+```
+
+Of the above data visualizations, the boxplot is the most relevant as it shows both the spread of data and outliers. The boxplot reveals the following:
+
+* minimum value,
+* first quantile (Q1),
+* median (second quantile),
+* third quantile (Q3),
+* maximum value excluding outliers and
+* outliers.
+
+The difference between Q3 and Q1 is known as the Interquartile Range (IQR).
+
+The outliers within the box plot are calculated as any value that falls beyond 1.5 * IQR.
+
+The function `boxplot.stats()` computes the data that is used to draw the box plot. Using this function, we can get our outliers.
+
+```{r}
+boxplot.stats(gapminder_2007$gdpPercap)
+```
+
+The first element returned is the summary statistic as was calculated with `summary()`.
+
+```{r}
+boxplot.stats(gapminder_2007$gdpPercap)$stats
+summary(gapminder_2007$gdpPercap)
+```
+
+The last element returned are the outliers.
+
+```{r}
+boxplot.stats(gapminder_2007$gdpPercap)$out
+```
+
+Recall outliers are calculated as 1.5 * IQR, this can be changed using the argument coef. By default, it is set to 1.5 but can be changed as need be.
+
+```{r}
+# changing coef
+boxplot.stats(gapminder_2007$gdpPercap, coef = 0.8)$out
+boxplot.stats(gapminder_2007$gdpPercap, coef = 1)$out
+boxplot.stats(gapminder_2007$gdpPercap, coef = 1.2)$out
+
+# selecting outliers
+subset(gapminder_2007, gdpPercap >= min(boxplot.stats(gdpPercap)$out))
+```
+
+### Outliers by groups
+
+```{r}
+# boxplot by continent
+boxplot(gdpPercap ~ continent, gapminder_2007)
+
+
+# splitting data frame
+gap_split <- split(gapminder_2007, gapminder_2007$continent)
+
+outliers_2007 <- 
+lapply(gap_split, function(x) {
+    x <- boxplot.stats(x$gdpPercap)$out
+    return(x)
+})
+outliers_2007
+```
+
+
+## String manipulation with stringr{#tr-string}
+
+###  Determine string length
+
+The function `str_length()` returns the count of letters in a string.
+
+```{r}
+library(stringr)
+month.name
+str_length(month.name)
+```
+
+### Strings formatting (case conversion)
+
+The functions `str_to_upper()`, `str_to_lower()`, `str_to_title()` and `str_to_sentence()` are used to convert to upper, lower, title and sentence cases respectively.
+
+
+The function `str_pad()` is used to pad characters before and/or after a string.
+The function `str_trunc()` is used to truncate a string.
+
+```{r}
+# lowercase
+str_to_lower('It is an everyday thing', locale = "en")
+
+# uppercase
+str_to_upper('It is an everyday thing', locale = "en")
+
+# title case
+str_to_title('It is an everyday thing', locale = "en")
+
+# sentence case
+str_to_sentence('iT is aN everyDay thIng', locale = "en")
+
+# padding string
+str_pad(c(12, 235, 'abd', 'ame'), width = 5, pad = '0')
+str_pad(c(12, 235, 'abd', 'ame'), width = 5, pad = 'X', side = 'right')
+str_pad(c(12, 235, 'abd', 'ame'), width = 5, pad = '-', side = 'both')
+
+# truncate a character string
+str_trunc(state.name[1:8], width = 6)
+str_trunc(state.name[1:8], 6, side  = 'left')
+str_trunc(state.name[1:8], 6, side  = 'right', ellipsis = '')
+```
+
+### Join and Split strings
+
+#### joining strings with str_c()
+
+The function `str_c()` joins two or more vectors element wise into a single character vector, optionally inserting separator (sep) between input vectors.
+
+```{r}
+# combining elements into a character vector
+str_c('a', 'b')
+str_c(1, 2, 3, 4)
+
+# using sep
+str_c('a', 'b', sep = ' ')
+str_c(1, 2, 3, 4, sep = ' ')
+str_c(1:10, sep = ' ')
+
+# on a single vector
+str_c(c('a', 'b'), sep = ' <> ')
+str_c(c(1, 2), sep = ' <> ')
+
+# two or more vectors
+str_c(c('a', 'b'), c('c', 'd'), sep = ' <> ')
+str_c(1:5, 10:20, sep = ' ')
+str_c(1:5, 10:20, c('a','b','c'), sep = ' ')
+# collapsing vectors
+str_c(1:10, collapse = '~')
+str_c(c('a', 'b'), c('c', 'd'), collapse = ' <> ')
+str_c(month.name[1:6], collapse = " - ")
+
+a <- month.name[1]
+b <- month.name[2]
+c <- month.name[3]
+
+# combining character and variables
+str_c(b,'comes after', a ,'but comes before', c, sep = " ")
+str_c(b,'comes after', a ,'but comes before', c, sep = "/")
+str_c('version 1.', 1:5, sep = '')
+```
+
+### Joining using str_glue()
+
+The function `str_glue()` returns a character vector containing a formatted combination of text and variable values.
+
+**formatting with integers**
+
+```{r}
+x <- 2
+str_glue('{x} * {x} = {x ** 2}')
+
+x <- c(1:4)
+str_glue('{x} squared is equal to {x ** 2}')
+
+num <- c(123, 1, 100, 200, 10200, 25000)
+str_glue('my registration number is {str_pad(num, 5, pad = "0")}')
+```
+
+**Formatting with strings**
+
+```{r}
+x <- 'my name is'
+y <- 'james'
+z <- 'london'
+str_glue('{x} {y} and i live and work in {z}')
+
+
+x <- 'my name is'
+y <- 'james'
+z <- 35
+str_glue('{str_to_title(x)} {str_to_upper(y)} and i am {z} years')
+
+names <- c('paul', 'alphonse', 'michael', 'james', 'samson', 'terence', 'derin')
+age <- c(30, 35, 32, 37, 29, 40, 30)
+str_glue('i am {str_to_title(names)} and i am {age} years old')
+```
+
+**Formatting with doubles or floating points**
+
+```{r}
+x <- 1000/6
+x
+str_glue('1000 divided by 3 is {x}')
+str_glue('1000 divided by 3 is {round(x, 3)}')
+str_glue('1000 divided by 3 is {round(x)}')
+str_glue('1000 divided by 3 is {paste0("+", round(x))}')
+str_glue('1000 divided by 3 is{paste0(" ", round(x))}')
+```
+
+### Splitting strings using str_split() and str_split_fixed()
+
+The function `str_split()` splits the elements of a character vector into substrings by a specific pattern.
+The function `str_split_fixed()` splits up the elements of a character into a fixed number of pieces.
+
+
+```{r}
+str(str_split(c('2020-01-01', '2019-03-31', '2018-06-30'), pattern = "-"))
+str(str_split(c('2020 01 01', '2019 03 31', '2018 06 30'), pattern = " "))
+
+# splitting into two substrings
+str(str_split(c('2020-01-01', '2019-03-31', '2018-06-30'), pattern = "-", n = 2))
+str(str_split(c('2020 01 01', '2019 03 31', '2018 06 30'), pattern = " ", n = 2))
+
+# returning a matrix
+str_split_fixed(c('2020-01-01', '2019-03-31', '2018-06-30'), '-', 2)
+str_split_fixed(c('2020-01-01', '2019-03-31', '2018-06-30'), '-', 3)
+```
+
+
+### Extract and Replace part of a string
+
+#### Extracting string values using str_sub()
+
+The function `str_sub()` extracts a substring from a string by indexing. It uses start for the beginning position and stop for the ending position. It is like indexing but applied to a string.
+
+
+```{r}
+var <- c('2020-01-01', '2019-03-31', '2018-06-30')
+str_sub(var, start = 1, end = 4)
+str_sub(var, 6, 7)
+str_sub(var, 9, 10)
+
+# using negative numbers
+str_sub(var, -2, -1)
+str_sub(var, -5, -4)
+str_sub(var, -10, -7)
+```
+
+#### Replacing string values using str_sub()
+
+The function `str_sub()` is also used to replace substring in a string by assigning a different string to the extracted substring.
+
+```{r}
+var <- c('2020-01-01', '2019-03-31', '2018-06-30')
+str_sub(var, 1, 4) <- c('2010', '2011', '2012')
+var
+```
+
+### Replacing string values using str_replace()
+
+The function `str_replace()` replaces a substring at first occurrence.
+
+
+```{r}
+var <- c('2020-01-01', '2019-03-31', '2018-06-30')
+str_replace(var, "-", "")
+str_replace(var, "-", "/")
+```
+
+### Replacing string values using str_replace_all()
+
+The function `str_replace_all()` replaces a substring throughout a string.
+
+```{r}
+var <- c('2020-01-01', '2019-03-31', '2018-06-30')
+str_replace_all(var, "-", " ")
+str_replace_all(var, "-", "/")
+```
+
+#### Remove white spaces and clean string values
+
+The function:
+
+* `str_trim()` removes white spaces.
+* `str_squish()` removes repeated spaces.
+* `str_remove()` removes the first repeated spaces.
+* `str_remove_all()` removes all repeated spaces.
+
+```{r}
+# both sides
+str_trim(c(' 2020-01-01 ', ' 2019-03-31 ', ' 2018-06-30 '))
+
+# left side
+str_trim(c(' 2020-01-01 ', ' 2019-03-31 ', ' 2018-06-30 '), side = 'left')
+
+# right side
+str_trim(c(' 2020-01-01 ', ' 2019-03-31 ', ' 2018-06-30 '), side = 'right')
+
+str_squish('removing   all    repeated   spaces in a string  ')
+
+str_remove('removing   first  repeated   spaces in a string  ', '  ')
+str_remove_all('removing   all  repeated   spaces in a string  ', '  ')
+```
+
+###  Sorting
+
+The function:
+
+* `str_order()` sorts a character vector and returns sorted indices.
+* `str_sort()` sorts a character vector and returns sorted values.
+
+```{r}
+str_order(month.name)
+str_order(month.name, decreasing = T)
+
+str_sort(month.name)
+str_sort(month.name, decreasing = T)
+```
+
+### Duplicating strings
+
+The function `str_dup()` duplicates and concatenate strings within a character vector.
+
+```{r}
+str_dup('jan', 2)
+str_dup('jan', 1:3)
+```
+
+### Pattern matching using regular expression
+
+#### Regex functions
+
+* `str_which(), `str_detect()` and `str_subset()`
+* `str_count()`
+* `str_starts()` and `str_ends()`
+* `str_locate()` and `str_locate_all()`
+* `str_extract()` and `str_extract_all()`
+* `str_match()` and `str_match_all()`
+* `str_view()` and `str_view_all()`
+* `str_replace()` and `str_replace_all()`
+
+##### The functions str_detect(), str_which() and str_subset()
+
+The function:
+
+* `str_detect()` detects the presence or absence of a pattern in a string and is equivalent to grepl(pattern, x).
+* `str_which()` detects the position of a matched pattern and is equivalent to grep(pattern, x).
+* `str_subset()` keeps string matching a pattern and is equivalent to grep(pattern, x, value = TRUE).
+
+```{r}
+str_detect(month.name, 'uary')
+month.name[str_detect(month.name, 'uary')]
+str_detect(month.name, 'uary', negate = T)
+month.name[str_detect(month.name, 'uary', negate = T)]
+str_which(month.name, 'uary')
+month.name[str_which(month.name, 'uary')]
+
+str_which(month.name, 'uary', negate = T)
+month.name[str_which(month.name, 'uary', negate = T)]
+
+str_subset(month.name, pattern = 'ber')
+str_subset(month.name, pattern = 'ber', negate = TRUE)
+```
+
+##### The function str_count()
+
+The function `str_count()` counts the number of matches in a string.
+
+```{r}
+var <- c('2020-01-01', '2019-03-31', '2018-06-30')
+str_count(var, pattern = '-')
+```
+
+#### The functions str_starts() and str_ends()
+
+The function:
+
+* `str_starts()` detects the presence of a pattern at the beginning of a string.
+* `str_ends()` detects the presence of a pattern at the end of a string.
+
+```{r}
+str_starts(month.name, 'J')
+month.name[str_starts(month.name, 'J')]
+str_ends(month.name, 'ber')
+month.name[str_ends(month.name, 'ber')]
+```
+
+##### The functions str_locate() and str_locate_all()
+
+The function:
+
+* `str_locate()` locates the position of the first pattern match in a string.
+* `str_locate_all()` locates the position of all pattern matches in a string.
+
+```{r}
+str_locate(month.name, 'ber')
+```
+
+##### The functions str_extract() and str_extract_all()
+
+The function:
+
+* `str_extract()` extracts the first matching pattern from a string.
+* `str_extract_all()` extracts all matching patterns from a string.
+
+```{r}
+str_extract(string = month.name, pattern = 'ber')
+```
+
+
+##### The functions str_view() and str_view_all()
+
+The functions `str_view()` and `str_view_all()` Views HTML rendering of regular expression match, with the first matching the first occurrence and the later all occurrences.
+
+```{r}
+str_view(month.name, 'uary')
+```
+
+####  Regex Operations
+
+**matching spaces**
+
+```{r}
+var <- c('2020 01 01', '2019 03 31', '2018 06 30')
+str_replace_all(var, '[[:space:]]', '-')
+str_replace_all(var, '\\s', '-')
+str(str_split(var, '\\s'))
+str_replace_all(var, '\\S', '-')
+```
+
+**matching alphabetic characters**
+
+```{r}
+var <- 'a1b2c3d4e5f'
+str_replace_all(var, '[[:alpha:]]', '')
+# lowercase letters
+str_replace_all(month.name, '[[:lower:]]', '')
+```
+
+**matching numerical digits**
+
+```{r}
+var <- 'a1b2c3d4e5f'
+str_replace_all(var, '[[:digit:]]', '')
+str_replace_all(var, '\\d', '')
+```
+
+**matching letters and numbers (alphanumeric characters)**
+
+```{r}
+var <- 'a1@; 2#4c $8`*%f^!1~0&^h*()j'
+str_replace_all(var, '[[:alnum:]]', '')
+
+str_replace_all(var, '[[:xdigit:]]', '')
+
+str_replace_all(var, '\\w', '')
+```
+
+**matching punctuation**
+
+```{r}
+var <- 'a1@; 2#4c $8`*%f^!1~0&^h*()j'
+str_replace_all(var, '[[:punct:]]', '')
+
+str_replace_all(var, '\\W', '')
+```
+
+**matching letters, numbers, and punctuation**
+
+```{r}
+var <- 'a1@; 2#4c $8`*%f^!1~0&^h*()j'
+str_replace_all(var, '[[:graph:]]', ' ')
+
+str_replace_all(var, '.', ' ')
+```
+
+**matching whitespace**
+
+```{r}
+str_replace_all(c(' 2020-01-01 ', ' 2019-03-31 ', ' 2018-06-30 '), '\\s', '')
+```
+
+**matching newline and tap**
+
+```{r}
+cat('good morning \n i am fru kinglsy \n i will be your instructor')
+
+# replacing new line
+str_replace_all('good morning \n i am fru kinglsy \n i will be your instructor', '\\n', '\t')
+cat(str_replace_all('good morning \n i am fru kinglsy \n i will be your instructor', '\\n', '\t'))
+
+# replacing tab
+str_replace_all('good morning \t i am fru kinglsy \t i will be your instructor', '\\t', '\n')
+cat(str_replace_all('good morning \t i am fru kinglsy \t i will be your instructor', '\\t', '\n'))
+```
+
+**matching metacharacters**
+
+```{r}
+sales <- c('$25000', '$20000', '$22500', '$24000', '$30000', '$35000')
+str_replace(sales, '\\$', '')
+
+sales <- c('+25000', '+20000', '+22500', '+24000', '+30000', '+35000')
+str_replace(sales, '\\+', '')
+
+dates <- c('01.01.2012', '01.02.2012', '01.03.2012', '01.04.2012', '01.05.2012', '01.06.2012')
+str_replace_all(dates, '\\.', '-')
+
+dates <- c('01*01*2012', '01*02*2012', '01*03*2012', '01*04*2012', '01*05*2012', '01*06*2012')
+str_replace_all(dates, '\\*', '-')
+
+dates <- c('01^01^2012', '01^02^2012', '01^03^2012', '01^04^2012', '01^05^2012', '01^06^2012')
+str_replace_all(dates, '\\^', '-')
+
+dates <- c('01|01|2012', '01|02|2012', '01|03|2012', '01|04|2012', '01|05|2012', '01|06|2012')
+str_replace_all(dates, '\\|', '-')
+
+dates <- c('01\\01\\2012', '01\\02\\2012', '01\\03\\2012', '01\\04\\2012', '01\\05\\2012', '01\\06\\2012')
+str_replace_all(dates, '\\\\', '-')
+
+dates <- c('01\\.01\\.2012', '01\\.02\\.2012', '01\\.03\\.2012', '01\\.04\\.2012', '01\\.05\\.2012', '01\\.06\\.2012')
+str_replace_all(dates, '\\\\\\.', '-')
+```
+
+**alternates and ranges**
+
+```{r}
+# either or
+str_view_all(month.name, 'uary|ember|ober', '*')
+
+# ranges
+str_replace_all(month.name, '[aeiou]', '*')
+str_replace_all(month.name, '[a-z]', '*')
+str_replace_all(month.name, '[A-Z]', '*')
+str_replace_all(month.name, '[m-z]', '*')
+str_replace_all(month.name, '[0-9]', '*')
+str_replace_all(month.name, '[1-5]', '*')
+str_replace_all(month.name, '[a-zA-Z0-9]', '*')
+
+# anything but
+str_replace_all(month.name, '[^aeiou]', '*')
+str_replace_all(month.name, '[^a-z]', '*')
+```
+
+**groups**
+
+```{r}
+str_subset(pattern = '(s{2})e', state.name)
+```
+
+**anchors**
+
+```{r}
+# start of a string
+str_replace_all(month.name, '^J', 'j')
+
+# end of a string
+str_replace_all(month.name, 'ber$', 'ba')
+```
+
+
+**quantifiers**
+
+```{r}
+# match 's' zero or one time
+str_subset(month.name, 's?')
+# match 'J' one or more times
+str_subset(month.name, 'J+')
+# match 'e' one or more times
+str_subset(state.name, 'e+')
+# matched 'y', zero or more times
+str_subset(month.name, 'y*')
+# matched 'a', zero or more times
+str_subset(month.name, 'a*')
+# match 'a' zero or more times and 'y'
+str_subset(month.name, 'a*y')
+# match 'y' zero or more times and 'a'
+str_subset(month.name, 'y*a')
+# match 's', exactly 2 times
+str_subset(state.name, "s{2}")
+# match 's', exactly 1 or more times
+str_subset(state.name, "s{1,}")
+# match 's', exactly 1 or 2 times
+str_subset(state.name, "s{1,2}")
+```

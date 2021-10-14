@@ -68,7 +68,7 @@ There are therefore two components of R Markdown: `.Rmd` file, which contains al
 The basic workflow structure for an RMarkdown document is shown in Figure \@ref(fig:rm-pic), highlighting the steps (arrows) and the intermediate files that are created before producing the output. The whole process is implemented via the function `rmarkdown::render()`. Each stage is explained in further detail below.
 
 <div class="figure">
-<img src="image/rmarkdown.jpg" alt="A diagram illustrating how an R Markdown document is converted to the final output document." width="552" />
+<img src="image/rmarkdown.jpg" alt="A diagram illustrating how an R Markdown document is converted to the final output document." width="1104" />
 <p class="caption">(\#fig:rm-pic)A diagram illustrating how an R Markdown document is converted to the final output document.</p>
 </div>
 
