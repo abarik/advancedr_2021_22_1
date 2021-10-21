@@ -274,7 +274,249 @@
 </tbody>
 </table></div>
 </div>
+<div id="modern-graphics-in-r---ggplot2" class="section level2" number="9.3">
+<h2>
+<span class="header-section-number">9.3</span> Modern graphics in R - ggplot2<a class="anchor" aria-label="anchor" href="#modern-graphics-in-r---ggplot2"><i class="fas fa-link"></i></a>
+</h2>
+<p>The grammar of graphics lies at the heart of ggplot2 and also lies at the heart of how we define our data visualizations.<span class="citation"><a class="footnote-ref" tabindex="0" data-toggle="popover" data-content="&lt;p&gt;Leland Wilkinson, &lt;em&gt;The Grammar of Graphics (Statistics and Computing)&lt;/em&gt; (Berlin, Heidelberg: Springer-Verlag, 2005).&lt;/p&gt;"><sup>1</sup></a></span></p>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:gog">Table 9.1: </span> The Grammar of Graphics</caption>
+<thead><tr class="header">
+<th>Component</th>
+<th>Description</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>Data</td>
+<td>Raw data that we’d like to visualize</td>
+</tr>
+<tr class="even">
+<td>Geometries</td>
+<td>Shapes that we use to visualize</td>
+</tr>
+<tr class="odd">
+<td>Aesthetics</td>
+<td>Properties of geometries (size, color etc.)</td>
+</tr>
+<tr class="even">
+<td>Mapping</td>
+<td>Mapping between data and aesthetics</td>
+</tr>
+</tbody>
+</table></div>
+<div class="sourceCode" id="cb388"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
+<span class="co"># a tibble for data, 3 rows, 4 columns</span>
+<span class="va">d.tbl</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span>
+  <span class="op">~</span><span class="va">csoport</span>, <span class="op">~</span><span class="va">score.1</span>, <span class="op">~</span><span class="va">score.2</span>, <span class="op">~</span><span class="va">score.3</span>,
+  <span class="st">"AA"</span>, <span class="fl">15</span>, <span class="fl">42</span>, <span class="fl">12</span>, 
+  <span class="st">"BB"</span>, <span class="fl">20</span>, <span class="fl">28</span>, <span class="fl">18</span>,
+  <span class="st">"CC"</span>, <span class="fl">35</span>, <span class="fl">12</span>, <span class="fl">21</span>
+<span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb389"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Scatterplot</span>
+<span class="co">#   Data: d.tbl</span>
+<span class="co">#   Geometry: point</span>
+<span class="co">#   Aesthetics: x, y</span>
+<span class="co">#   Mapping: x=score.1, y=score.2</span>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">d.tbl</span>, mapping<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">score.1</span>, y<span class="op">=</span><span class="va">score.2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="08-summary_files/figure-html/unnamed-chunk-2-1.png" width="384" style="display: block; margin: auto;"></div>
+<div class="sourceCode" id="cb390"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Column Graph</span>
+<span class="co">#   Data: d.tbl</span>
+<span class="co">#   Geometry: column</span>
+<span class="co">#   Aesthetics: x, y</span>
+<span class="co">#   Mapping: x=score.1, y=score.2</span>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">d.tbl</span>, mapping<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">score.1</span>, y<span class="op">=</span><span class="va">score.2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="08-summary_files/figure-html/unnamed-chunk-2-2.png" width="384" style="display: block; margin: auto;"></div>
+<div class="sourceCode" id="cb391"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Line Graph</span>
+<span class="co">#   Data: d.tbl</span>
+<span class="co">#   Geometry: line</span>
+<span class="co">#   Aesthetics: x, y</span>
+<span class="co">#   Mapping: x=score.1, y=score.2</span>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">d.tbl</span>, mapping<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">score.1</span>, y<span class="op">=</span><span class="va">score.2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="08-summary_files/figure-html/unnamed-chunk-2-3.png" width="384" style="display: block; margin: auto;"></div>
+<div class="sourceCode" id="cb392"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># all in one</span>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">d.tbl</span>, mapping<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">score.1</span>, y<span class="op">=</span><span class="va">score.2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="08-summary_files/figure-html/unnamed-chunk-2-4.png" width="384" style="display: block; margin: auto;"></div>
+<div class="sourceCode" id="cb393"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Line Graph</span>
+<span class="co">#   Data: d.tbl</span>
+<span class="co">#   Geometry: point</span>
+<span class="co">#   Aesthetics: x, y, size</span>
+<span class="co">#   Mapping: x=score.1, y=score.2, size=score.3</span>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">d.tbl</span>, mapping<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">score.1</span>, y<span class="op">=</span><span class="va">score.2</span>, size<span class="op">=</span><span class="va">score.3</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="08-summary_files/figure-html/unnamed-chunk-2-5.png" width="384" style="display: block; margin: auto;"></div>
+<div class="sourceCode" id="cb394"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Column Graph</span>
+<span class="co">#   Data: d.tbl</span>
+<span class="co">#   Geometry: column</span>
+<span class="co">#   Aesthetics: x, y, fill</span>
+<span class="co">#   Mapping: x=score.1, y=score.2, fill=score.3</span>
+<span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span>data<span class="op">=</span><span class="va">d.tbl</span>, mapping<span class="op">=</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x<span class="op">=</span><span class="va">score.1</span>, y<span class="op">=</span><span class="va">score.2</span>, fill<span class="op">=</span><span class="va">score.3</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
+  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="08-summary_files/figure-html/unnamed-chunk-2-6.png" width="384" style="display: block; margin: auto;"></div>
+<div class="inline-table"><table class="table table-sm">
+<caption>
+<span id="tab:geomelemek">Table 9.2: </span> Geometries with required and optional aesthetics.</caption>
+<colgroup>
+<col width="12%">
+<col width="31%">
+<col width="55%">
+</colgroup>
+<thead><tr class="header">
+<th>Geometry</th>
+<th>Required aesthetics</th>
+<th>Optional aesthetics</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><code><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_abline()</a></code></td>
+<td>
+<code>slope</code>, <code>intercept</code>
+</td>
+<td>
+<code>alpha</code>, <code>color</code>, <code>linetype</code>, <code>size</code>
+</td>
+</tr>
+<tr class="even">
+<td><code><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_hline()</a></code></td>
+<td><code>yintercept</code></td>
+<td>
+<code>alpha</code>, <code>color</code>, <code>linetype</code>, <code>size</code>
+</td>
+</tr>
+<tr class="odd">
+<td><code><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_vline()</a></code></td>
+<td><code>xintercept</code></td>
+<td>
+<code>alpha</code>, <code>color</code>, <code>linetype</code>, <code>size</code>
+</td>
+</tr>
+<tr class="even">
+<td><code><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html">geom_area()</a></code></td>
+<td>
+<code>x</code>, <code>ymin</code>, <code>ymax</code>
+</td>
+<td>
+<code>alpha</code>, <code>colour</code>, <code>fill</code>, <code>group</code>, <code>linetype</code>, <code>size</code>
+</td>
+</tr>
+<tr class="odd">
+<td><code><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_col()</a></code></td>
+<td>
+<code>x</code>, <code>y</code>
+</td>
+<td>
+<code>alpha</code>, <code>colour</code>, <code>fill</code>, <code>group</code>, <code>linetype</code>, <code>size</code>
+</td>
+</tr>
+<tr class="even">
+<td><code><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar()</a></code></td>
+<td>
+<code>x</code>, <code>y</code>
+</td>
+<td>
+<code>alpha</code>, <code>colour</code>, <code>fill</code>, <code>group</code>, <code>linetype</code>, <code>size</code>
+</td>
+</tr>
+<tr class="odd">
+<td><code><a href="https://ggplot2.tidyverse.org/reference/geom_boxplot.html">geom_boxplot()</a></code></td>
+<td>
+<code>x</code>, <code>lower</code>, <code>middle</code>, <code>upper</code>, <code>ymax</code>, <code>ymin</code>)</td>
+<td>
+<code>alpha</code>, <code>color</code>, <code>fill</code>, <code>group</code>, <code>linetype</code>, <code>shape</code>, <code>size</code>, <code>weight</code>
+</td>
+</tr>
+<tr class="even">
+<td><code><a href="https://ggplot2.tidyverse.org/reference/geom_density.html">geom_density()</a></code></td>
+<td>
+<code>x</code>, <code>y</code>
+</td>
+<td>
+<code>alpha</code>, <code>color</code>, <code>fill</code>, <code>group</code>, <code>linetype</code>, <code>size</code>, <code>weight</code>
+</td>
+</tr>
+<tr class="odd">
+<td><code><a href="https://ggplot2.tidyverse.org/reference/geom_dotplot.html">geom_dotplot()</a></code></td>
+<td>
+<code>x</code>, <code>y</code>
+</td>
+<td>
+<code>alpha</code>, <code>color</code>, <code>fill</code>, <code>group</code>, <code>linetype</code>, <code>stroke</code>
+</td>
+</tr>
+<tr class="even">
+<td><code><a href="https://ggplot2.tidyverse.org/reference/geom_histogram.html">geom_histogram()</a></code></td>
+<td><code>x</code></td>
+<td>
+<code>alpha</code>, <code>color</code>, <code>fill</code>, <code>linetype</code>, <code>size</code>, <code>weight</code>
+</td>
+</tr>
+<tr class="odd">
+<td><code><a href="https://ggplot2.tidyverse.org/reference/geom_jitter.html">geom_jitter()</a></code></td>
+<td>
+<code>x</code>, <code>y</code>
+</td>
+<td>
+<code>alpha</code>, <code>color</code>, <code>fill</code>, <code>shape</code>, <code>size</code>
+</td>
+</tr>
+<tr class="even">
+<td><code><a href="https://ggplot2.tidyverse.org/reference/geom_path.html">geom_line()</a></code></td>
+<td>
+<code>x</code>, <code>y</code>
+</td>
+<td>
+<code>alpha</code>, <code>color</code>, <code>linetype</code>, <code>size</code>
+</td>
+</tr>
+<tr class="odd">
+<td><code><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point()</a></code></td>
+<td>
+<code>x</code>, <code>y</code>
+</td>
+<td>
+<code>alpha</code>, <code>color</code>, <code>fill</code>, <code>shape</code>, <code>size</code>
+</td>
+</tr>
+<tr class="even">
+<td><code><a href="https://ggplot2.tidyverse.org/reference/geom_ribbon.html">geom_ribbon()</a></code></td>
+<td>
+<code>x</code>, <code>ymax</code>, <code>ymin</code>
+</td>
+<td>
+<code>alpha</code>, <code>color</code>, <code>fill</code>, <code>linetype</code>, <code>size</code>
+</td>
+</tr>
+<tr class="odd">
+<td><code><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html">geom_smooth()</a></code></td>
+<td>
+<code>x</code>, <code>y</code>
+</td>
+<td>
+<code>alpha</code>, <code>color</code>, <code>fill</code>, <code>linetype</code>, <code>size</code>, <code>weight</code>
+</td>
+</tr>
+<tr class="even">
+<td><code><a href="https://ggplot2.tidyverse.org/reference/geom_text.html">geom_text()</a></code></td>
+<td>
+<code>label</code>, <code>x</code>, <code>y</code>
+</td>
+<td>
+<code>alpha</code>, <code>angle</code>, <code>color</code>, <code>family</code>, <code>fontface</code>, <code>hjust</code>, <code>lineheight</code>, <code>size</code>, <code>vjust</code>
+</td>
+</tr>
+</tbody>
+</table></div>
 </div>
+</div>
+
   <div class="chapter-nav">
 <div class="prev"><a href="rna-seq-an-example.html"><span class="header-section-number">8</span> RNA-Seq (an example)</a></div>
 <div class="next"><a href="references.html">References</a></div>
@@ -284,6 +526,7 @@
 <li><a class="nav-link" href="#summary"><span class="header-section-number">9</span> Summary</a></li>
 <li><a class="nav-link" href="#rmarkdown-2"><span class="header-section-number">9.1</span> RMarkdown</a></li>
 <li><a class="nav-link" href="#advanced-data-manipulation-1"><span class="header-section-number">9.2</span> Advanced data manipulation</a></li>
+<li><a class="nav-link" href="#modern-graphics-in-r---ggplot2"><span class="header-section-number">9.3</span> Modern graphics in R - ggplot2</a></li>
 </ul>
 
       <div class="book-extra">
@@ -301,7 +544,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Advanced R</strong>" was written by Kálmán Abari. It was last built on 2021-10-14.</p>
+    <p>"<strong>Advanced R</strong>" was written by Kálmán Abari. It was last built on 2021-10-21.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">

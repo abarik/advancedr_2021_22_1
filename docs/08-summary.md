@@ -74,3 +74,133 @@ With R markdown, it is easy to reproduce not only the analysis used, but also th
 |                           |                                                        |                                                |
 |                           | [Link](advanced-data-manipulation.html#br-reshape)     | [Link](tidyverse-r.html#tr-reshape)            |
 +---------------------------+--------------------------------------------------------+------------------------------------------------+
+
+## Modern graphics in R - ggplot2
+
+The grammar of graphics lies at the heart of ggplot2 and also lies at the heart of how we define our data visualizations [@10.5555/1088896].
+
+| Component  | Description                                 |
+|------------|---------------------------------------------|
+| Data       | Raw data that we'd like to visualize        |
+| Geometries | Shapes that we use to visualize             |
+| Aesthetics | Properties of geometries (size, color etc.) |
+| Mapping    | Mapping between data and aesthetics         |
+
+: (#tab:gog) The Grammar of Graphics
+
+
+```r
+library(tidyverse)
+# a tibble for data, 3 rows, 4 columns
+d.tbl <- tribble(
+  ~csoport, ~score.1, ~score.2, ~score.3,
+  "AA", 15, 42, 12, 
+  "BB", 20, 28, 18,
+  "CC", 35, 12, 21
+)
+```
+
+
+
+```r
+# Scatterplot
+#   Data: d.tbl
+#   Geometry: point
+#   Aesthetics: x, y
+#   Mapping: x=score.1, y=score.2
+ggplot(data=d.tbl, mapping=aes(x=score.1, y=score.2)) + geom_point()
+```
+
+<img src="08-summary_files/figure-epub3/unnamed-chunk-2-1.png" style="display: block; margin: auto;" />
+
+```r
+# Column Graph
+#   Data: d.tbl
+#   Geometry: column
+#   Aesthetics: x, y
+#   Mapping: x=score.1, y=score.2
+ggplot(data=d.tbl, mapping=aes(x=score.1, y=score.2)) + geom_col()
+```
+
+<img src="08-summary_files/figure-epub3/unnamed-chunk-2-2.png" style="display: block; margin: auto;" />
+
+```r
+# Line Graph
+#   Data: d.tbl
+#   Geometry: line
+#   Aesthetics: x, y
+#   Mapping: x=score.1, y=score.2
+ggplot(data=d.tbl, mapping=aes(x=score.1, y=score.2)) + geom_line()
+```
+
+<img src="08-summary_files/figure-epub3/unnamed-chunk-2-3.png" style="display: block; margin: auto;" />
+
+```r
+# all in one
+ggplot(data=d.tbl, mapping=aes(x=score.1, y=score.2)) + 
+  geom_point() + geom_col() + geom_line()
+```
+
+<img src="08-summary_files/figure-epub3/unnamed-chunk-2-4.png" style="display: block; margin: auto;" />
+
+```r
+# Line Graph
+#   Data: d.tbl
+#   Geometry: point
+#   Aesthetics: x, y, size
+#   Mapping: x=score.1, y=score.2, size=score.3
+ggplot(data=d.tbl, mapping=aes(x=score.1, y=score.2, size=score.3)) + 
+  geom_point()
+```
+
+<img src="08-summary_files/figure-epub3/unnamed-chunk-2-5.png" style="display: block; margin: auto;" />
+
+```r
+# Column Graph
+#   Data: d.tbl
+#   Geometry: column
+#   Aesthetics: x, y, fill
+#   Mapping: x=score.1, y=score.2, fill=score.3
+ggplot(data=d.tbl, mapping=aes(x=score.1, y=score.2, fill=score.3)) + 
+  geom_col()
+```
+
+<img src="08-summary_files/figure-epub3/unnamed-chunk-2-6.png" style="display: block; margin: auto;" />
+
++--------------------+--------------------------------------------------+-----------------------------------------------------------------------------------------+
+| Geometry           | Required aesthetics                              | Optional aesthetics                                                                     |
++====================+==================================================+=========================================================================================+
+| `geom_abline()`    | `slope`, `intercept`                             | `alpha`, `color`, `linetype`, `size`                                                    |
++--------------------+--------------------------------------------------+-----------------------------------------------------------------------------------------+
+| `geom_hline()`     | `yintercept`                                     | `alpha`, `color`, `linetype`, `size`                                                    |
++--------------------+--------------------------------------------------+-----------------------------------------------------------------------------------------+
+| `geom_vline()`     | `xintercept`                                     | `alpha`, `color`, `linetype`, `size`                                                    |
++--------------------+--------------------------------------------------+-----------------------------------------------------------------------------------------+
+| `geom_area()`      | `x`, `ymin`, `ymax`                              | `alpha`, `colour`, `fill`, `group`, `linetype`, `size`                                  |
++--------------------+--------------------------------------------------+-----------------------------------------------------------------------------------------+
+| `geom_col()`       | `x`, `y`                                         | `alpha`, `colour`, `fill`, `group`, `linetype`, `size`                                  |
++--------------------+--------------------------------------------------+-----------------------------------------------------------------------------------------+
+| `geom_bar()`       | `x`, `y`                                         | `alpha`, `colour`, `fill`, `group`, `linetype`, `size`                                  |
++--------------------+--------------------------------------------------+-----------------------------------------------------------------------------------------+
+| `geom_boxplot()`   | `x`, `lower`, `middle`, `upper`, `ymax`, `ymin`) | `alpha`, `color`, `fill`, `group`, `linetype`, `shape`, `size`, `weight`                |
++--------------------+--------------------------------------------------+-----------------------------------------------------------------------------------------+
+| `geom_density()`   | `x`, `y`                                         | `alpha`, `color`, `fill`, `group`, `linetype`, `size`, `weight`                         |
++--------------------+--------------------------------------------------+-----------------------------------------------------------------------------------------+
+| `geom_dotplot()`   | `x`, `y`                                         | `alpha`, `color`, `fill`, `group`, `linetype`, `stroke`                                 |
++--------------------+--------------------------------------------------+-----------------------------------------------------------------------------------------+
+| `geom_histogram()` | `x`                                              | `alpha`, `color`, `fill`, `linetype`, `size`, `weight`                                  |
++--------------------+--------------------------------------------------+-----------------------------------------------------------------------------------------+
+| `geom_jitter()`    | `x`, `y`                                         | `alpha`, `color`, `fill`, `shape`, `size`                                               |
++--------------------+--------------------------------------------------+-----------------------------------------------------------------------------------------+
+| `geom_line()`      | `x`, `y`                                         | `alpha`, `color`, `linetype`, `size`                                                    |
++--------------------+--------------------------------------------------+-----------------------------------------------------------------------------------------+
+| `geom_point()`     | `x`, `y`                                         | `alpha`, `color`, `fill`, `shape`, `size`                                               |
++--------------------+--------------------------------------------------+-----------------------------------------------------------------------------------------+
+| `geom_ribbon()`    | `x`, `ymax`, `ymin`                              | `alpha`, `color`, `fill`, `linetype`, `size`                                            |
++--------------------+--------------------------------------------------+-----------------------------------------------------------------------------------------+
+| `geom_smooth()`    | `x`, `y`                                         | `alpha`, `color`, `fill`, `linetype`, `size`, `weight`                                  |
++--------------------+--------------------------------------------------+-----------------------------------------------------------------------------------------+
+| `geom_text()`      | `label`, `x`, `y`                                | `alpha`, `angle`, `color`, `family`, `fontface`, `hjust`, `lineheight`, `size`, `vjust` |
++--------------------+--------------------------------------------------+-----------------------------------------------------------------------------------------+
+
+: (#tab:geomelemek) Geometries with required and optional aesthetics.

@@ -1,7 +1,7 @@
 --- 
 title: "Advanced R"
 author: "Kálmán Abari"
-date: "2021-10-14"
+date: "2021-10-22"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [book.bib, packages.bib]

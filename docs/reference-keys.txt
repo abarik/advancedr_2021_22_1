@@ -1,5 +1,7 @@
 fig:rm-pic
 tab:unnamed-chunk-1
+tab:gog
+tab:geomelemek
 introduction
 warm-up-exercise
 data-structures
@@ -326,3 +328,4 @@ rna-seq-an-example
 summary
 rmarkdown-2
 advanced-data-manipulation-1
+modern-graphics-in-r---ggplot2
