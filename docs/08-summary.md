@@ -93,7 +93,7 @@ The grammar of graphics lies at the heart of ggplot2 and also lies at the heart 
 library(tidyverse)
 # a tibble for data, 3 rows, 4 columns
 d.tbl <- tribble(
-  ~csoport, ~score.1, ~score.2, ~score.3,
+  ~group, ~score.1, ~score.2, ~score.3,
   "AA", 15, 42, 12, 
   "BB", 20, 28, 18,
   "CC", 35, 12, 21
@@ -144,12 +144,13 @@ ggplot(data=d.tbl, mapping=aes(x=score.1, y=score.2)) +
 <img src="08-summary_files/figure-epub3/unnamed-chunk-2-4.png" style="display: block; margin: auto;" />
 
 ```r
-# Line Graph
+# Scatterplot
 #   Data: d.tbl
 #   Geometry: point
-#   Aesthetics: x, y, size
-#   Mapping: x=score.1, y=score.2, size=score.3
-ggplot(data=d.tbl, mapping=aes(x=score.1, y=score.2, size=score.3)) + 
+#   Aesthetics: x, y, size, color
+#   Mapping: x=score.1, y=score.2, size=score.3, color=group
+ggplot(data=d.tbl, 
+       mapping=aes(x=score.1, y=score.2, size=score.3, color=group)) + 
   geom_point()
 ```
 
@@ -161,7 +162,7 @@ ggplot(data=d.tbl, mapping=aes(x=score.1, y=score.2, size=score.3)) +
 #   Geometry: column
 #   Aesthetics: x, y, fill
 #   Mapping: x=score.1, y=score.2, fill=score.3
-ggplot(data=d.tbl, mapping=aes(x=score.1, y=score.2, fill=score.3)) + 
+ggplot(data=d.tbl, mapping=aes(x=score.1, y=score.2, fill=group)) + 
   geom_col()
 ```
 

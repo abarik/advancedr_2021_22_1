@@ -73,7 +73,7 @@ consider an example (a small elementary school class).</p>
 <div class="sourceCode" id="cb111"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
 <span class="co"># inline reading, tibble version</span>
-<span class="va">students</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html">tribble</a></span><span class="op">(</span>
+<span class="va">students</span> <span class="op">&lt;-</span> <span class="fu">tribble</span><span class="op">(</span>
   <span class="op">~</span><span class="st">'Last Name'</span>, <span class="op">~</span><span class="st">'First Name'</span>, <span class="op">~</span><span class="st">'4th Grade'</span>, <span class="op">~</span><span class="st">'5th Grade'</span>, <span class="op">~</span><span class="st">'6th Grade'</span>,
   <span class="st">"Johnson"</span>, <span class="st">"Mia"</span>, <span class="st">"A"</span>, <span class="st">"B+"</span>, <span class="st">"A-"</span>,
   <span class="st">"Lopez"</span>, <span class="st">"Liam"</span>, <span class="st">"B"</span>, <span class="st">"B"</span>, <span class="st">"A+"</span>,
@@ -136,7 +136,7 @@ lend itself to useful visualizations fairly easily:</p>
 <p>Within the Tidyverse, specifically within the tidyr package, there is a function <code><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer()</a></code> that is similar to Base R’s <code><a href="https://rdrr.io/pkg/reshape2/man/melt.html">reshape2::melt()</a></code>. The aggregation names and values have parameters spelled <code>names_to=</code> and <code>values_to=</code>, but the operation is the same:</p>
 <div class="sourceCode" id="cb114"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">s.l</span> <span class="op">&lt;-</span> <span class="va">students</span> <span class="op">%&gt;%</span>
- <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'4th Grade'</span>, <span class="st">'5th Grade'</span>, <span class="st">'6th Grade'</span><span class="op">)</span>,
+ <span class="fu">pivot_longer</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'4th Grade'</span>, <span class="st">'5th Grade'</span>, <span class="st">'6th Grade'</span><span class="op">)</span>,
  names_to <span class="op">=</span> <span class="st">"Level"</span>,
  values_to <span class="op">=</span> <span class="st">"Score"</span><span class="op">)</span>
 <span class="va">s.l</span>
@@ -164,7 +164,7 @@ lend itself to useful visualizations fairly easily:</p>
 <p>The simple example above gives you a first feel for tidying tabular data. To reverse the tidying operation that moves variables (columns) to values (rows), the <code><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider()</a></code> function in <strong>tidyr</strong> can be used. In Base R there are several related methods on data frames, including <code><a href="https://rdrr.io/pkg/reshape/man/cast-9g.html">reshape::cast()</a></code> and <code><a href="https://rdrr.io/pkg/reshape2/man/cast.html">reshape2::dcast()</a></code>.</p>
 <div class="sourceCode" id="cb115"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">s.l</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">Level</span>, values_from <span class="op">=</span> <span class="va">Score</span><span class="op">)</span>
+  <span class="fu">pivot_wider</span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">Level</span>, values_from <span class="op">=</span> <span class="va">Score</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 6 x 5</span>
 <span class="co">#&gt;   `Last Name` `First Name` `4th Grade` `5th Grade`</span>
 <span class="co">#&gt;   &lt;chr&gt;       &lt;chr&gt;              &lt;dbl&gt;       &lt;dbl&gt;</span>
@@ -5593,7 +5593,7 @@ str_replace_all(month.name, '[^a-z]', '*')
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Advanced R</strong>" was written by Kálmán Abari. It was last built on 2021-10-21.</p>
+    <p>"<strong>Advanced R</strong>" was written by Kálmán Abari. It was last built on 2021-10-22.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
