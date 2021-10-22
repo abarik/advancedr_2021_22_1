@@ -77,6 +77,8 @@ With R markdown, it is easy to reproduce not only the analysis used, but also th
 
 ## Modern graphics in R - ggplot2
 
+### The grammar of graphics
+
 The grammar of graphics lies at the heart of ggplot2 and also lies at the heart of how we define our data visualizations [@10.5555/1088896].
 
 | Component  | Description                                 |
@@ -100,7 +102,7 @@ d.tbl <- tribble(
 ```
 
 
-```{r fig.align="center", fig.width=4, fig.height=2}
+```{r fig.align="center", fig.width=4, fig.height=3.3}
 # Scatterplot
 #   Data: d.tbl
 #   Geometry: point
@@ -139,6 +141,8 @@ ggplot(data=d.tbl, mapping=aes(x=score.1, y=score.2, fill=group)) +
   geom_col()
 ```
 
+### Geometries with required and optional aesthetics.
+
 +--------------------+--------------------------------------------------+-----------------------------------------------------------------------------------------+
 | Geometry           | Required aesthetics                              | Optional aesthetics                                                                     |
 +====================+==================================================+=========================================================================================+
@@ -175,4 +179,109 @@ ggplot(data=d.tbl, mapping=aes(x=score.1, y=score.2, fill=group)) +
 | `geom_text()`      | `label`, `x`, `y`                                | `alpha`, `angle`, `color`, `family`, `fontface`, `hjust`, `lineheight`, `size`, `vjust` |
 +--------------------+--------------------------------------------------+-----------------------------------------------------------------------------------------+
 
-: (#tab:geomelemek) Geometries with required and optional aesthetics.
+
+### Plot types
+
+```{r gemabraklistaja, echo=FALSE, fig.align="center", fig.width=7, fig.height=19, fig.cap="Plot types and geometries"}
+library(gridExtra)
+library(ggthemes)
+data(survey, package = "MASS")
+
+survey$Smoke <- factor(survey$Smoke, levels=c("Never", "Occas", "Regul", "Heavy"))
+survey$Exer <- factor(survey$Exer, levels=c("None", "Some", "Freq"))
+
+p1 <- ggplot(na.omit(survey), aes(x=Smoke, y=Pulse, fill=Smoke)) + geom_boxplot() + labs(title="Boxplot", subtitle = "geom_boxplot()") + theme_fivethirtyeight() + theme(legend.position = "none")
+
+p2 <- ggplot(na.omit(survey), aes(x=Smoke, y=Pulse, fill=Smoke)) + geom_violin() + labs(title="Violinplot", subtitle = "geom_violin()") + theme_fivethirtyeight() + theme(legend.position = "none")
+
+p3 <- ggplot(na.omit(survey), aes(x=Smoke, y=Pulse, colour=Smoke)) + geom_jitter() + labs(title="Stripchart", subtitle = "geom_jitter()") + theme_fivethirtyeight() + theme(legend.position = "none")
+
+p4 <- ggplot(na.omit(survey), aes(x=Pulse, fill=Smoke)) + geom_dotplot(binwidth = 2.5) + labs(title="Dotplot", subtitle = "geom_dotplot()") + theme_fivethirtyeight() + theme(legend.position = "none")
+
+p5 <- ggplot(na.omit(survey), aes(x=Smoke, fill=Smoke)) + geom_bar() + labs(title="Column graph", subtitle = "geom_bar() or geom_col()") + theme_fivethirtyeight() + theme(legend.position = "none")
+
+p6 <- ggplot(na.omit(survey), aes(x=Height, y=Wr.Hnd, colour=Sex)) + geom_point() + geom_smooth(se = F, method = "lm") + labs(title="Scatterplot", subtitle = "geom_point() and geom_smooth()") + theme_fivethirtyeight() + theme(legend.position = "none")
+
+p7 <- ggplot(data=survey, aes(x=Height)) + 
+        geom_histogram( binwidth=4, colour = "blue", fill = "lightblue") + labs(title="Histogram", subtitle = "geom_histogram()") + theme_fivethirtyeight() + theme(legend.position = "none")
+
+p8 <- ggplot(data=survey, aes(x=Height, colour=Exer, linetype=Sex)) + 
+        geom_freqpoly(binwidth=4, size=1.2) + labs(title="Frequency polygon", subtitle = "geom_freqpoly()") + theme_fivethirtyeight() + theme(legend.position = "none")
+
+p9 <- ggplot(data=survey, aes(x=Height, fill = Exer)) + geom_density(alpha=0.2, size=0.7) + labs(title="Smoothed histogram", subtitle = "geom_density()") + theme_fivethirtyeight() + theme(legend.position = "none")
+
+p10 <- ggplot(data=survey[!is.na(survey$Exer) & !is.na(survey$Sex),], 
+             aes(x=Exer, y=Pulse, fill=Sex)) + 
+        stat_summary(fun=mean, geom="point", position=position_dodge(width=0.90), colour="black") + 
+        stat_summary(fun.data=mean_cl_normal, geom="errorbar", 
+                     position=position_dodge(width=0.90), width=0.11) +
+        scale_fill_manual("Sex",values = c("Female"="#bccdff", "Male"="#81a1ff")) + 
+        coord_cartesian(ylim = c(30, 100)) + labs(title="Errorbar", subtitle = "geom_error() and geom_point()") + theme_fivethirtyeight() + theme(legend.position = "none")
+
+
+# Lollipop ---------------------
+cty_mpg <- aggregate(mpg$cty, by=list(mpg$manufacturer), FUN=mean)  # aggregate
+colnames(cty_mpg) <- c("make", "mileage")  # change column names
+cty_mpg <- cty_mpg[order(cty_mpg$mileage), ]  # sort
+cty_mpg$make <- factor(cty_mpg$make, levels = cty_mpg$make)  # to retain the order in plot.
+p11 <- ggplot(cty_mpg, aes(x=make, y=mileage)) + 
+  geom_point(size=3) + 
+  geom_segment(aes(x=make, 
+                   xend=make, 
+                   y=0, 
+                   yend=mileage))  + labs(title="Lollipop", subtitle = "geom_segment() and geom_point()") + theme_fivethirtyeight() + theme(legend.position = "none") +  theme(axis.text.x = element_text(angle=65, vjust=0.6))
+
+
+
+library(gcookbook) # Load gcookbook for the climate data set
+library(dplyr)
+
+# Grab a subset of the climate data
+climate_mod <- climate %>%
+  filter(Source == "Berkeley") %>%
+  select(Year, Anomaly10y, Unc10y)
+
+# With a dotted line for upper and lower bounds
+p12 <- ggplot(climate_mod, aes(x = Year, y = Anomaly10y)) +
+  geom_line(aes(y = Anomaly10y - Unc10y), colour = "grey50", linetype = "dotted") +
+  geom_line(aes(y = Anomaly10y + Unc10y), colour = "grey50", linetype = "dotted") +
+  geom_line() + labs(title="Line graph", subtitle = "geom_line()") + theme_fivethirtyeight() + theme(legend.position = "none")
+
+
+library(gcookbook)  # Load gcookbook for the uspopage data set
+
+# Create the base plot
+p13 <- ggplot(uspopage, aes(x = Year, y = Thousands, fill = AgeGroup)) +
+  geom_area() +  labs(title="Area plot", subtitle = "geom_area()") + theme_fivethirtyeight() + theme(legend.position = "none")
+
+
+p14 <- ggplot(data=survey, aes(sample=Height, colour=Sex)) + stat_qq() + labs(title="QQ-plot", subtitle = "stat_qq() and stat_qq_line()") + theme_fivethirtyeight() + theme(legend.position = "none") + stat_qq_line()
+
+p15 <- ggplot(data=survey, aes(x=Height)) + stat_ecdf(geom = "step") + labs(title="Distribution", subtitle = "stat_ecdf()") + theme_fivethirtyeight() + theme(legend.position = "none")
+
+
+grid.arrange(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, ncol=2)
+```
+
+
+### Themes
+
+```{r fig.align="center", fig.width=6, fig.height=8, echo=FALSE}
+novekedes <- read.table(file = "data/growth.csv", sep=",", header = T, dec = ".", 
+                        stringsAsFactors = T)
+p0  <- ggplot(data=novekedes, aes(x=diet, y=gain)) + geom_boxplot()
+p1  <- p0 + theme_gray() + labs(subtitle = "theme_gray()")
+p2  <- p0 + theme_bw() + labs(subtitle = "theme_bw()")
+p3  <- p0 + theme_classic() + labs(subtitle = "theme_classic()")
+p4  <- p0 + theme_light() + labs(subtitle = "theme_light()")
+p5  <- p0 + theme_minimal() + labs(subtitle = "theme_minimal()")
+p6  <- p0 + theme_clean() + labs(subtitle = "theme_clean()")
+p7  <- p0 + theme_economist() + labs(subtitle = "theme_economist()")
+p8  <- p0 + theme_economist_white() + labs(subtitle = "theme_economist_white()")
+p9  <- p0 + theme_fivethirtyeight() + labs(subtitle = "theme_fivethirtyeight()")
+p10 <- p0 + theme_stata() + labs(subtitle = "theme_stata()")
+p11 <- p0 + theme_tufte() + labs(subtitle = "theme_tufte()")
+p12 <- p0 + theme_pander() + labs(subtitle = "theme_pander()")
+grid.arrange(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, nrow=4, ncol=3)
+```
+

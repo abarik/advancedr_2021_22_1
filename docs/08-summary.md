@@ -77,6 +77,8 @@ With R markdown, it is easy to reproduce not only the analysis used, but also th
 
 ## Modern graphics in R - ggplot2
 
+### The grammar of graphics
+
 The grammar of graphics lies at the heart of ggplot2 and also lies at the heart of how we define our data visualizations [@10.5555/1088896].
 
 | Component  | Description                                 |
@@ -168,6 +170,8 @@ ggplot(data=d.tbl, mapping=aes(x=score.1, y=score.2, fill=group)) +
 
 <img src="08-summary_files/figure-epub3/unnamed-chunk-2-6.png" style="display: block; margin: auto;" />
 
+### Geometries with required and optional aesthetics.
+
 +--------------------+--------------------------------------------------+-----------------------------------------------------------------------------------------+
 | Geometry           | Required aesthetics                              | Optional aesthetics                                                                     |
 +====================+==================================================+=========================================================================================+
@@ -204,4 +208,16 @@ ggplot(data=d.tbl, mapping=aes(x=score.1, y=score.2, fill=group)) +
 | `geom_text()`      | `label`, `x`, `y`                                | `alpha`, `angle`, `color`, `family`, `fontface`, `hjust`, `lineheight`, `size`, `vjust` |
 +--------------------+--------------------------------------------------+-----------------------------------------------------------------------------------------+
 
-: (#tab:geomelemek) Geometries with required and optional aesthetics.
+
+### Plot types
+
+<div class="figure" style="text-align: center">
+<img src="08-summary_files/figure-epub3/gemabraklistaja-1.png" alt="Plot types and geometries"  />
+<p class="caption">(\#fig:gemabraklistaja)Plot types and geometries</p>
+</div>
+
+
+### Themes
+
+<img src="08-summary_files/figure-epub3/unnamed-chunk-3-1.png" style="display: block; margin: auto;" />
+

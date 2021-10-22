@@ -1,7 +1,7 @@
 fig:rm-pic
 tab:unnamed-chunk-1
 tab:gog
-tab:geomelemek
+fig:gemabraklistaja
 introduction
 warm-up-exercise
 data-structures
@@ -329,3 +329,7 @@ summary
 rmarkdown-2
 advanced-data-manipulation-1
 modern-graphics-in-r---ggplot2
+the-grammar-of-graphics
+geometries-with-required-and-optional-aesthetics.
+plot-types
+themes

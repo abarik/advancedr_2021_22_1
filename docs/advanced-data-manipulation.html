@@ -800,9 +800,9 @@
 </h3>
 <p>After importing data, rows can be renamed by assigning new names to them.</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">gapminder_utf8</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span>
+<code class="sourceCode R"><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">rownames</a></span><span class="op">(</span><span class="va">gapminder_utf8</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span>
 <span class="co">#&gt; [1] "1" "2" "3" "4" "5" "6"</span>
-<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">gapminder_utf8</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"RN-"</span>, <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">gapminder_utf8</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">rownames</a></span><span class="op">(</span><span class="va">gapminder_utf8</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"RN-"</span>, <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">gapminder_utf8</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">gapminder_utf8</span><span class="op">)</span>
 <span class="co">#&gt;           orszag kontinens year lifeExp      pop gdpPercap</span>
 <span class="co">#&gt; RN-1 Afghanistan      Asia 1952  28.801  8425333  779.4453</span>
@@ -818,7 +818,7 @@
 <span class="co">#&gt; RN-4 Afganisztán         Ázsia</span>
 <span class="co">#&gt; RN-5 Afganisztán         Ázsia</span>
 <span class="co">#&gt; RN-6 Afganisztán         Ázsia</span>
-<span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">gapminder_utf8</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">gapminder_utf8</span><span class="op">)</span> <span class="co"># reset row names</span>
+<span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">rownames</a></span><span class="op">(</span><span class="va">gapminder_utf8</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">gapminder_utf8</span><span class="op">)</span> <span class="co"># reset row names</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">gapminder_utf8</span><span class="op">)</span>
 <span class="co">#&gt;        orszag kontinens year lifeExp      pop gdpPercap</span>
 <span class="co">#&gt; 1 Afghanistan      Asia 1952  28.801  8425333  779.4453</span>
