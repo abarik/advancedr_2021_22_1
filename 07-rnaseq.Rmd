@@ -1,2 +1,334 @@
 # RNA-Seq (an example)
 
+## Introduction
+
+
+This workflow below is based on @Pipperrana. For analysis, we used the **DESeq2** package [@Love2014] and also considered @anrlove2020 [description](https://bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.html).
+
+The research questions and databases used in the workflow are based on the publication of @Gerarduzzi2017, RNA sequencing data can be downloaded from the Gene Expression Omnibus (GEO) database (GEO accession: [GSE85209] (https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE85209)).
+
+## Loading packages
+
+```{r}
+# Load library for DESeq2
+# if (!requireNamespace("BiocManager", quietly = TRUE))
+#     install.packages("BiocManager")
+# 
+# .libPaths()
+# BiocManager::install("DESeq2")
+# devtools::install_github("stephenturner/annotables")
+
+library(DESeq2)
+
+# Load library for RColorBrewer
+library(RColorBrewer)
+
+# Load library for pheatmap
+# install.packages("pheatmap")
+library(pheatmap)
+
+# Load library for tidyverse
+library(tidyverse)
+```
+
+
+## Read counts
+
+```{r}
+smoc2_rawcounts <- read.csv("data/fibrosis_smoc2_rawcounts_unordered.csv") 
+rownames(smoc2_rawcounts) <- smoc2_rawcounts$X
+smoc2_rawcounts$X <- NULL
+
+# Explore the first six observations of smoc2_rawcounts
+head(smoc2_rawcounts)
+
+# Explore the structure of smoc2_rawcounts
+str(smoc2_rawcounts)
+```
+
+## Distribution of counts
+
+```{r}
+library(ggplot2)
+ggplot(smoc2_rawcounts) + 
+  geom_histogram(aes(x=smoc2_fibrosis1), bins = 300)
+summary(smoc2_rawcounts$smoc2_fibrosis1)
+```
+
+## Setting of metadata
+
+```{r}
+# Create genotype vector
+genotype <- c("smoc2_oe", "smoc2_oe", "smoc2_oe", "smoc2_oe", "smoc2_oe", "smoc2_oe", "smoc2_oe")
+
+# Create condition vector
+condition <- c("fibrosis", "fibrosis", "fibrosis", "fibrosis", "normal", "normal", "normal")
+
+# Create data frame
+smoc2_metadata <- data.frame(genotype, condition)
+
+# Assign the row names of the data frame
+rownames(smoc2_metadata) <- c("smoc2_fibrosis1", "smoc2_fibrosis2", "smoc2_fibrosis3", "smoc2_fibrosis4", "smoc2_normal1", "smoc2_normal3", "smoc2_normal4")
+
+smoc2_metadata
+```
+
+## Matching metadata and counts data
+
+```{r}
+# Use the match() function to reorder the columns of the raw counts
+reorder_idx <- match(rownames(smoc2_metadata), colnames(smoc2_rawcounts))
+
+# Reorder the columns of the count data
+reordered_smoc2_rawcounts <- smoc2_rawcounts[ , reorder_idx]
+
+all(rownames(smoc2_metadata) == colnames(reordered_smoc2_rawcounts))
+
+# Create a DESeq2 object
+dds_smoc2 <- DESeqDataSetFromMatrix(countData = reordered_smoc2_rawcounts,
+                              colData = smoc2_metadata,
+                              design = ~ condition)
+```
+
+## Normalizing counts
+
+```{r}
+# Determine the size factors to use for normalization
+dds_smoc2 <- estimateSizeFactors(dds_smoc2)
+
+sizeFactors(dds_smoc2)
+
+# Extract the normalized counts
+smoc2_normalized_counts <- counts(dds_smoc2, normalized=TRUE)
+# smoc2_normalized_counts
+```
+
+
+## Quality control - Hierarchical heatmap
+
+```{r}
+# Transform the normalized counts 
+vsd_smoc2 <- vst(dds_smoc2, blind = TRUE)
+
+# Extract the matrix of transformed counts
+vsd_mat_smoc2 <- assay(vsd_smoc2)
+
+# Compute the correlation values between samples
+vsd_cor_smoc2 <- cor(vsd_mat_smoc2) 
+
+# Plot the heatmap
+pheatmap(vsd_cor_smoc2, annotation = select(smoc2_metadata, condition))
+```
+
+## Quality control - Principal component analysis
+
+```{r}
+# Transform the normalized counts 
+vsd_smoc2 <- vst(dds_smoc2, blind = TRUE)
+
+# Plot the PCA of PC1 and PC2
+plotPCA(vsd_smoc2, intgroup="condition")
+```
+
+
+## Creating the DeSeq2 object
+
+```{r}
+# Create DESeq2 object
+dds_smoc2 <- DESeqDataSetFromMatrix(countData = reordered_smoc2_rawcounts,
+                              colData = smoc2_metadata,
+                              design = ~ condition)
+
+# Run the DESeq2 analysis
+dds_smoc2 <- DESeq(dds_smoc2)
+```
+
+
+## DESeq2 model - dispersion
+
+
+```{r}
+mean_counts <- apply(smoc2_rawcounts, 1, mean)
+variance_counts <- apply(smoc2_rawcounts, 1, var)
+df <- data.frame(mean_counts, variance_counts)
+ggplot(df) + geom_point(aes(x=mean_counts, y=variance_counts)) + 
+  scale_y_log10() + 
+  scale_x_log10() +
+  labs(x="Mean counts per gene", y="Vaiance per gene") 
+```
+
+Dispersion formula: $Var=\mu+\alpha\times\mu^2$
+
+- $Var$: variance
+- $\mu$: mean
+- $\alpha$: dispersion
+
+```{r}
+# Plot dispersions
+plotDispEsts(dds_smoc2)
+```
+
+
+## DESeq2 model - contrasts
+
+
+DESeq2 Negative Binomial Model:
+
+$$K_{ij} \sim NB(\mu_{ij},\alpha_i)$$
+$$\mu_{ij}=s_{j}q_{ij}$$
+
+
+$$log_2(q_{ij})=x_j\beta_j$$
+
+
+- $K_{ij}$ - raw count for gene i, samle j
+- $s_{ij}$ - size factor
+- $g_{ij}$ - normalized count
+
+
+```{r}
+# Extract the results of the differential expression analysis
+smoc2_res <- results(dds_smoc2, 
+                contrast = c("condition", "fibrosis", "normal"), 
+                alpha = 0.05)
+plotMA(smoc2_res)
+```
+
+
+
+### DESeq2 rsults - LFC shrinkage
+
+```{r}
+# Shrink the log2 fold change estimates to be more accurate
+smoc2_res <- lfcShrink(dds_smoc2,
+                    contrast = c("condition", "fibrosis", "normal"),
+                    res = smoc2_res, type = "ashr")
+plotMA(smoc2_res)
+```
+
+
+## DESeq2 results
+
+```{r}
+mcols(smoc2_res)
+head(smoc2_res)
+summary(smoc2_res)
+```
+
+
+```{r}
+# Extract results
+smoc2_res <- results(dds_smoc2, 
+                contrast = c("condition", "fibrosis", "normal"), 
+                alpha = 0.05, 
+                lfcThreshold = 0.32)
+
+# Shrink the log2 fold changes
+smoc2_res <- lfcShrink(dds_smoc2, 
+                    contrast = c("condition", "fibrosis", "normal"), 
+                    res = smoc2_res, type = "ashr")
+```
+
+
+```{r}
+# Get an overview of the results    
+summary(smoc2_res)
+```
+
+
+## DESeq2 significant results
+
+```{r}
+# Save results as a data frame
+smoc2_res_all <- data.frame(smoc2_res)
+
+# Subset the results to only return the significant genes with p-adjusted values less than 0.05
+smoc2_res_sig <- subset(smoc2_res_all, padj < 0.05)
+head(smoc2_res_sig)
+```
+
+
+## Visualization of results - MA és Vulcano plots
+
+```{r}
+# Create MA plot
+plotMA(smoc2_res)
+
+# Generate logical column 
+smoc2_res_all <- data.frame(smoc2_res) %>% mutate(threshold = padj < 0.05)
+              
+# Create the volcano plot
+ggplot(smoc2_res_all) + 
+        geom_point(aes(x = log2FoldChange, y = -log10(padj), color = threshold)) + 
+        xlab("log2 fold change") + 
+        ylab("-log10 adjusted p-value") + 
+        theme(legend.position = "none", 
+              plot.title = element_text(size = rel(1.5), hjust = 0.5), 
+              axis.title = element_text(size = rel(1.25)))
+```
+
+
+## Visualization of results -  heatmap
+
+```{r}
+# Subset normalized counts to significant genes
+sig_norm_counts_smoc2 <- smoc2_normalized_counts[rownames(smoc2_res_sig), ]
+
+# Choose heatmap color palette
+heat_colors <- brewer.pal(n = 6, name = "YlOrRd")
+
+# Plot heatmap
+pheatmap(sig_norm_counts_smoc2, 
+         color = heat_colors, 
+         cluster_rows = TRUE, 
+         show_rownames = FALSE,
+         annotation = select(smoc2_metadata, condition), 
+         scale = "row")
+```
+
+
+## Significant genes
+
+```{r}
+library(annotables)
+head(grcm38)
+
+smoc2_res_all <- data.frame(smoc2_res) %>% 
+  rownames_to_column(var="ensgene") %>% 
+  left_join(, y=grcm38[, c("ensgene", "symbol", "description")],
+            by="ensgene")
+
+head(smoc2_res_all)
+
+smoc2_res_sig <- subset(smoc2_res_all, padj < 0.05)
+smoc2_res_sig <- smoc2_res_sig %>% arrange(padj)
+head(smoc2_res_sig)
+```
+
+
+
+##  Top 20 genes
+
+```{r}
+top_20 <- data.frame(sig_norm_counts_smoc2)[1:20, ] %>% 
+  rownames_to_column(var="ensgene")
+
+top_20 <- top_20 %>% pivot_longer(cols = 2:8, values_to = "normalized_counts", names_to="samplename")
+
+head(top_20)
+
+top_20 <- inner_join(top_20, 
+                     rownames_to_column(smoc2_metadata, var="samplename"),
+                     by="samplename")
+# write.table(x = top_20, file = "tmp.csv", sep=";", dec=",", row.names = F, quote = T)
+ggplot(top_20) + 
+  geom_point(aes(x=ensgene, y=normalized_counts, color=condition)) +
+  scale_y_log10() +
+  labs(title = "Top 20 genes", x="Genes", y="Normalized counts") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle=45, hjust=1))
+
+```
+
+
+

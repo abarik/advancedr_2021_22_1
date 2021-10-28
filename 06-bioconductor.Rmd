@@ -1,1 +1,475 @@
 # Bioconductor
+
+## Introduction
+
+The Bioconductor project is an open source repository for R packages, datasets and workflows that are specific for analyzing biological data. The Bioconductor project is a useful extension on CRAN, the R Archive, because it provides us with the software tools to explore, understand, and solve simple and complex molecular biology questions. Hence, Bioconductor's tagline is "open source software for bioinformatics".
+
+Bioconductor site: [https://www.bioconductor.org/](https://www.bioconductor.org/)
+
+
+## How to install Bioconductor packages?
+
+The Bioconductor package collection forms its own repository and has a release schedule different from the R Archive. Because Bioconductor has it's own base functions and updates, packages are installed differently. To install Bioconductor packages you need some lines of code, as shown below. 
+
+```{r eval=FALSE}
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install()                  # install core packages
+BiocManager::install("GenomicFeatures") # install GenomicFeatures package
+```
+
+
+First, use the function `install.packages("BiocManager")`. This function will install the **BiocInstaller** package. Then, use the function `BiocManager::install()` with the name of the package you want to install. Once you use `BiocManager::install()`, you will be informed if any new versions of Bioconductor are available, and will also see a prompt to update your R version if needed. Updating packages, regularly, is important to get the new features. In case there are upgrades on packages or dependencies, you will be asked to update all, some, or none of the packages.
+
+
+### Bioconductor version and package version
+
+Because Bioconductor is in constant development, you can check the version of Bioconductor using the syntax `BiocManager::version()`. To load a package use the function `library()` like with CRAN packages. It's important for reproducibility to always check the versions of your packages. You can use the function `sessionInfo()` which gives you a list of all the loaded packages and their versions, or you can inquire the version of each package using `packageVersion()` and the `packageName`. Finally, if you are interested to know if you have out-of-date packages, use the function `BiocManager::valid()`.
+
+```{r eval=FALSE}
+version                  # detailed information about the version of R running
+sessionInfo()            # version information about R, the OS and attached or loaded packages
+BiocManager::version()   # version of Bioconductor currently in use
+BiocManager::valid()     # Validate installed package versions against correct versions
+packageVersion("GenomicFeatures")  # package version
+
+# to install some new packages
+.libPaths()
+BiocManager::install(c(
+    "backports", "Cairo", "loo", "openssl", "Rcpp", "svglite", "vdiffr"
+  ), update = TRUE, ask = FALSE)
+```
+
+**BSgenome** is a Bioconductor data package that contains representations of several genomes. This package has already been installed for you, as installing the dependencies usually takes some time, using the following code:
+
+```{r}
+# Installing and loading BSGenome package
+# BiocManager::install("BSgenome", lib="C:/Program Files/R/R-4.1.1patched/library" )
+library(BSgenome)
+```
+
+
+## OO systems
+
+R is a functional programming language, which means we are working with a series of functions. We achieve our goal by sequencing or nested function calls. The use of Tidyverse R and the pipe operator greatly facilitates the interpretation and modification of multiple nested functions.
+
+However, R also has object-oriented capabilities, so our capabilities expand greatly when using R.
+
+In R you can use several object-oriented systems in parallel (more details [https://adv-r.hadley.nz/oo.html](https://adv-r.hadley.nz/oo.html)):
+
+* S3 - the simplest OO system, tied to basic data types
+* S4 - Bioconductor is being developed in this (details: [S4 System Development in Bioconductor](http://www.bioconductor.org/help/course-materials/2010/AdvancedR/S4InBioconductor.pdf) and [S4 classes and methods](http://bioconductor.org/help/course-materials/2017/Zurich/S4-classes-and-methods.html)
+* RC - Reference classes, the latest OO system in R (from version 2.12 R)
+
+
+We review two object-oriented systems, systems S3 and S4. Most of the R packets use the S3 system, the Bioconductor handles the S4.
+
+
+### S3
+
+Advantages of S3:
+
+* simple but powerful
+* flexible and interactive
+* uses a generic function
+* functionality depends on the first argument.
+
+A good example of S3 is the `plot ()` function, which can draw more than 30 different figures, depending on the input.
+
+```{r}
+methods(plot) # List Methods for S3 Generic Functions or Classes of plot()
+x <- rbinom(n = 10, size = 4, prob = 0.5)
+plot(x)
+plot(factor(x))
+plot(table(x))
+```
+
+However, the S3 is not strong in type evaluation and selection. For example, if you give a function the wrong type, it will try all of them before printing the error. Naming difficulties (dot or not dot) and inheritance work, but it depends on the input.
+
+
+#### Bases
+
+S3 is the most widely used object-oriented system in CRAN packages. The **base** and **stats** packages only use this system.
+
+Each S3 object has a `class` attribute, but of course it can have other attributes to store different information.
+
+```{r}
+f <- factor(c("a", "b", "c"))
+typeof(f)     # The Type of an Object
+attributes(f) # Object Attribute Lists
+unclass(f)    # returns f with its class attribute removed 
+sloop::otype(f) # Determine the type of an object
+```
+
+There are generic functions in R that define an interface that uses a different implementation depending on the argument received. Most R functions are generic, such as `print ()` and the `plot ()` seen earlier.
+
+```{r}
+print(f)
+print(unclass(f))
+```
+
+We can know whether any function is generic or not.
+
+```{r}
+sloop::ftype(str)    # Determine function type.
+sloop::ftype(print)
+sloop::ftype(unclass)
+sloop::ftype(mean)
+```
+
+The class of the S3 object is printed by `class ()`, but `inherits ()` provides a logical value if the object is an instance of that class.
+
+The job of an S3 generic is to perform method dispatch, i.e. find the specific implementation for a class. Method dispatch is performed by `UseMethod()`, which every generic calls. How does `UseMethod()` work? It basically creates a vector of method names, `paste0("generic", ".", c(class(x), "default"))`, and then looks for each potential method in turn. We can see this in action with `sloop::s3_dispatch()`. You give it a call to an S3 generic, and it lists all the possible methods.
+
+```{r}
+sloop::s3_dispatch(print(f))
+```
+
+#### Classes
+
+In the S3 system, there is no formal definition of objects. If you want to create your own class, you need to specify the `class` attribute. You can also create an object of a class with the `structure ()` function or later with the `class ()` function.
+
+```{r}
+x <- structure(1:10, class="my_class")
+sloop::otype(x)
+
+x <- 1:10
+class(x) <- "my_class"
+x
+sloop::otype(x)
+```
+
+
+The class of the S3 object is printed by `class ()`, but `inherits ()` provides a logical value if the object is an instance of that class.
+
+```{r}
+class(x)
+inherits(x, "my_class")
+```
+
+It is very easy to ruin an existing object by modifying the class.
+
+```{r}
+x <- factor(1:10)
+x
+class(x)
+class(x) <- "lm"
+# x  hibaüzenet
+```
+
+
+
+### S4
+
+The S4 system motivation is to implement an object-oriented style of programming. The base concept is to define the data first and then work on it. Once an object is defined, it is generalized to a class by defining the kind of data it contains and any actions or functions to manipulate it. As you will see in more detail in the coming chapters, biological representations are complex and very often interconnected. Bioconductor then, recommends re-using methods and classes before implementing new representations. S4 classes have a formal definition, hence are a lot better to check input types, because of their definition and inheritance. You can create a new object from a class like in the example. We created a new genome description. This object will contain slots to describe it. S4 requires a bit more work to implement, but it serves to extend the code so that others can reuse the framework.
+
+Benefits of S4
+
+* formal definition of classes
+* Bioconductor reusability
+* has validation of types
+* naming conventions.
+
+Use the `new ()` function to create a new object. The object will contain slots to describe the data. The S4 system is a bit more complex than the S3.
+
+It is easy to decide whether an object is an object defined in S4 or not. This can also be said by the `isS4 ()` or `str ()` functions. In the first case `TRUE` is displayed and in the second case` Formal class`.
+
+
+```{r}
+mydescr <- new("GenomeDescription") # create a new object from a class
+isS4(mydescr)
+isS4(mean(1:10))
+str(mydescr)
+```
+
+We can use the function `sloop::otype()`.
+
+```{r}
+sloop::otype(mydescr)
+attributes(mydescr)
+```
+
+#### S4 class definition
+
+An S4 class describes a representation of an object with a `name` and `slots` (also called methods or fields). A class optionally describes its inheritance. A class allows us to define all the characteristics concerning an object and it gives us code reusability. For example, we create a class using `setClass()`. Its name is `MyEpicProject` with three slots: `ini`, `end` and `milestone`. This class inherits from the class `MyProject`. This means we can reuse slots from it.
+
+```{r eval=FALSE}
+MyEpicProject <- setClass(
+  "MyEpicProject",        # define class name with UpperCamelCase
+  slots = c(ini = "Date", # define slots, helpful for validation
+            end = "Date",
+            milestone = "character"), 
+  contains = "MyProject" # define inheritance
+)
+```
+
+
+**S4 class definition**
+
+A class describes a representation:
+
+* name
+* slots (methids/fields)
+* contains (inheritance definition)
+
+
+#### S4 accessors
+
+Basic information of an S4 object is accessed through accessor-functions, also called methods. As we have seen, a class definition includes slots for describing an object. The function `.S4methods()` used with main classes gives you a summary of its accessors. For other subclasses use the `showMethods()` function, but this gives you a breakdown, which might be a bit too long to look at. If you want an object summary, use the accessor function `show()`. You will use some of these accessors in the coming exercises.
+
+
+We will use the class `BSgenome`, which is already loaded for you. Let's check the formal definition of this class by using the function `showClass("className")`. Check the `BSgenome` class results and find its parent classes (**Extends**) and the classes that inherit from it (**Subclasses**).
+
+```{r}
+library(BSgenome) # load the package
+.S4methods(class = "BSgenome") # accessors from the main class
+#showMethods(classes = "BSgenome") # too long output
+showClass("BSgenome") # parents and children
+
+# new object and object summary
+setClass("track", slots = c(x="numeric", y="numeric"))
+t1 <- new("track", x=1:20, y=(1:20)^2)
+show(t1) 
+```
+
+The `BSgenome` is a powerful class and inherits from `Annotated`, which you will see later on, and has `MaskedBSgenome` as subclass.
+
+## Introducing genomic datasets
+
+All organisms have a genome which makes up what they are, and it dictates responses to external influences. A genome is the complete genetic material of an organism stored mostly in the chromosomes, it's known as the blueprint of the living. A genome is made of long sequences of DNA, based on a four-letter-alphabet, T, A, G and C.
+
+We are interested in locating and describing specific locations in a genome because this allows us to learn about diversity, evolution, hereditary changes, and more. To understand this better we subdivide a genome. The written information in a genome uses the DNA alphabet. Think of a genome as a set of books and each book is a chromosome. Chromosome numbers on each genome are highly variable. Usually, chromosomes come in pairs, but multiple sets are very common too. Each chromosome has ordered genetic sequences, think of chapters in a book. To find specific genetic instructions we look at genes. These are like the pages in a book, containing a recipe to make proteins. Some genes will produce proteins but some won't. These are called coding and non-coding genes. Coding genes are expressed through proteins responsible for specific functions. Proteins come up following a two-step process, DNA-to-RNA, a step known as transcription, while the RNA-to-protein is a step called translation.
+
+
+As an example, we are going to study the Yeast genome, a single cell microorganism. The fungus that people love. Yeast is used for fermentation and production of beer, bread, kefir, kombucha and other foods, as well as used for bioremediation. Its scientific name is Saccharomyces cerevisiae or s. cerevisiae. Yeast is a very well studied organism, due to its fast development, many experiments use it as model.
+
+### Yeast genome
+
+The yeast genome is a dataset available from UCSC. We have picked this genome because it has a small size. The **BSgenome** package provides us with many genome datasets. To get a list of the BSgenome available datasets, use the function `available.genomes()`. Then, using common accessors functions, you can learn about the genome, for example, the number of chromosomes using `length()`, the names of the chromosomes using `names()`, and the length of each chromosome by DNA base pairs, using `seqlengths()`.
+
+
+```{r}
+# BiocManager::install("BSgenome.Scerevisiae.UCSC.sacCer3")
+# Load the yeast genome
+library(BSgenome.Scerevisiae.UCSC.sacCer3)
+
+# Assign data to the yeastGenome object
+yeastGenome <- BSgenome.Scerevisiae.UCSC.sacCer3
+
+# interested in other genomes
+available.genomes()
+# BiocManager::install("BSgenome.Vvinifera.URGI.IGGP8X")
+
+# Object Classes
+class(yeastGenome)  # "BSgenome"
+
+# all classes
+is(yeastGenome)  # "BSgenome", "Annotated"
+
+# S4 system?
+isS4(yeastGenome)  # TRUE
+
+# list accessors
+.S4methods(class = "BSgenome")
+
+# examples for accessors
+organism(yeastGenome)
+provider(yeastGenome)
+seqinfo(yeastGenome)
+
+# Chromosome numbers
+length(yeastGenome)
+
+# Chromosome names
+names(yeastGenome)
+
+# length of each chromosome by DNA base pairs
+seqlengths(yeastGenome)
+```
+
+Specific genes or regions are interesting because of their functions. You can retrieve sections of a genome with the function `getSeq()`. The minimum argument required is a `BSgenome` object. The first example will give you all the sequences in the yeast genome. Then, you can specify some other parameters, to select sequences from chromosome M use "chrM". Next, you can specify the locations of the subsequences to extract, using `start=`, `end=`, or `width=`. Using, `end=10`, it selects the first 10 base pairs of each chromosome of the genome.
+
+```{r}
+getSeq(yeastGenome)  # all sequencies
+getSeq(yeastGenome, names="chrM") # only one, chromosome M
+getSeq(yeastGenome, end=10) # selects first 10 base pairs of each chromosome
+getSeq(yeastGenome, start=3, end=10) # 8 base pairs of of each chromosome
+getSeq(yeastGenome, names="chrM", start=3, end=10) # 8 base pairs of M chromosome
+# The following example will select the bases of "chrI" from 100 to 150
+getSeq(yeastGenome, names = "chrI", start = 100, end = 150)
+```
+
+Let's continue exploring the possibilities of the **BSgenome** package. Each chromosome can also be referred to as `object name$chromosome.name`.
+
+```{r}
+# chromosome M, alias chrM 
+yeastGenome$chrM
+
+names(yeastGenome) # chromosome names
+seqnames(yeastGenome) # chromosome names
+seqlengths(yeastGenome) # length of chromosomes
+
+# Get the head of seqnames and tail of seqlengths for yeastGenome
+head(seqnames(yeastGenome))   
+tail(seqlengths(yeastGenome)) 
+
+nchar(yeastGenome$chrM)  # Count characters of the chrM sequence
+```
+
+
+
+## Introduction to Biostrings
+
+Bioconductor is all about handling biological datasets in the most efficient way. As you get more familiar with your biological project and/or experiment, you will notice how big datasets can be. The **Biostrings** package came to Bioconductor 13 years ago, and it implements algorithms for fast manipulation of large biological sequences. It is so important, that more than 200 Bioconductor packages depend on it. Hence, **Biostrings** is at the top 5% of Bioconductor downloads.
+
+###  Biological string containers
+
+Biological datasets are represented by characters, and these sequences can be extremely large. **Biostrings** is a useful package because it implements memory efficient containers, especially for sub-setting and matching. Also, these containers can have subclasses. For example, a `BString` subclass for Big String can store a big sequence of strings as single object or collection. The package **Biostrings** implements two generic containers, also known as virtual classes; these are `XString` and `XStringSet`, from which other subclasses will inherit. To learn more about these classes and how they connect to one another, use the function `showClass()`, like in the example.
+
+```{r}
+library(Biostrings)
+
+showClass("XString")
+showClass("XStringSet")
+showClass("BString")
+showClass("BStringSet")
+```
+
+
+### Biostring alphabets
+
+BioStrings are biology-oriented containers and use a predefined alphabet for storing a DNA sequence, an RNA sequence, or a sequence of amino acids. The `DNA_BASES` alphabet has the four bases (A, C, G and T) The `RNA_BASES` replace the T for U) and the Amoni Acid standard (`AA_STANDARD`) contains the 20 Amino Acid letters, each is built from 3 consecutive RNA bases. In addition, Biostrings alphabets are based on two code representations: `IUPAC_CODE_MAP` and `AMINO_ACID_CODE` which contains the bases plus extra characters and symbols. It is important to know these code representations so you know which kind of string you are using or need to use depending on the sequence alphabet.
+
+```{r}
+DNA_BASES     # DNA 4 bases
+RNA_BASES     # RNA 4 bases
+AA_STANDARD   # 20 Amino acids
+DNA_ALPHABET  # IUPAC_CODE_MAP
+RNA_ALPHABET  # IUPAC_CODE_MAP
+AA_ALPHABET   # AMINO_ACID_CODE
+```
+
+For more information IUPAC DNA codes [http://genome.ucsc.edu/goldenPath/help/iupac.html](http://genome.ucsc.edu/goldenPath/help/iupac.html)
+
+
+### Transcription and translation
+
+Now that we now the alphabets, let's talk about the two processes that convert sequences from one alphabet to the other. First, a double-stranded DNA gets split. This single strand gets transcribed into RNA, complementing each base. But remember, RNA uses U instead of T. Every three RNA bases translate to a new amino acid. This translation follows the genetic code table to produce new molecules.
+
+#### Transcription DNA to RNA
+
+Using **BStrings** we start with a short DNA sequence saved in a `DNAString` object. Then, transcription is the process in which a particular segment of DNA is copied into RNA. Using `RNAString`, it will change all of the T's from the `dna_seq` to U's in the `rna_seq`, keeping the same sequence length. 
+
+```{r}
+library(Biostrings)
+dna_seq <- DNAString("ATGATCTCGTAA") # DNA single string
+dna_seq
+# transcription DNA to RNA string
+rna_seq <- RNAString(dna_seq)   # T -> U
+rna_seq
+```
+
+Remember, you could also begin with a Set if you want to transcribe multiple sequences at the same time.
+
+#### Translation RNA to amino acids
+
+To translate RNA sequences into Amino Acid sequences, we need the translation codes stored in `RNA_GENETIC_CODE` and applied by the `translate()` function. In the example, `rna_seq` is translated into MIS*. Where three RNA bases return one Amino Acid. Hence, translation always returns a shorter sequence.
+
+```{r}
+RNA_GENETIC_CODE
+rna_seq
+aa_seq <- translate(rna_seq)
+aa_seq
+```
+
+
+#### Shortcut translate DNA to amino acids
+
+Transcription and translation are two separated processes in real life. But, in coding, there is a shortcut. The function `translate()` also accepts DNA Strings and it automatically transcribes to RNA before translating the sequence to Amino Acids, providing the same results.
+
+```{r}
+aa_seq <- translate(dna_seq)
+aa_seq
+```
+
+### The Zika virus
+
+For this chapter, you will use the Zika Virus genome to interact with the package **BStrings**. The Zika virus genome is very small, of about 10 thousand base pairs. A virus needs a host to live in. The Zika virus is common in tropical areas around the world and it spreads through mosquitoes or blood.
+
+#### Exploring the Zika virus sequence
+
+To explore the Zika virus genome, which has been loaded in your workspace as `zikaVirus`. The genome was downloaded from NCBI and you can apply **BStrings** functions to learn more about it.
+
+Before exploring the Zika virus sequence, we need to asnwer the question: How do we store sequences? We do so, using text. There are two main text formats `fastQ` and `fastA`, the main difference is that `fastQ` files include quality encoding per sequenced letter. Both formats are used to store DNA or protein sequences together with sequence names. Now, we have a fasta file. A fasta file contains two lines per sequence read. The first line starts with the right arrow and a unique sequence identifier and the second line, the raw sequence string. Common file extensions are fasta, fa, or seq.
+
+**ShortRead** package provides us with `readFasta()` which reads all FASTA-formatted files in a directory Path followed by a pattern. It can read compressed or uncompressed files. It returns a single object representation of class `ShortRead`. This class stores and manipulates uniform-length short read sequences and their identifiers. Use `methods()` with class ShortRead to get a list of accessors. Lastly, `writeFasta()` writes an object to a single file given a file name. It can also compress on the fly.
+
+```{r}
+# BiocManager::install("ShortRead")
+library(ShortRead)
+zika <- readFasta(dirPath = "data/zika_genomic.fa.txt")
+zika
+class(zika)
+methods(class = "ShortRead") # methods accessors
+zikaVirus <- sread(zika) # slots from object of class "DNAStringSet"
+zikaVirus
+writeFasta(object = zika, file = "output/data/zv.fasta")
+```
+
+Start by checking the alphabet of the sequence.
+
+```{r}
+alphabet(zikaVirus) # Shows the letters included in the sequence
+alphabetFrequency(zikaVirus) # Shows the counts per letter
+```
+
+
+Remember that each alphabet corresponds to a specific **BString** container, and each alphabet usually has extra code letters and symbols.
+
+Call `alphabet()` with the attribute `baseOnly = TRUE`. What difference do you see when adding this optional argument?
+
+```{r}
+# Check alphabet of the zikaVirus using baseOnly = TRUE
+alphabet(zikaVirus, baseOnly = TRUE)
+```
+
+You've now discovered that the zikaVirus is a DNA sequence since it contains the 4 bases A, C, T, and G. The `zikaVirus` has been read into a `DNAStringSet`. 
+
+
+#### Manipulating Biostrings
+
+Using a short sequence (`dna_seq`) from the `zikaVirus` object, we are going with the two biological processes of transcription and translation.
+
+In the first two parts of this exercise, you will apply these processes separately. After using `unlist()` the zikaVirus we set and select the first 21 base pairs with `subseq()`. The resulting object will be a "DNAString" object. We transcribe the `dna_seq` into an "RNAString" and assign it to `rna_seq`. We translate the `rna_seq` into an "AAString" and assign it to `aa_seq`.
+
+```{r}
+# Unlist the set, select the first 21 letters, and assign to dna_seq
+dna_seq <- subseq(unlist(zikaVirus), end = 21)
+dna_seq
+
+# Transcribe dna_seq into an RNAString object and print it
+rna_seq <- RNAString(dna_seq) 
+rna_seq
+
+# Translate rna_seq into an AAString object and print it
+aa_seq <- translate(rna_seq)
+aa_seq
+```
+
+
+
+In the last part, we'll apply them in one step. We complete the processes of transcription and translation on the "DNAString" object `dna_seq` in one step, converting it directly into an "AAString" object, `aa_seq`.
+
+```{r}
+# Unlist the set, select the first 21 letters, and assign to dna_seq
+dna_seq <- subseq(unlist(zikaVirus), end = 21)
+dna_seq
+
+# Transcribe and translate dna_seq into an AAString object and print it
+aa_seq <- translate(dna_seq)
+aa_seq
+```
+
+We used a very small sequence in this exercise, but remember that the power of `BStrings` comes to light when manipulating much larger sequences.
+
+

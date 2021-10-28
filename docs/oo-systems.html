@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 10 OO systems | Advanced R</title>
+<meta name="author" content="Kálmán Abari">
+<meta name="description" content="R is a functional programming language, which means we are working with a series of functions. We achieve our goal by sequencing or nested function calls. The use of Tidyverse R and the pipe...">
+<meta name="generator" content="bookdown 0.24 with bs4_book()">
+<meta property="og:title" content="Chapter 10 OO systems | Advanced R">
+<meta property="og:type" content="book">
+<meta property="og:description" content="R is a functional programming language, which means we are working with a series of functions. We achieve our goal by sequencing or nested function calls. The use of Tidyverse R and the pipe...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 10 OO systems | Advanced R">
+<meta name="twitter:description" content="R is a functional programming language, which means we are working with a series of functions. We achieve our goal by sequencing or nested function calls. The use of Tidyverse R and the pipe...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.0/transition.js"></script><script src="libs/bs3compat-0.3.0/tabs.js"></script><script src="libs/bs3compat-0.3.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script><link href="libs/str_view-0.1.0/str_view.css" rel="stylesheet">
+<script src="libs/str_view-binding-1.4.0/str_view.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><link rel="stylesheet" href="bs4_style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Advanced R</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html"><span class="header-section-number">1</span> Introduction</a></li>
+<li><a class="" href="warm-up-exercise.html"><span class="header-section-number">2</span> Warm-up exercise</a></li>
+<li><a class="" href="rmarkdown.html"><span class="header-section-number">3</span> RMarkdown</a></li>
+<li><a class="" href="advanced-data-manipulation.html"><span class="header-section-number">4</span> Advanced data manipulation</a></li>
+<li><a class="" href="tidyverse-r.html"><span class="header-section-number">5</span> Tidyverse R</a></li>
+<li><a class="" href="modern-graphics.html"><span class="header-section-number">6</span> Modern graphics</a></li>
+<li><a class="" href="bioconductor.html"><span class="header-section-number">7</span> Bioconductor</a></li>
+<li><a class="" href="introduction-1.html"><span class="header-section-number">8</span> Introduction</a></li>
+<li><a class="" href="how-to-install-bioconductor-packages.html"><span class="header-section-number">9</span> How to install Bioconductor packages?</a></li>
+<li><a class="active" href="oo-systems.html"><span class="header-section-number">10</span> OO systems</a></li>
+<li><a class="" href="introducing-biology-of-genomic-datasets.html"><span class="header-section-number">11</span> Introducing biology of genomic datasets</a></li>
+<li><a class="" href="introduction-to-biostrings.html"><span class="header-section-number">12</span> Introduction to Biostrings</a></li>
+<li><a class="" href="rna-seq-an-example.html"><span class="header-section-number">13</span> RNA-Seq (an example)</a></li>
+<li><a class="" href="summary.html"><span class="header-section-number">14</span> Summary</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/abarik/advancedr_2021_22_1">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="oo-systems" class="section level1" number="10">
+<h1>
+<span class="header-section-number">10</span> OO systems<a class="anchor" aria-label="anchor" href="#oo-systems"><i class="fas fa-link"></i></a>
+</h1>
+<p>R is a functional programming language, which means we are working with a series of functions. We achieve our goal by sequencing or nested function calls. The use of Tidyverse R and the pipe operator greatly facilitates the interpretation and modification of multiple nested functions.</p>
+<p>However, R also has object-oriented capabilities, so our capabilities expand greatly when using R.</p>
+<p>In R you can use several object-oriented systems in parallel (more details <a href="https://adv-r.hadley.nz/oo.html" class="uri">https://adv-r.hadley.nz/oo.html</a>):</p>
+<ul>
+<li>S3 - the simplest OO system, tied to basic data types</li>
+<li>S4 - Bioconductor is being developed in this (details: <a href="http://www.bioconductor.org/help/course-materials/2010/AdvancedR/S4InBioconductor.pdf">S4 System Development in Bioconductor</a> and <a href="http://bioconductor.org/help/course-materials/2017/Zurich/S4-classes-and-methods.html">S4 classes and methods</a>
+</li>
+<li>RC - Reference classes, the latest OO system in R (from version 2.12 R)</li>
+</ul>
+<p>We review two object-oriented systems, systems S3 and S4. Most of the R packets use the S3 system, the Bioconductor handles the S4.</p>
+<div id="s3" class="section level2" number="10.1">
+<h2>
+<span class="header-section-number">10.1</span> S3<a class="anchor" aria-label="anchor" href="#s3"><i class="fas fa-link"></i></a>
+</h2>
+<p>Advantages of S3:</p>
+<ul>
+<li>simple but powerful</li>
+<li>flexible and interactive</li>
+<li>uses a generic function</li>
+<li>functionality depends on the first argument.</li>
+</ul>
+<p>A good example of S3 is the <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot ()</a></code> function, which can draw more than 30 different figures, depending on the input.</p>
+<div class="sourceCode" id="cb391"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/methods.html">methods</a></span><span class="op">(</span><span class="va">plot</span><span class="op">)</span> <span class="co"># List Methods for S3 Generic Functions or Classes of plot()</span>
+<span class="co">#&gt;  [1] plot,ANY,ANY-method            </span>
+<span class="co">#&gt;  [2] plot,profile.mle,missing-method</span>
+<span class="co">#&gt;  [3] plot.acf*                      </span>
+<span class="co">#&gt;  [4] plot.data.frame*               </span>
+<span class="co">#&gt;  [5] plot.decomposed.ts*            </span>
+<span class="co">#&gt;  [6] plot.default                   </span>
+<span class="co">#&gt;  [7] plot.dendrogram*               </span>
+<span class="co">#&gt;  [8] plot.density*                  </span>
+<span class="co">#&gt;  [9] plot.ecdf                      </span>
+<span class="co">#&gt; [10] plot.factor*                   </span>
+<span class="co">#&gt; [11] plot.formula*                  </span>
+<span class="co">#&gt; [12] plot.function                  </span>
+<span class="co">#&gt; [13] plot.hclust*                   </span>
+<span class="co">#&gt; [14] plot.histogram*                </span>
+<span class="co">#&gt; [15] plot.HoltWinters*              </span>
+<span class="co">#&gt; [16] plot.isoreg*                   </span>
+<span class="co">#&gt; [17] plot.lm*                       </span>
+<span class="co">#&gt; [18] plot.medpolish*                </span>
+<span class="co">#&gt; [19] plot.mlm*                      </span>
+<span class="co">#&gt; [20] plot.ppr*                      </span>
+<span class="co">#&gt; [21] plot.prcomp*                   </span>
+<span class="co">#&gt; [22] plot.princomp*                 </span>
+<span class="co">#&gt; [23] plot.profile.nls*              </span>
+<span class="co">#&gt; [24] plot.R6*                       </span>
+<span class="co">#&gt; [25] plot.raster*                   </span>
+<span class="co">#&gt; [26] plot.shingle*                  </span>
+<span class="co">#&gt; [27] plot.spec*                     </span>
+<span class="co">#&gt; [28] plot.stepfun                   </span>
+<span class="co">#&gt; [29] plot.stl*                      </span>
+<span class="co">#&gt; [30] plot.table*                    </span>
+<span class="co">#&gt; [31] plot.trellis*                  </span>
+<span class="co">#&gt; [32] plot.ts                        </span>
+<span class="co">#&gt; [33] plot.tskernel*                 </span>
+<span class="co">#&gt; [34] plot.TukeyHSD*                 </span>
+<span class="co">#&gt; see '?methods' for accessing help and source code</span>
+<span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10</span>, size <span class="op">=</span> <span class="fl">4</span>, prob <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="06-bioconductor_files/figure-html/unnamed-chunk-4-1.png" width="672"></div>
+<div class="sourceCode" id="cb392"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="06-bioconductor_files/figure-html/unnamed-chunk-4-2.png" width="672"></div>
+<div class="sourceCode" id="cb393"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="06-bioconductor_files/figure-html/unnamed-chunk-4-3.png" width="672"></div>
+<p>However, the S3 is not strong in type evaluation and selection. For example, if you give a function the wrong type, it will try all of them before printing the error. Naming difficulties (dot or not dot) and inheritance work, but it depends on the input.</p>
+<div id="bases" class="section level3" number="10.1.1">
+<h3>
+<span class="header-section-number">10.1.1</span> Bases<a class="anchor" aria-label="anchor" href="#bases"><i class="fas fa-link"></i></a>
+</h3>
+<p>S3 is the most widely used object-oriented system in CRAN packages. The <strong>base</strong> and <strong>stats</strong> packages only use this system.</p>
+<p>Each S3 object has a <code>class</code> attribute, but of course it can have other attributes to store different information.</p>
+<div class="sourceCode" id="cb394"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span>     <span class="co"># The Type of an Object</span>
+<span class="co">#&gt; [1] "integer"</span>
+<span class="fu"><a href="https://rdrr.io/r/base/attributes.html">attributes</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span> <span class="co"># Object Attribute Lists</span>
+<span class="co">#&gt; $levels</span>
+<span class="co">#&gt; [1] "a" "b" "c"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $class</span>
+<span class="co">#&gt; [1] "factor"</span>
+<span class="fu"><a href="https://rdrr.io/r/base/class.html">unclass</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span>    <span class="co"># returns f with its class attribute removed </span>
+<span class="co">#&gt; [1] 1 2 3</span>
+<span class="co">#&gt; attr(,"levels")</span>
+<span class="co">#&gt; [1] "a" "b" "c"</span>
+<span class="fu">sloop</span><span class="fu">::</span><span class="fu"><a href="https://sloop.r-lib.org/reference/otype.html">otype</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span> <span class="co"># Determine the type of an object</span>
+<span class="co">#&gt; [1] "S3"</span></code></pre></div>
+<p>There are generic functions in R that define an interface that uses a different implementation depending on the argument received. Most R functions are generic, such as <code><a href="https://rdrr.io/r/base/print.html">print ()</a></code> and the <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot ()</a></code> seen earlier.</p>
+<div class="sourceCode" id="cb395"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span>
+<span class="co">#&gt; [1] a b c</span>
+<span class="co">#&gt; Levels: a b c</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/class.html">unclass</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; [1] 1 2 3</span>
+<span class="co">#&gt; attr(,"levels")</span>
+<span class="co">#&gt; [1] "a" "b" "c"</span></code></pre></div>
+<p>We can know whether any function is generic or not.</p>
+<div class="sourceCode" id="cb396"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">sloop</span><span class="fu">::</span><span class="fu"><a href="https://sloop.r-lib.org/reference/ftype.html">ftype</a></span><span class="op">(</span><span class="va">str</span><span class="op">)</span>    <span class="co"># Determine function type.</span>
+<span class="co">#&gt; [1] "S3"      "generic"</span>
+<span class="fu">sloop</span><span class="fu">::</span><span class="fu"><a href="https://sloop.r-lib.org/reference/ftype.html">ftype</a></span><span class="op">(</span><span class="va">print</span><span class="op">)</span>
+<span class="co">#&gt; [1] "S3"      "generic"</span>
+<span class="fu">sloop</span><span class="fu">::</span><span class="fu"><a href="https://sloop.r-lib.org/reference/ftype.html">ftype</a></span><span class="op">(</span><span class="va">unclass</span><span class="op">)</span>
+<span class="co">#&gt; [1] "primitive"</span>
+<span class="fu">sloop</span><span class="fu">::</span><span class="fu"><a href="https://sloop.r-lib.org/reference/ftype.html">ftype</a></span><span class="op">(</span><span class="va">mean</span><span class="op">)</span>
+<span class="co">#&gt; [1] "S4"      "generic"</span></code></pre></div>
+<p>The class of the S3 object is printed by <code><a href="https://rdrr.io/r/base/class.html">class ()</a></code>, but <code><a href="https://rdrr.io/r/base/class.html">inherits ()</a></code> provides a logical value if the object is an instance of that class.</p>
+<p>The job of an S3 generic is to perform method dispatch, i.e. find the specific implementation for a class. Method dispatch is performed by <code><a href="https://rdrr.io/r/base/UseMethod.html">UseMethod()</a></code>, which every generic calls. How does <code><a href="https://rdrr.io/r/base/UseMethod.html">UseMethod()</a></code> work? It basically creates a vector of method names, <code><a href="https://rdrr.io/r/base/paste.html">paste0("generic", ".", c(class(x), "default"))</a></code>, and then looks for each potential method in turn. We can see this in action with <code><a href="https://sloop.r-lib.org/reference/s3_dispatch.html">sloop::s3_dispatch()</a></code>. You give it a call to an S3 generic, and it lists all the possible methods.</p>
+<div class="sourceCode" id="cb397"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">sloop</span><span class="fu">::</span><span class="fu"><a href="https://sloop.r-lib.org/reference/s3_dispatch.html">s3_dispatch</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; =&gt; print.factor</span>
+<span class="co">#&gt;  * print.default</span></code></pre></div>
+</div>
+<div id="classes" class="section level3" number="10.1.2">
+<h3>
+<span class="header-section-number">10.1.2</span> Classes<a class="anchor" aria-label="anchor" href="#classes"><i class="fas fa-link"></i></a>
+</h3>
+<p>In the S3 system, there is no formal definition of objects. If you want to create your own class, you need to specify the <code>class</code> attribute. You can also create an object of a class with the <code><a href="https://rdrr.io/r/base/structure.html">structure ()</a></code> function or later with the <code><a href="https://rdrr.io/r/base/class.html">class ()</a></code> function.</p>
+<div class="sourceCode" id="cb398"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/structure.html">structure</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, class<span class="op">=</span><span class="st">"my_class"</span><span class="op">)</span>
+<span class="fu">sloop</span><span class="fu">::</span><span class="fu"><a href="https://sloop.r-lib.org/reference/otype.html">otype</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
+<span class="co">#&gt; [1] "S3"</span>
+
+<span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>
+<span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"my_class"</span>
+<span class="va">x</span>
+<span class="co">#&gt;  [1]  1  2  3  4  5  6  7  8  9 10</span>
+<span class="co">#&gt; attr(,"class")</span>
+<span class="co">#&gt; [1] "my_class"</span>
+<span class="fu">sloop</span><span class="fu">::</span><span class="fu"><a href="https://sloop.r-lib.org/reference/otype.html">otype</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
+<span class="co">#&gt; [1] "S3"</span></code></pre></div>
+<p>The class of the S3 object is printed by <code><a href="https://rdrr.io/r/base/class.html">class ()</a></code>, but <code><a href="https://rdrr.io/r/base/class.html">inherits ()</a></code> provides a logical value if the object is an instance of that class.</p>
+<div class="sourceCode" id="cb399"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
+<span class="co">#&gt; [1] "my_class"</span>
+<span class="fu"><a href="https://rdrr.io/r/base/class.html">inherits</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"my_class"</span><span class="op">)</span>
+<span class="co">#&gt; [1] TRUE</span></code></pre></div>
+<p>It is very easy to ruin an existing object by modifying the class.</p>
+<div class="sourceCode" id="cb400"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span>
+<span class="va">x</span>
+<span class="co">#&gt;  [1] 1  2  3  4  5  6  7  8  9  10</span>
+<span class="co">#&gt; Levels: 1 2 3 4 5 6 7 8 9 10</span>
+<span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
+<span class="co">#&gt; [1] "factor"</span>
+<span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"lm"</span>
+<span class="co"># x  hibaüzenet</span></code></pre></div>
+</div>
+</div>
+<div id="s4" class="section level2" number="10.2">
+<h2>
+<span class="header-section-number">10.2</span> S4<a class="anchor" aria-label="anchor" href="#s4"><i class="fas fa-link"></i></a>
+</h2>
+<p>The S4 system motivation is to implement an object-oriented style of programming. The base concept is to define the data first and then work on it. Once an object is defined, it is generalized to a class by defining the kind of data it contains and any actions or functions to manipulate it. As you will see in more detail in the coming chapters, biological representations are complex and very often interconnected. Bioconductor then, recommends re-using methods and classes before implementing new representations. S4 classes have a formal definition, hence are a lot better to check input types, because of their definition and inheritance. You can create a new object from a class like in the example. We created a new genome description. This object will contain slots to describe it. S4 requires a bit more work to implement, but it serves to extend the code so that others can reuse the framework.</p>
+<p>Benefits of S4</p>
+<ul>
+<li>formal definition of classes</li>
+<li>Bioconductor reusability</li>
+<li>has validation of types</li>
+<li>naming conventions.</li>
+</ul>
+<p>Use the <code>new ()</code> function to create a new object. The object will contain slots to describe the data. The S4 system is a bit more complex than the S3.</p>
+<p>It is easy to decide whether an object is an object defined in S4 or not. This can also be said by the <code><a href="https://rdrr.io/r/base/isS4.html">isS4 ()</a></code> or <code><a href="https://rdrr.io/r/utils/str.html">str ()</a></code> functions. In the first case <code>TRUE</code> is displayed and in the second case<code>Formal class</code>.</p>
+<div class="sourceCode" id="cb401"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">mydescr</span> <span class="op">&lt;-</span> <span class="fu">new</span><span class="op">(</span><span class="st">"GenomeDescription"</span><span class="op">)</span> <span class="co"># create a new object from a class</span>
+<span class="fu"><a href="https://rdrr.io/r/base/isS4.html">isS4</a></span><span class="op">(</span><span class="va">mydescr</span><span class="op">)</span>
+<span class="co">#&gt; [1] TRUE</span>
+<span class="fu"><a href="https://rdrr.io/r/base/isS4.html">isS4</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; [1] FALSE</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">mydescr</span><span class="op">)</span>
+<span class="co">#&gt; Formal class 'GenomeDescription' [package "GenomeInfoDb"] with 7 slots</span>
+<span class="co">#&gt;   ..@ organism        : chr(0) </span>
+<span class="co">#&gt;   ..@ common_name     : chr(0) </span>
+<span class="co">#&gt;   ..@ provider        : chr(0) </span>
+<span class="co">#&gt;   ..@ provider_version: chr(0) </span>
+<span class="co">#&gt;   ..@ release_date    : chr(0) </span>
+<span class="co">#&gt;   ..@ release_name    : chr(0) </span>
+<span class="co">#&gt;   ..@ seqinfo         :Formal class 'Seqinfo' [package "GenomeInfoDb"] with 4 slots</span>
+<span class="co">#&gt;   .. .. ..@ seqnames   : chr(0) </span>
+<span class="co">#&gt;   .. .. ..@ seqlengths : int(0) </span>
+<span class="co">#&gt;   .. .. ..@ is_circular: logi(0) </span>
+<span class="co">#&gt;   .. .. ..@ genome     : chr(0)</span></code></pre></div>
+<p>We can use the function <code><a href="https://sloop.r-lib.org/reference/otype.html">sloop::otype()</a></code>.</p>
+<div class="sourceCode" id="cb402"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">sloop</span><span class="fu">::</span><span class="fu"><a href="https://sloop.r-lib.org/reference/otype.html">otype</a></span><span class="op">(</span><span class="va">mydescr</span><span class="op">)</span>
+<span class="co">#&gt; [1] "S4"</span>
+<span class="fu"><a href="https://rdrr.io/r/base/attributes.html">attributes</a></span><span class="op">(</span><span class="va">mydescr</span><span class="op">)</span>
+<span class="co">#&gt; $organism</span>
+<span class="co">#&gt; character(0)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $common_name</span>
+<span class="co">#&gt; character(0)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $provider</span>
+<span class="co">#&gt; character(0)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $provider_version</span>
+<span class="co">#&gt; character(0)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $release_date</span>
+<span class="co">#&gt; character(0)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $release_name</span>
+<span class="co">#&gt; character(0)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $seqinfo</span>
+<span class="co">#&gt; Seqinfo object with no sequences:</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $class</span>
+<span class="co">#&gt; [1] "GenomeDescription"</span>
+<span class="co">#&gt; attr(,"package")</span>
+<span class="co">#&gt; [1] "GenomeInfoDb"</span></code></pre></div>
+<div id="s4-class-definition" class="section level3" number="10.2.1">
+<h3>
+<span class="header-section-number">10.2.1</span> S4 class definition<a class="anchor" aria-label="anchor" href="#s4-class-definition"><i class="fas fa-link"></i></a>
+</h3>
+<p>An S4 class describes a representation of an object with a <code>name</code> and <code>slots</code> (also called methods or fields). A class optionally describes its inheritance. A class allows us to define all the characteristics concerning an object and it gives us code reusability. For example, we create a class using <code>setClass()</code>. Its name is <code>MyEpicProject</code> with three slots: <code>ini</code>, <code>end</code> and <code>milestone</code>. This class inherits from the class <code>MyProject</code>. This means we can reuse slots from it.</p>
+<div class="sourceCode" id="cb403"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">MyEpicProject</span> <span class="op">&lt;-</span> <span class="kw">setClass</span><span class="op">(</span>
+  <span class="st">"MyEpicProject"</span>,        <span class="co"># define class name with UpperCamelCase</span>
+  slots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>ini <span class="op">=</span> <span class="st">"Date"</span>, <span class="co"># define slots, helpful for validation</span>
+            end <span class="op">=</span> <span class="st">"Date"</span>,
+            milestone <span class="op">=</span> <span class="st">"character"</span><span class="op">)</span>, 
+  contains <span class="op">=</span> <span class="st">"MyProject"</span> <span class="co"># define inheritance</span>
+<span class="op">)</span></code></pre></div>
+<p><strong>S4 class definition</strong></p>
+<p>A class describes a representation:</p>
+<ul>
+<li>name</li>
+<li>slots (methids/fields)</li>
+<li>contains (inheritance definition)</li>
+</ul>
+</div>
+<div id="s4-accessors" class="section level3" number="10.2.2">
+<h3>
+<span class="header-section-number">10.2.2</span> S4 accessors<a class="anchor" aria-label="anchor" href="#s4-accessors"><i class="fas fa-link"></i></a>
+</h3>
+<p>Basic information of an S4 object is accessed through accessor-functions, also called methods. As we have seen, a class definition includes slots for describing an object. The function <code>.S4methods()</code> used with main classes gives you a summary of its accessors. For other subclasses use the <code>showMethods()</code> function, but this gives you a breakdown, which might be a bit too long to look at. If you want an object summary, use the accessor function <code>show()</code>. You will use some of these accessors in the coming exercises.</p>
+<p>We will use the class <code>BSgenome</code>, which is already loaded for you. Let’s check the formal definition of this class by using the function <code>showClass("className")</code>. Check the <code>BSgenome</code> class results and find its parent classes (<strong>Extends</strong>) and the classes that inherit from it (<strong>Subclasses</strong>).</p>
+<div class="sourceCode" id="cb404"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://bioconductor.org/packages/BSgenome">BSgenome</a></span><span class="op">)</span> <span class="co"># load the package</span>
+<span class="fu">.S4methods</span><span class="op">(</span>class <span class="op">=</span> <span class="st">"BSgenome"</span><span class="op">)</span> <span class="co"># accessors from the main class</span>
+<span class="co">#&gt;  [1] $               [[              as.list        </span>
+<span class="co">#&gt;  [4] coerce          commonName      countPWM       </span>
+<span class="co">#&gt;  [7] export          extractAt       getSeq         </span>
+<span class="co">#&gt; [10] injectSNPs      length          masknames      </span>
+<span class="co">#&gt; [13] matchPWM        mseqnames       names          </span>
+<span class="co">#&gt; [16] organism        provider        providerVersion</span>
+<span class="co">#&gt; [19] releaseDate     releaseName     seqinfo        </span>
+<span class="co">#&gt; [22] seqinfo&lt;-       seqnames        seqnames&lt;-     </span>
+<span class="co">#&gt; [25] show            snpcount        snplocs        </span>
+<span class="co">#&gt; [28] SNPlocs_pkgname sourceUrl       vcountPattern  </span>
+<span class="co">#&gt; [31] Views           vmatchPattern   vcountPDict    </span>
+<span class="co">#&gt; [34] vmatchPDict     bsgenomeName    metadata       </span>
+<span class="co">#&gt; [37] metadata&lt;-     </span>
+<span class="co">#&gt; see '?methods' for accessing help and source code</span>
+<span class="co">#showMethods(classes = "BSgenome") # too long output</span>
+<span class="fu">showClass</span><span class="op">(</span><span class="st">"BSgenome"</span><span class="op">)</span> <span class="co"># parents and children</span>
+<span class="co">#&gt; Class "BSgenome" [package "BSgenome"]</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Slots:</span>
+<span class="co">#&gt;                                                 </span>
+<span class="co">#&gt; Name:               pkgname     single_sequences</span>
+<span class="co">#&gt; Class:            character OnDiskNamedSequences</span>
+<span class="co">#&gt;                                                 </span>
+<span class="co">#&gt; Name:    multiple_sequences              seqinfo</span>
+<span class="co">#&gt; Class:        RdaCollection              Seqinfo</span>
+<span class="co">#&gt;                                                 </span>
+<span class="co">#&gt; Name:         user_seqnames   injectSNPs_handler</span>
+<span class="co">#&gt; Class:            character    InjectSNPsHandler</span>
+<span class="co">#&gt;                                                 </span>
+<span class="co">#&gt; Name:           .seqs_cache         .link_counts</span>
+<span class="co">#&gt; Class:          environment          environment</span>
+<span class="co">#&gt;                            </span>
+<span class="co">#&gt; Name:              metadata</span>
+<span class="co">#&gt; Class:                 list</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Extends: "Annotated"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Known Subclasses: "MaskedBSgenome"</span>
+
+<span class="co"># new object and object summary</span>
+<span class="kw">setClass</span><span class="op">(</span><span class="st">"track"</span>, slots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>x<span class="op">=</span><span class="st">"numeric"</span>, y<span class="op">=</span><span class="st">"numeric"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">t1</span> <span class="op">&lt;-</span> <span class="fu">new</span><span class="op">(</span><span class="st">"track"</span>, x<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span>, y<span class="op">=</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span>
+<span class="fu">show</span><span class="op">(</span><span class="va">t1</span><span class="op">)</span> 
+<span class="co">#&gt; An object of class "track"</span>
+<span class="co">#&gt; Slot "x":</span>
+<span class="co">#&gt;  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18</span>
+<span class="co">#&gt; [19] 19 20</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Slot "y":</span>
+<span class="co">#&gt;  [1]   1   4   9  16  25  36  49  64  81 100 121 144 169 196</span>
+<span class="co">#&gt; [15] 225 256 289 324 361 400</span></code></pre></div>
+<p>The <code>BSgenome</code> is a powerful class and inherits from <code>Annotated</code>, which you will see later on, and has <code>MaskedBSgenome</code> as subclass.</p>
+</div>
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="how-to-install-bioconductor-packages.html"><span class="header-section-number">9</span> How to install Bioconductor packages?</a></div>
+<div class="next"><a href="introducing-biology-of-genomic-datasets.html"><span class="header-section-number">11</span> Introducing biology of genomic datasets</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#oo-systems"><span class="header-section-number">10</span> OO systems</a></li>
+<li>
+<a class="nav-link" href="#s3"><span class="header-section-number">10.1</span> S3</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#bases"><span class="header-section-number">10.1.1</span> Bases</a></li>
+<li><a class="nav-link" href="#classes"><span class="header-section-number">10.1.2</span> Classes</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#s4"><span class="header-section-number">10.2</span> S4</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#s4-class-definition"><span class="header-section-number">10.2.1</span> S4 class definition</a></li>
+<li><a class="nav-link" href="#s4-accessors"><span class="header-section-number">10.2.2</span> S4 accessors</a></li>
+</ul>
+</li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/abarik/advancedr_2021_22_1/blob/master/06-bioconductor.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/abarik/advancedr_2021_22_1/edit/master/06-bioconductor.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Advanced R</strong>" was written by Kálmán Abari. It was last built on 2021-10-29.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

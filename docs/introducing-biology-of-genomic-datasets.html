@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 11 Introducing biology of genomic datasets | Advanced R</title>
+<meta name="author" content="Kálmán Abari">
+<meta name="description" content="All organisms have a genome which makes up what they are, and it dictates responses to external influences. A genome is the complete genetic material of an organism stored mostly in the...">
+<meta name="generator" content="bookdown 0.24 with bs4_book()">
+<meta property="og:title" content="Chapter 11 Introducing biology of genomic datasets | Advanced R">
+<meta property="og:type" content="book">
+<meta property="og:description" content="All organisms have a genome which makes up what they are, and it dictates responses to external influences. A genome is the complete genetic material of an organism stored mostly in the...">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 11 Introducing biology of genomic datasets | Advanced R">
+<meta name="twitter:description" content="All organisms have a genome which makes up what they are, and it dictates responses to external influences. A genome is the complete genetic material of an organism stored mostly in the...">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.0/transition.js"></script><script src="libs/bs3compat-0.3.0/tabs.js"></script><script src="libs/bs3compat-0.3.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script><link href="libs/str_view-0.1.0/str_view.css" rel="stylesheet">
+<script src="libs/str_view-binding-1.4.0/str_view.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><link rel="stylesheet" href="bs4_style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Advanced R</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html"><span class="header-section-number">1</span> Introduction</a></li>
+<li><a class="" href="warm-up-exercise.html"><span class="header-section-number">2</span> Warm-up exercise</a></li>
+<li><a class="" href="rmarkdown.html"><span class="header-section-number">3</span> RMarkdown</a></li>
+<li><a class="" href="advanced-data-manipulation.html"><span class="header-section-number">4</span> Advanced data manipulation</a></li>
+<li><a class="" href="tidyverse-r.html"><span class="header-section-number">5</span> Tidyverse R</a></li>
+<li><a class="" href="modern-graphics.html"><span class="header-section-number">6</span> Modern graphics</a></li>
+<li><a class="" href="bioconductor.html"><span class="header-section-number">7</span> Bioconductor</a></li>
+<li><a class="" href="introduction-1.html"><span class="header-section-number">8</span> Introduction</a></li>
+<li><a class="" href="how-to-install-bioconductor-packages.html"><span class="header-section-number">9</span> How to install Bioconductor packages?</a></li>
+<li><a class="" href="oo-systems.html"><span class="header-section-number">10</span> OO systems</a></li>
+<li><a class="active" href="introducing-biology-of-genomic-datasets.html"><span class="header-section-number">11</span> Introducing biology of genomic datasets</a></li>
+<li><a class="" href="introduction-to-biostrings.html"><span class="header-section-number">12</span> Introduction to Biostrings</a></li>
+<li><a class="" href="rna-seq-an-example.html"><span class="header-section-number">13</span> RNA-Seq (an example)</a></li>
+<li><a class="" href="summary.html"><span class="header-section-number">14</span> Summary</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/abarik/advancedr_2021_22_1">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="introducing-biology-of-genomic-datasets" class="section level1" number="11">
+<h1>
+<span class="header-section-number">11</span> Introducing biology of genomic datasets<a class="anchor" aria-label="anchor" href="#introducing-biology-of-genomic-datasets"><i class="fas fa-link"></i></a>
+</h1>
+<p>All organisms have a genome which makes up what they are, and it dictates responses to external influences. A genome is the complete genetic material of an organism stored mostly in the chromosomes, it’s known as the blueprint of the living. A genome is made of long sequences of DNA, based on a four-letter-alphabet, T, A, G and C.</p>
+<p>We are interested in locating and describing specific locations in a genome because this allows us to learn about diversity, evolution, hereditary changes, and more. To understand this better we subdivide a genome. The written information in a genome uses the DNA alphabet. Think of a genome as a set of books and each book is a chromosome. Chromosome numbers on each genome are highly variable. Usually, chromosomes come in pairs, but multiple sets are very common too. Each chromosome has ordered genetic sequences, think of chapters in a book. To find specific genetic instructions we look at genes. These are like the pages in a book, containing a recipe to make proteins. Some genes will produce proteins but some won’t. These are called coding and non-coding genes. Coding genes are expressed through proteins responsible for specific functions. Proteins come up following a two-step process, DNA-to-RNA, a step known as transcription, while the RNA-to-protein is a step called translation.</p>
+<p>As an example, we are going to study the Yeast genome, a single cell microorganism. The fungus that people love. Yeast is used for fermentation and production of beer, bread, kefir, kombucha and other foods, as well as used for bioremediation. Its scientific name is Saccharomyces cerevisiae or s. cerevisiae. Yeast is a very well studied organism, due to its fast development, many experiments use it as model.</p>
+<div id="yeast-genome" class="section level3" number="11.0.1">
+<h3>
+<span class="header-section-number">11.0.1</span> Yeast genome<a class="anchor" aria-label="anchor" href="#yeast-genome"><i class="fas fa-link"></i></a>
+</h3>
+<p>The yeast genome is a dataset available from UCSC. We have picked this genome because it has a small size. The <strong>BSgenome</strong> package provides us with many genome datasets. To get a list of the BSgenome available datasets, use the function <code><a href="https://rdrr.io/pkg/BSgenome/man/available.genomes.html">available.genomes()</a></code>. Then, using common accessors functions, you can learn about the genome, for example, the number of chromosomes using <code><a href="https://rdrr.io/r/base/length.html">length()</a></code>, the names of the chromosomes using <code><a href="https://rdrr.io/r/base/names.html">names()</a></code>, and the length of each chromosome by DNA base pairs, using <code>seqlengths()</code>.</p>
+<div class="sourceCode" id="cb405"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># BiocManager::install("BSgenome.Scerevisiae.UCSC.sacCer3")</span>
+<span class="co"># Load the yeast genome</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">BSgenome.Scerevisiae.UCSC.sacCer3</span><span class="op">)</span>
+
+<span class="co"># Assign data to the yeastGenome object</span>
+<span class="va">yeastGenome</span> <span class="op">&lt;-</span> <span class="va">BSgenome.Scerevisiae.UCSC.sacCer3</span>
+
+<span class="co"># interested in other genomes</span>
+<span class="fu"><a href="https://rdrr.io/pkg/BSgenome/man/available.genomes.html">available.genomes</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt;   [1] "BSgenome.Alyrata.JGI.v1"                   </span>
+<span class="co">#&gt;   [2] "BSgenome.Amellifera.BeeBase.assembly4"     </span>
+<span class="co">#&gt;   [3] "BSgenome.Amellifera.NCBI.AmelHAv3.1"       </span>
+<span class="co">#&gt;   [4] "BSgenome.Amellifera.UCSC.apiMel2"          </span>
+<span class="co">#&gt;   [5] "BSgenome.Amellifera.UCSC.apiMel2.masked"   </span>
+<span class="co">#&gt;   [6] "BSgenome.Aofficinalis.NCBI.V1"             </span>
+<span class="co">#&gt;   [7] "BSgenome.Athaliana.TAIR.04232008"          </span>
+<span class="co">#&gt;   [8] "BSgenome.Athaliana.TAIR.TAIR9"             </span>
+<span class="co">#&gt;   [9] "BSgenome.Btaurus.UCSC.bosTau3"             </span>
+<span class="co">#&gt;  [10] "BSgenome.Btaurus.UCSC.bosTau3.masked"      </span>
+<span class="co">#&gt;  [11] "BSgenome.Btaurus.UCSC.bosTau4"             </span>
+<span class="co">#&gt;  [12] "BSgenome.Btaurus.UCSC.bosTau4.masked"      </span>
+<span class="co">#&gt;  [13] "BSgenome.Btaurus.UCSC.bosTau6"             </span>
+<span class="co">#&gt;  [14] "BSgenome.Btaurus.UCSC.bosTau6.masked"      </span>
+<span class="co">#&gt;  [15] "BSgenome.Btaurus.UCSC.bosTau8"             </span>
+<span class="co">#&gt;  [16] "BSgenome.Btaurus.UCSC.bosTau9"             </span>
+<span class="co">#&gt;  [17] "BSgenome.Carietinum.NCBI.v1"               </span>
+<span class="co">#&gt;  [18] "BSgenome.Celegans.UCSC.ce10"               </span>
+<span class="co">#&gt;  [19] "BSgenome.Celegans.UCSC.ce11"               </span>
+<span class="co">#&gt;  [20] "BSgenome.Celegans.UCSC.ce2"                </span>
+<span class="co">#&gt;  [21] "BSgenome.Celegans.UCSC.ce6"                </span>
+<span class="co">#&gt;  [22] "BSgenome.Cfamiliaris.UCSC.canFam2"         </span>
+<span class="co">#&gt;  [23] "BSgenome.Cfamiliaris.UCSC.canFam2.masked"  </span>
+<span class="co">#&gt;  [24] "BSgenome.Cfamiliaris.UCSC.canFam3"         </span>
+<span class="co">#&gt;  [25] "BSgenome.Cfamiliaris.UCSC.canFam3.masked"  </span>
+<span class="co">#&gt;  [26] "BSgenome.Cjacchus.UCSC.calJac3"            </span>
+<span class="co">#&gt;  [27] "BSgenome.Creinhardtii.JGI.v5.6"            </span>
+<span class="co">#&gt;  [28] "BSgenome.Dmelanogaster.UCSC.dm2"           </span>
+<span class="co">#&gt;  [29] "BSgenome.Dmelanogaster.UCSC.dm2.masked"    </span>
+<span class="co">#&gt;  [30] "BSgenome.Dmelanogaster.UCSC.dm3"           </span>
+<span class="co">#&gt;  [31] "BSgenome.Dmelanogaster.UCSC.dm3.masked"    </span>
+<span class="co">#&gt;  [32] "BSgenome.Dmelanogaster.UCSC.dm6"           </span>
+<span class="co">#&gt;  [33] "BSgenome.Drerio.UCSC.danRer10"             </span>
+<span class="co">#&gt;  [34] "BSgenome.Drerio.UCSC.danRer11"             </span>
+<span class="co">#&gt;  [35] "BSgenome.Drerio.UCSC.danRer5"              </span>
+<span class="co">#&gt;  [36] "BSgenome.Drerio.UCSC.danRer5.masked"       </span>
+<span class="co">#&gt;  [37] "BSgenome.Drerio.UCSC.danRer6"              </span>
+<span class="co">#&gt;  [38] "BSgenome.Drerio.UCSC.danRer6.masked"       </span>
+<span class="co">#&gt;  [39] "BSgenome.Drerio.UCSC.danRer7"              </span>
+<span class="co">#&gt;  [40] "BSgenome.Drerio.UCSC.danRer7.masked"       </span>
+<span class="co">#&gt;  [41] "BSgenome.Dvirilis.Ensembl.dvircaf1"        </span>
+<span class="co">#&gt;  [42] "BSgenome.Ecoli.NCBI.20080805"              </span>
+<span class="co">#&gt;  [43] "BSgenome.Gaculeatus.UCSC.gasAcu1"          </span>
+<span class="co">#&gt;  [44] "BSgenome.Gaculeatus.UCSC.gasAcu1.masked"   </span>
+<span class="co">#&gt;  [45] "BSgenome.Ggallus.UCSC.galGal3"             </span>
+<span class="co">#&gt;  [46] "BSgenome.Ggallus.UCSC.galGal3.masked"      </span>
+<span class="co">#&gt;  [47] "BSgenome.Ggallus.UCSC.galGal4"             </span>
+<span class="co">#&gt;  [48] "BSgenome.Ggallus.UCSC.galGal4.masked"      </span>
+<span class="co">#&gt;  [49] "BSgenome.Ggallus.UCSC.galGal5"             </span>
+<span class="co">#&gt;  [50] "BSgenome.Ggallus.UCSC.galGal6"             </span>
+<span class="co">#&gt;  [51] "BSgenome.Hsapiens.1000genomes.hs37d5"      </span>
+<span class="co">#&gt;  [52] "BSgenome.Hsapiens.NCBI.GRCh38"             </span>
+<span class="co">#&gt;  [53] "BSgenome.Hsapiens.UCSC.hg17"               </span>
+<span class="co">#&gt;  [54] "BSgenome.Hsapiens.UCSC.hg17.masked"        </span>
+<span class="co">#&gt;  [55] "BSgenome.Hsapiens.UCSC.hg18"               </span>
+<span class="co">#&gt;  [56] "BSgenome.Hsapiens.UCSC.hg18.masked"        </span>
+<span class="co">#&gt;  [57] "BSgenome.Hsapiens.UCSC.hg19"               </span>
+<span class="co">#&gt;  [58] "BSgenome.Hsapiens.UCSC.hg19.masked"        </span>
+<span class="co">#&gt;  [59] "BSgenome.Hsapiens.UCSC.hg38"               </span>
+<span class="co">#&gt;  [60] "BSgenome.Hsapiens.UCSC.hg38.dbSNP151.major"</span>
+<span class="co">#&gt;  [61] "BSgenome.Hsapiens.UCSC.hg38.dbSNP151.minor"</span>
+<span class="co">#&gt;  [62] "BSgenome.Hsapiens.UCSC.hg38.masked"        </span>
+<span class="co">#&gt;  [63] "BSgenome.Mdomestica.UCSC.monDom5"          </span>
+<span class="co">#&gt;  [64] "BSgenome.Mfascicularis.NCBI.5.0"           </span>
+<span class="co">#&gt;  [65] "BSgenome.Mfuro.UCSC.musFur1"               </span>
+<span class="co">#&gt;  [66] "BSgenome.Mmulatta.UCSC.rheMac10"           </span>
+<span class="co">#&gt;  [67] "BSgenome.Mmulatta.UCSC.rheMac2"            </span>
+<span class="co">#&gt;  [68] "BSgenome.Mmulatta.UCSC.rheMac2.masked"     </span>
+<span class="co">#&gt;  [69] "BSgenome.Mmulatta.UCSC.rheMac3"            </span>
+<span class="co">#&gt;  [70] "BSgenome.Mmulatta.UCSC.rheMac3.masked"     </span>
+<span class="co">#&gt;  [71] "BSgenome.Mmulatta.UCSC.rheMac8"            </span>
+<span class="co">#&gt;  [72] "BSgenome.Mmusculus.UCSC.mm10"              </span>
+<span class="co">#&gt;  [73] "BSgenome.Mmusculus.UCSC.mm10.masked"       </span>
+<span class="co">#&gt;  [74] "BSgenome.Mmusculus.UCSC.mm39"              </span>
+<span class="co">#&gt;  [75] "BSgenome.Mmusculus.UCSC.mm8"               </span>
+<span class="co">#&gt;  [76] "BSgenome.Mmusculus.UCSC.mm8.masked"        </span>
+<span class="co">#&gt;  [77] "BSgenome.Mmusculus.UCSC.mm9"               </span>
+<span class="co">#&gt;  [78] "BSgenome.Mmusculus.UCSC.mm9.masked"        </span>
+<span class="co">#&gt;  [79] "BSgenome.Osativa.MSU.MSU7"                 </span>
+<span class="co">#&gt;  [80] "BSgenome.Ppaniscus.UCSC.panPan1"           </span>
+<span class="co">#&gt;  [81] "BSgenome.Ppaniscus.UCSC.panPan2"           </span>
+<span class="co">#&gt;  [82] "BSgenome.Ptroglodytes.UCSC.panTro2"        </span>
+<span class="co">#&gt;  [83] "BSgenome.Ptroglodytes.UCSC.panTro2.masked" </span>
+<span class="co">#&gt;  [84] "BSgenome.Ptroglodytes.UCSC.panTro3"        </span>
+<span class="co">#&gt;  [85] "BSgenome.Ptroglodytes.UCSC.panTro3.masked" </span>
+<span class="co">#&gt;  [86] "BSgenome.Ptroglodytes.UCSC.panTro5"        </span>
+<span class="co">#&gt;  [87] "BSgenome.Ptroglodytes.UCSC.panTro6"        </span>
+<span class="co">#&gt;  [88] "BSgenome.Rnorvegicus.UCSC.rn4"             </span>
+<span class="co">#&gt;  [89] "BSgenome.Rnorvegicus.UCSC.rn4.masked"      </span>
+<span class="co">#&gt;  [90] "BSgenome.Rnorvegicus.UCSC.rn5"             </span>
+<span class="co">#&gt;  [91] "BSgenome.Rnorvegicus.UCSC.rn5.masked"      </span>
+<span class="co">#&gt;  [92] "BSgenome.Rnorvegicus.UCSC.rn6"             </span>
+<span class="co">#&gt;  [93] "BSgenome.Rnorvegicus.UCSC.rn7"             </span>
+<span class="co">#&gt;  [94] "BSgenome.Scerevisiae.UCSC.sacCer1"         </span>
+<span class="co">#&gt;  [95] "BSgenome.Scerevisiae.UCSC.sacCer2"         </span>
+<span class="co">#&gt;  [96] "BSgenome.Scerevisiae.UCSC.sacCer3"         </span>
+<span class="co">#&gt;  [97] "BSgenome.Sscrofa.UCSC.susScr11"            </span>
+<span class="co">#&gt;  [98] "BSgenome.Sscrofa.UCSC.susScr3"             </span>
+<span class="co">#&gt;  [99] "BSgenome.Sscrofa.UCSC.susScr3.masked"      </span>
+<span class="co">#&gt; [100] "BSgenome.Tgondii.ToxoDB.7.0"               </span>
+<span class="co">#&gt; [101] "BSgenome.Tguttata.UCSC.taeGut1"            </span>
+<span class="co">#&gt; [102] "BSgenome.Tguttata.UCSC.taeGut1.masked"     </span>
+<span class="co">#&gt; [103] "BSgenome.Tguttata.UCSC.taeGut2"            </span>
+<span class="co">#&gt; [104] "BSgenome.Vvinifera.URGI.IGGP12Xv0"         </span>
+<span class="co">#&gt; [105] "BSgenome.Vvinifera.URGI.IGGP12Xv2"         </span>
+<span class="co">#&gt; [106] "BSgenome.Vvinifera.URGI.IGGP8X"</span>
+<span class="co"># BiocManager::install("BSgenome.Vvinifera.URGI.IGGP8X")</span>
+
+<span class="co"># Object Classes</span>
+<span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">yeastGenome</span><span class="op">)</span>  <span class="co"># "BSgenome"</span>
+<span class="co">#&gt; [1] "BSgenome"</span>
+<span class="co">#&gt; attr(,"package")</span>
+<span class="co">#&gt; [1] "BSgenome"</span>
+
+<span class="co"># all classes</span>
+<span class="fu">is</span><span class="op">(</span><span class="va">yeastGenome</span><span class="op">)</span>  <span class="co"># "BSgenome", "Annotated"</span>
+<span class="co">#&gt; [1] "BSgenome"  "Annotated"</span>
+
+<span class="co"># S4 system?</span>
+<span class="fu"><a href="https://rdrr.io/r/base/isS4.html">isS4</a></span><span class="op">(</span><span class="va">yeastGenome</span><span class="op">)</span>  <span class="co"># TRUE</span>
+<span class="co">#&gt; [1] TRUE</span>
+
+<span class="co"># list accessors</span>
+<span class="fu">.S4methods</span><span class="op">(</span>class <span class="op">=</span> <span class="st">"BSgenome"</span><span class="op">)</span>
+<span class="co">#&gt;  [1] $               [[              as.list        </span>
+<span class="co">#&gt;  [4] coerce          commonName      countPWM       </span>
+<span class="co">#&gt;  [7] export          extractAt       getSeq         </span>
+<span class="co">#&gt; [10] injectSNPs      length          masknames      </span>
+<span class="co">#&gt; [13] matchPWM        mseqnames       names          </span>
+<span class="co">#&gt; [16] organism        provider        providerVersion</span>
+<span class="co">#&gt; [19] releaseDate     releaseName     seqinfo        </span>
+<span class="co">#&gt; [22] seqinfo&lt;-       seqnames        seqnames&lt;-     </span>
+<span class="co">#&gt; [25] show            snpcount        snplocs        </span>
+<span class="co">#&gt; [28] SNPlocs_pkgname sourceUrl       vcountPattern  </span>
+<span class="co">#&gt; [31] Views           vmatchPattern   vcountPDict    </span>
+<span class="co">#&gt; [34] vmatchPDict     bsgenomeName    metadata       </span>
+<span class="co">#&gt; [37] metadata&lt;-     </span>
+<span class="co">#&gt; see '?methods' for accessing help and source code</span>
+
+<span class="co"># examples for accessors</span>
+<span class="fu">organism</span><span class="op">(</span><span class="va">yeastGenome</span><span class="op">)</span>
+<span class="co">#&gt; [1] "Saccharomyces cerevisiae"</span>
+<span class="fu">provider</span><span class="op">(</span><span class="va">yeastGenome</span><span class="op">)</span>
+<span class="co">#&gt; [1] "UCSC"</span>
+<span class="fu">seqinfo</span><span class="op">(</span><span class="va">yeastGenome</span><span class="op">)</span>
+<span class="co">#&gt; Seqinfo object with 17 sequences (1 circular) from sacCer3 genome:</span>
+<span class="co">#&gt;   seqnames seqlengths isCircular  genome</span>
+<span class="co">#&gt;   chrI         230218      FALSE sacCer3</span>
+<span class="co">#&gt;   chrII        813184      FALSE sacCer3</span>
+<span class="co">#&gt;   chrIII       316620      FALSE sacCer3</span>
+<span class="co">#&gt;   chrIV       1531933      FALSE sacCer3</span>
+<span class="co">#&gt;   chrV         576874      FALSE sacCer3</span>
+<span class="co">#&gt;   ...             ...        ...     ...</span>
+<span class="co">#&gt;   chrXIII      924431      FALSE sacCer3</span>
+<span class="co">#&gt;   chrXIV       784333      FALSE sacCer3</span>
+<span class="co">#&gt;   chrXV       1091291      FALSE sacCer3</span>
+<span class="co">#&gt;   chrXVI       948066      FALSE sacCer3</span>
+<span class="co">#&gt;   chrM          85779       TRUE sacCer3</span>
+
+<span class="co"># Chromosome numbers</span>
+<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">yeastGenome</span><span class="op">)</span>
+<span class="co">#&gt; [1] 17</span>
+
+<span class="co"># Chromosome names</span>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">yeastGenome</span><span class="op">)</span>
+<span class="co">#&gt;  [1] "chrI"    "chrII"   "chrIII"  "chrIV"   "chrV"   </span>
+<span class="co">#&gt;  [6] "chrVI"   "chrVII"  "chrVIII" "chrIX"   "chrX"   </span>
+<span class="co">#&gt; [11] "chrXI"   "chrXII"  "chrXIII" "chrXIV"  "chrXV"  </span>
+<span class="co">#&gt; [16] "chrXVI"  "chrM"</span>
+
+<span class="co"># length of each chromosome by DNA base pairs</span>
+<span class="fu">seqlengths</span><span class="op">(</span><span class="va">yeastGenome</span><span class="op">)</span>
+<span class="co">#&gt;    chrI   chrII  chrIII   chrIV    chrV   chrVI  chrVII </span>
+<span class="co">#&gt;  230218  813184  316620 1531933  576874  270161 1090940 </span>
+<span class="co">#&gt; chrVIII   chrIX    chrX   chrXI  chrXII chrXIII  chrXIV </span>
+<span class="co">#&gt;  562643  439888  745751  666816 1078177  924431  784333 </span>
+<span class="co">#&gt;   chrXV  chrXVI    chrM </span>
+<span class="co">#&gt; 1091291  948066   85779</span></code></pre></div>
+<p>Specific genes or regions are interesting because of their functions. You can retrieve sections of a genome with the function <code><a href="https://rdrr.io/pkg/BSgenome/man/getSeq-methods.html">getSeq()</a></code>. The minimum argument required is a <code>BSgenome</code> object. The first example will give you all the sequences in the yeast genome. Then, you can specify some other parameters, to select sequences from chromosome M use “chrM.” Next, you can specify the locations of the subsequences to extract, using <code>start=</code>, <code>end=</code>, or <code>width=</code>. Using, <code>end=10</code>, it selects the first 10 base pairs of each chromosome of the genome.</p>
+<div class="sourceCode" id="cb406"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/BSgenome/man/getSeq-methods.html">getSeq</a></span><span class="op">(</span><span class="va">yeastGenome</span><span class="op">)</span>  <span class="co"># all sequencies</span>
+<span class="co">#&gt; DNAStringSet object of length 17:</span>
+<span class="co">#&gt;        width seq                        names               </span>
+<span class="co">#&gt;  [1]  230218 CCACACCACACC...GTGTGTGTGGG chrI</span>
+<span class="co">#&gt;  [2]  813184 AAATAGCCCTCA...TGTGGGTGTGT chrII</span>
+<span class="co">#&gt;  [3]  316620 CCCACACACCAC...TGGTGTGTGTG chrIII</span>
+<span class="co">#&gt;  [4] 1531933 ACACCACACCCA...GTAGCTTTTGG chrIV</span>
+<span class="co">#&gt;  [5]  576874 CGTCTCCTCCAA...TTTTTTTTTTT chrV</span>
+<span class="co">#&gt;  ...     ... ...</span>
+<span class="co">#&gt; [13]  924431 CCACACACACAC...TGTGTGTGGGG chrXIII</span>
+<span class="co">#&gt; [14]  784333 CCGGCTTTCTGA...GTGGTGTGGGT chrXIV</span>
+<span class="co">#&gt; [15] 1091291 ACACCACACCCA...GTGTGGTGTGT chrXV</span>
+<span class="co">#&gt; [16]  948066 AAATAGCCCTCA...TCGGTCAGAAA chrXVI</span>
+<span class="co">#&gt; [17]   85779 TTCATAATTAAT...TAATATCCATA chrM</span>
+<span class="fu"><a href="https://rdrr.io/pkg/BSgenome/man/getSeq-methods.html">getSeq</a></span><span class="op">(</span><span class="va">yeastGenome</span>, names<span class="op">=</span><span class="st">"chrM"</span><span class="op">)</span> <span class="co"># only one, chromosome M</span>
+<span class="co">#&gt; 85779-letter DNAString object</span>
+<span class="co">#&gt; seq: TTCATAATTAATTTTTTATATATATA...TGCTTAATTATAATATAATATCCATA</span>
+<span class="fu"><a href="https://rdrr.io/pkg/BSgenome/man/getSeq-methods.html">getSeq</a></span><span class="op">(</span><span class="va">yeastGenome</span>, end<span class="op">=</span><span class="fl">10</span><span class="op">)</span> <span class="co"># selects first 10 base pairs of each chromosome</span>
+<span class="co">#&gt; DNAStringSet object of length 17:</span>
+<span class="co">#&gt;      width seq                          names               </span>
+<span class="co">#&gt;  [1]    10 CCACACCACA                   chrI</span>
+<span class="co">#&gt;  [2]    10 AAATAGCCCT                   chrII</span>
+<span class="co">#&gt;  [3]    10 CCCACACACC                   chrIII</span>
+<span class="co">#&gt;  [4]    10 ACACCACACC                   chrIV</span>
+<span class="co">#&gt;  [5]    10 CGTCTCCTCC                   chrV</span>
+<span class="co">#&gt;  ...   ... ...</span>
+<span class="co">#&gt; [13]    10 CCACACACAC                   chrXIII</span>
+<span class="co">#&gt; [14]    10 CCGGCTTTCT                   chrXIV</span>
+<span class="co">#&gt; [15]    10 ACACCACACC                   chrXV</span>
+<span class="co">#&gt; [16]    10 AAATAGCCCT                   chrXVI</span>
+<span class="co">#&gt; [17]    10 TTCATAATTA                   chrM</span>
+<span class="fu"><a href="https://rdrr.io/pkg/BSgenome/man/getSeq-methods.html">getSeq</a></span><span class="op">(</span><span class="va">yeastGenome</span>, start<span class="op">=</span><span class="fl">3</span>, end<span class="op">=</span><span class="fl">10</span><span class="op">)</span> <span class="co"># 8 base pairs of of each chromosome</span>
+<span class="co">#&gt; DNAStringSet object of length 17:</span>
+<span class="co">#&gt;      width seq                          names               </span>
+<span class="co">#&gt;  [1]     8 ACACCACA                     chrI</span>
+<span class="co">#&gt;  [2]     8 ATAGCCCT                     chrII</span>
+<span class="co">#&gt;  [3]     8 CACACACC                     chrIII</span>
+<span class="co">#&gt;  [4]     8 ACCACACC                     chrIV</span>
+<span class="co">#&gt;  [5]     8 TCTCCTCC                     chrV</span>
+<span class="co">#&gt;  ...   ... ...</span>
+<span class="co">#&gt; [13]     8 ACACACAC                     chrXIII</span>
+<span class="co">#&gt; [14]     8 GGCTTTCT                     chrXIV</span>
+<span class="co">#&gt; [15]     8 ACCACACC                     chrXV</span>
+<span class="co">#&gt; [16]     8 ATAGCCCT                     chrXVI</span>
+<span class="co">#&gt; [17]     8 CATAATTA                     chrM</span>
+<span class="fu"><a href="https://rdrr.io/pkg/BSgenome/man/getSeq-methods.html">getSeq</a></span><span class="op">(</span><span class="va">yeastGenome</span>, names<span class="op">=</span><span class="st">"chrM"</span>, start<span class="op">=</span><span class="fl">3</span>, end<span class="op">=</span><span class="fl">10</span><span class="op">)</span> <span class="co"># 8 base pairs of M chromosome</span>
+<span class="co">#&gt; 8-letter DNAString object</span>
+<span class="co">#&gt; seq: CATAATTA</span>
+<span class="co"># The following example will select the bases of "chrI" from 100 to 150</span>
+<span class="fu"><a href="https://rdrr.io/pkg/BSgenome/man/getSeq-methods.html">getSeq</a></span><span class="op">(</span><span class="va">yeastGenome</span>, names <span class="op">=</span> <span class="st">"chrI"</span>, start <span class="op">=</span> <span class="fl">100</span>, end <span class="op">=</span> <span class="fl">150</span><span class="op">)</span>
+<span class="co">#&gt; 51-letter DNAString object</span>
+<span class="co">#&gt; seq: GGCCAACCTGTCTCTCAACTTACCCTCCATTACCCTGCCTCCACTCGTTAC</span></code></pre></div>
+<p>Let’s continue exploring the possibilities of the <strong>BSgenome</strong> package. Each chromosome can also be referred to as <code>object name$chromosome.name</code>.</p>
+<div class="sourceCode" id="cb407"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># chromosome M, alias chrM </span>
+<span class="va">yeastGenome</span><span class="op">$</span><span class="va">chrM</span>
+<span class="co">#&gt; 85779-letter DNAString object</span>
+<span class="co">#&gt; seq: TTCATAATTAATTTTTTATATATATA...TGCTTAATTATAATATAATATCCATA</span>
+
+<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">yeastGenome</span><span class="op">)</span> <span class="co"># chromosome names</span>
+<span class="co">#&gt;  [1] "chrI"    "chrII"   "chrIII"  "chrIV"   "chrV"   </span>
+<span class="co">#&gt;  [6] "chrVI"   "chrVII"  "chrVIII" "chrIX"   "chrX"   </span>
+<span class="co">#&gt; [11] "chrXI"   "chrXII"  "chrXIII" "chrXIV"  "chrXV"  </span>
+<span class="co">#&gt; [16] "chrXVI"  "chrM"</span>
+<span class="fu">seqnames</span><span class="op">(</span><span class="va">yeastGenome</span><span class="op">)</span> <span class="co"># chromosome names</span>
+<span class="co">#&gt;  [1] "chrI"    "chrII"   "chrIII"  "chrIV"   "chrV"   </span>
+<span class="co">#&gt;  [6] "chrVI"   "chrVII"  "chrVIII" "chrIX"   "chrX"   </span>
+<span class="co">#&gt; [11] "chrXI"   "chrXII"  "chrXIII" "chrXIV"  "chrXV"  </span>
+<span class="co">#&gt; [16] "chrXVI"  "chrM"</span>
+<span class="fu">seqlengths</span><span class="op">(</span><span class="va">yeastGenome</span><span class="op">)</span> <span class="co"># length of chromosomes</span>
+<span class="co">#&gt;    chrI   chrII  chrIII   chrIV    chrV   chrVI  chrVII </span>
+<span class="co">#&gt;  230218  813184  316620 1531933  576874  270161 1090940 </span>
+<span class="co">#&gt; chrVIII   chrIX    chrX   chrXI  chrXII chrXIII  chrXIV </span>
+<span class="co">#&gt;  562643  439888  745751  666816 1078177  924431  784333 </span>
+<span class="co">#&gt;   chrXV  chrXVI    chrM </span>
+<span class="co">#&gt; 1091291  948066   85779</span>
+
+<span class="co"># Get the head of seqnames and tail of seqlengths for yeastGenome</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu">seqnames</span><span class="op">(</span><span class="va">yeastGenome</span><span class="op">)</span><span class="op">)</span>   
+<span class="co">#&gt; [1] "chrI"   "chrII"  "chrIII" "chrIV"  "chrV"   "chrVI"</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">tail</a></span><span class="op">(</span><span class="fu">seqlengths</span><span class="op">(</span><span class="va">yeastGenome</span><span class="op">)</span><span class="op">)</span> 
+<span class="co">#&gt;  chrXII chrXIII  chrXIV   chrXV  chrXVI    chrM </span>
+<span class="co">#&gt; 1078177  924431  784333 1091291  948066   85779</span>
+
+<span class="fu"><a href="https://rdrr.io/r/base/nchar.html">nchar</a></span><span class="op">(</span><span class="va">yeastGenome</span><span class="op">$</span><span class="va">chrM</span><span class="op">)</span>  <span class="co"># Count characters of the chrM sequence</span>
+<span class="co">#&gt; [1] 85779</span></code></pre></div>
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="oo-systems.html"><span class="header-section-number">10</span> OO systems</a></div>
+<div class="next"><a href="introduction-to-biostrings.html"><span class="header-section-number">12</span> Introduction to Biostrings</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav"><li>
+<a class="nav-link" href="#introducing-biology-of-genomic-datasets"><span class="header-section-number">11</span> Introducing biology of genomic datasets</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#yeast-genome"><span class="header-section-number">11.0.1</span> Yeast genome</a></li></ul>
+</li></ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/abarik/advancedr_2021_22_1/blob/master/06-bioconductor.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/abarik/advancedr_2021_22_1/edit/master/06-bioconductor.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Advanced R</strong>" was written by Kálmán Abari. It was last built on 2021-10-29.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

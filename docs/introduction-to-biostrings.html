@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 12 Introduction to Biostrings | Advanced R</title>
+<meta name="author" content="Kálmán Abari">
+<meta name="description" content="Bioconductor is all about handling biological datasets in the most efficient way. As you get more familiar with your biological project and/or experiment, you will notice how big datasets can be....">
+<meta name="generator" content="bookdown 0.24 with bs4_book()">
+<meta property="og:title" content="Chapter 12 Introduction to Biostrings | Advanced R">
+<meta property="og:type" content="book">
+<meta property="og:description" content="Bioconductor is all about handling biological datasets in the most efficient way. As you get more familiar with your biological project and/or experiment, you will notice how big datasets can be....">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 12 Introduction to Biostrings | Advanced R">
+<meta name="twitter:description" content="Bioconductor is all about handling biological datasets in the most efficient way. As you get more familiar with your biological project and/or experiment, you will notice how big datasets can be....">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.0/transition.js"></script><script src="libs/bs3compat-0.3.0/tabs.js"></script><script src="libs/bs3compat-0.3.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script><link href="libs/str_view-0.1.0/str_view.css" rel="stylesheet">
+<script src="libs/str_view-binding-1.4.0/str_view.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><link rel="stylesheet" href="bs4_style.css">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="">Advanced R</a>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html"><span class="header-section-number">1</span> Introduction</a></li>
+<li><a class="" href="warm-up-exercise.html"><span class="header-section-number">2</span> Warm-up exercise</a></li>
+<li><a class="" href="rmarkdown.html"><span class="header-section-number">3</span> RMarkdown</a></li>
+<li><a class="" href="advanced-data-manipulation.html"><span class="header-section-number">4</span> Advanced data manipulation</a></li>
+<li><a class="" href="tidyverse-r.html"><span class="header-section-number">5</span> Tidyverse R</a></li>
+<li><a class="" href="modern-graphics.html"><span class="header-section-number">6</span> Modern graphics</a></li>
+<li><a class="" href="bioconductor.html"><span class="header-section-number">7</span> Bioconductor</a></li>
+<li><a class="" href="introduction-1.html"><span class="header-section-number">8</span> Introduction</a></li>
+<li><a class="" href="how-to-install-bioconductor-packages.html"><span class="header-section-number">9</span> How to install Bioconductor packages?</a></li>
+<li><a class="" href="oo-systems.html"><span class="header-section-number">10</span> OO systems</a></li>
+<li><a class="" href="introducing-biology-of-genomic-datasets.html"><span class="header-section-number">11</span> Introducing biology of genomic datasets</a></li>
+<li><a class="active" href="introduction-to-biostrings.html"><span class="header-section-number">12</span> Introduction to Biostrings</a></li>
+<li><a class="" href="rna-seq-an-example.html"><span class="header-section-number">13</span> RNA-Seq (an example)</a></li>
+<li><a class="" href="summary.html"><span class="header-section-number">14</span> Summary</a></li>
+<li><a class="" href="references.html">References</a></li>
+</ul>
+
+        <div class="book-extra">
+          <p><a id="book-repo" href="https://github.com/abarik/advancedr_2021_22_1">View book source <i class="fab fa-github"></i></a></p>
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="introduction-to-biostrings" class="section level1" number="12">
+<h1>
+<span class="header-section-number">12</span> Introduction to Biostrings<a class="anchor" aria-label="anchor" href="#introduction-to-biostrings"><i class="fas fa-link"></i></a>
+</h1>
+<p>Bioconductor is all about handling biological datasets in the most efficient way. As you get more familiar with your biological project and/or experiment, you will notice how big datasets can be. The <strong>Biostrings</strong> package came to Bioconductor 13 years ago, and it implements algorithms for fast manipulation of large biological sequences. It is so important, that more than 200 Bioconductor packages depend on it. Hence, <strong>Biostrings</strong> is at the top 5% of Bioconductor downloads.</p>
+<div id="biological-string-containers" class="section level2" number="12.1">
+<h2>
+<span class="header-section-number">12.1</span> Biological string containers<a class="anchor" aria-label="anchor" href="#biological-string-containers"><i class="fas fa-link"></i></a>
+</h2>
+<p>Biological datasets are represented by characters, and these sequences can be extremely large. <strong>Biostrings</strong> is a useful package because it implements memory efficient containers, especially for sub-setting and matching. Also, these containers can have subclasses. For example, a <code>BString</code> subclass for Big String can store a big sequence of strings as single object or collection. The package <strong>Biostrings</strong> implements two generic containers, also known as virtual classes; these are <code>XString</code> and <code>XStringSet</code>, from which other subclasses will inherit. To learn more about these classes and how they connect to one another, use the function <code>showClass()</code>, like in the example.</p>
+<div class="sourceCode" id="cb408"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://bioconductor.org/packages/Biostrings">Biostrings</a></span><span class="op">)</span>
+
+<span class="fu">showClass</span><span class="op">(</span><span class="st">"XString"</span><span class="op">)</span>
+<span class="co">#&gt; Virtual Class "XString" [package "Biostrings"]</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Slots:</span>
+<span class="co">#&gt;                                           </span>
+<span class="co">#&gt; Name:             shared            offset</span>
+<span class="co">#&gt; Class:         SharedRaw           integer</span>
+<span class="co">#&gt;                                           </span>
+<span class="co">#&gt; Name:             length   elementMetadata</span>
+<span class="co">#&gt; Class:           integer DataFrame_OR_NULL</span>
+<span class="co">#&gt;                         </span>
+<span class="co">#&gt; Name:           metadata</span>
+<span class="co">#&gt; Class:              list</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Extends: </span>
+<span class="co">#&gt; Class "XRaw", directly</span>
+<span class="co">#&gt; Class "XVector", by class "XRaw", distance 2</span>
+<span class="co">#&gt; Class "Vector", by class "XRaw", distance 3</span>
+<span class="co">#&gt; Class "Annotated", by class "XRaw", distance 4</span>
+<span class="co">#&gt; Class "vector_OR_Vector", by class "XRaw", distance 4</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Known Subclasses: "BString", "DNAString", "RNAString", "AAString"</span>
+<span class="fu">showClass</span><span class="op">(</span><span class="st">"XStringSet"</span><span class="op">)</span>
+<span class="co">#&gt; Virtual Class "XStringSet" [package "Biostrings"]</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Slots:</span>
+<span class="co">#&gt;                                           </span>
+<span class="co">#&gt; Name:               pool            ranges</span>
+<span class="co">#&gt; Class:    SharedRaw_Pool    GroupedIRanges</span>
+<span class="co">#&gt;                                           </span>
+<span class="co">#&gt; Name:        elementType   elementMetadata</span>
+<span class="co">#&gt; Class:         character DataFrame_OR_NULL</span>
+<span class="co">#&gt;                         </span>
+<span class="co">#&gt; Name:           metadata</span>
+<span class="co">#&gt; Class:              list</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Extends: </span>
+<span class="co">#&gt; Class "XRawList", directly</span>
+<span class="co">#&gt; Class "XVectorList", by class "XRawList", distance 2</span>
+<span class="co">#&gt; Class "List", by class "XRawList", distance 3</span>
+<span class="co">#&gt; Class "Vector", by class "XRawList", distance 4</span>
+<span class="co">#&gt; Class "list_OR_List", by class "XRawList", distance 4</span>
+<span class="co">#&gt; Class "Annotated", by class "XRawList", distance 5</span>
+<span class="co">#&gt; Class "vector_OR_Vector", by class "XRawList", distance 5</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Known Subclasses: </span>
+<span class="co">#&gt; Class "BStringSet", directly</span>
+<span class="co">#&gt; Class "DNAStringSet", directly</span>
+<span class="co">#&gt; Class "RNAStringSet", directly</span>
+<span class="co">#&gt; Class "AAStringSet", directly</span>
+<span class="co">#&gt; Class "QualityScaledXStringSet", directly</span>
+<span class="co">#&gt; Class "XStringQuality", by class "BStringSet", distance 2</span>
+<span class="co">#&gt; Class "PhredQuality", by class "BStringSet", distance 3</span>
+<span class="co">#&gt; Class "SolexaQuality", by class "BStringSet", distance 3</span>
+<span class="co">#&gt; Class "IlluminaQuality", by class "BStringSet", distance 3</span>
+<span class="co">#&gt; Class "QualityScaledBStringSet", by class "BStringSet", distance 2</span>
+<span class="co">#&gt; Class "QualityScaledDNAStringSet", by class "DNAStringSet", distance 2</span>
+<span class="co">#&gt; Class "QualityScaledRNAStringSet", by class "RNAStringSet", distance 2</span>
+<span class="co">#&gt; Class "QualityScaledAAStringSet", by class "AAStringSet", distance 2</span>
+<span class="fu">showClass</span><span class="op">(</span><span class="st">"BString"</span><span class="op">)</span>
+<span class="co">#&gt; Class "BString" [package "Biostrings"]</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Slots:</span>
+<span class="co">#&gt;                                           </span>
+<span class="co">#&gt; Name:             shared            offset</span>
+<span class="co">#&gt; Class:         SharedRaw           integer</span>
+<span class="co">#&gt;                                           </span>
+<span class="co">#&gt; Name:             length   elementMetadata</span>
+<span class="co">#&gt; Class:           integer DataFrame_OR_NULL</span>
+<span class="co">#&gt;                         </span>
+<span class="co">#&gt; Name:           metadata</span>
+<span class="co">#&gt; Class:              list</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Extends: </span>
+<span class="co">#&gt; Class "XString", directly</span>
+<span class="co">#&gt; Class "XRaw", by class "XString", distance 2</span>
+<span class="co">#&gt; Class "XVector", by class "XString", distance 3</span>
+<span class="co">#&gt; Class "Vector", by class "XString", distance 4</span>
+<span class="co">#&gt; Class "Annotated", by class "XString", distance 5</span>
+<span class="co">#&gt; Class "vector_OR_Vector", by class "XString", distance 5</span>
+<span class="fu">showClass</span><span class="op">(</span><span class="st">"BStringSet"</span><span class="op">)</span>
+<span class="co">#&gt; Class "BStringSet" [package "Biostrings"]</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Slots:</span>
+<span class="co">#&gt;                                           </span>
+<span class="co">#&gt; Name:               pool            ranges</span>
+<span class="co">#&gt; Class:    SharedRaw_Pool    GroupedIRanges</span>
+<span class="co">#&gt;                                           </span>
+<span class="co">#&gt; Name:        elementType   elementMetadata</span>
+<span class="co">#&gt; Class:         character DataFrame_OR_NULL</span>
+<span class="co">#&gt;                         </span>
+<span class="co">#&gt; Name:           metadata</span>
+<span class="co">#&gt; Class:              list</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Extends: </span>
+<span class="co">#&gt; Class "XStringSet", directly</span>
+<span class="co">#&gt; Class "XRawList", by class "XStringSet", distance 2</span>
+<span class="co">#&gt; Class "XVectorList", by class "XStringSet", distance 3</span>
+<span class="co">#&gt; Class "List", by class "XStringSet", distance 4</span>
+<span class="co">#&gt; Class "Vector", by class "XStringSet", distance 5</span>
+<span class="co">#&gt; Class "list_OR_List", by class "XStringSet", distance 5</span>
+<span class="co">#&gt; Class "Annotated", by class "XStringSet", distance 6</span>
+<span class="co">#&gt; Class "vector_OR_Vector", by class "XStringSet", distance 6</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Known Subclasses: </span>
+<span class="co">#&gt; Class "XStringQuality", directly</span>
+<span class="co">#&gt; Class "QualityScaledBStringSet", directly</span>
+<span class="co">#&gt; Class "PhredQuality", by class "XStringQuality", distance 2</span>
+<span class="co">#&gt; Class "SolexaQuality", by class "XStringQuality", distance 2</span>
+<span class="co">#&gt; Class "IlluminaQuality", by class "XStringQuality", distance 2</span></code></pre></div>
+</div>
+<div id="biostring-alphabets" class="section level2" number="12.2">
+<h2>
+<span class="header-section-number">12.2</span> Biostring alphabets<a class="anchor" aria-label="anchor" href="#biostring-alphabets"><i class="fas fa-link"></i></a>
+</h2>
+<p>BioStrings are biology-oriented containers and use a predefined alphabet for storing a DNA sequence, an RNA sequence, or a sequence of amino acids. The <code>DNA_BASES</code> alphabet has the four bases (A, C, G and T) The <code>RNA_BASES</code> replace the T for U) and the Amoni Acid standard (<code>AA_STANDARD</code>) contains the 20 Amino Acid letters, each is built from 3 consecutive RNA bases. In addition, Biostrings alphabets are based on two code representations: <code>IUPAC_CODE_MAP</code> and <code>AMINO_ACID_CODE</code> which contains the bases plus extra characters and symbols. It is important to know these code representations so you know which kind of string you are using or need to use depending on the sequence alphabet.</p>
+<div class="sourceCode" id="cb409"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">DNA_BASES</span>     <span class="co"># DNA 4 bases</span>
+<span class="co">#&gt; [1] "A" "C" "G" "T"</span>
+<span class="va">RNA_BASES</span>     <span class="co"># RNA 4 bases</span>
+<span class="co">#&gt; [1] "A" "C" "G" "U"</span>
+<span class="va">AA_STANDARD</span>   <span class="co"># 20 Amino acids</span>
+<span class="co">#&gt;  [1] "A" "R" "N" "D" "C" "Q" "E" "G" "H" "I" "L" "K" "M" "F"</span>
+<span class="co">#&gt; [15] "P" "S" "T" "W" "Y" "V"</span>
+<span class="va">DNA_ALPHABET</span>  <span class="co"># IUPAC_CODE_MAP</span>
+<span class="co">#&gt;  [1] "A" "C" "G" "T" "M" "R" "W" "S" "Y" "K" "V" "H" "D" "B"</span>
+<span class="co">#&gt; [15] "N" "-" "+" "."</span>
+<span class="va">RNA_ALPHABET</span>  <span class="co"># IUPAC_CODE_MAP</span>
+<span class="co">#&gt;  [1] "A" "C" "G" "U" "M" "R" "W" "S" "Y" "K" "V" "H" "D" "B"</span>
+<span class="co">#&gt; [15] "N" "-" "+" "."</span>
+<span class="va">AA_ALPHABET</span>   <span class="co"># AMINO_ACID_CODE</span>
+<span class="co">#&gt;  [1] "A" "R" "N" "D" "C" "Q" "E" "G" "H" "I" "L" "K" "M" "F"</span>
+<span class="co">#&gt; [15] "P" "S" "T" "W" "Y" "V" "U" "O" "B" "J" "Z" "X" "*" "-"</span>
+<span class="co">#&gt; [29] "+" "."</span></code></pre></div>
+<p>For more information IUPAC DNA codes <a href="http://genome.ucsc.edu/goldenPath/help/iupac.html" class="uri">http://genome.ucsc.edu/goldenPath/help/iupac.html</a></p>
+</div>
+<div id="transcription-and-translation" class="section level2" number="12.3">
+<h2>
+<span class="header-section-number">12.3</span> Transcription and translation<a class="anchor" aria-label="anchor" href="#transcription-and-translation"><i class="fas fa-link"></i></a>
+</h2>
+<p>Now that we now the alphabets, let’s talk about the two processes that convert sequences from one alphabet to the other. First, a double-stranded DNA gets split. This single strand gets transcribed into RNA, complementing each base. But remember, RNA uses U instead of T. Every three RNA bases translate to a new amino acid. This translation follows the genetic code table to produce new molecules.</p>
+<div id="transcription-dna-to-rna" class="section level3" number="12.3.1">
+<h3>
+<span class="header-section-number">12.3.1</span> Transcription DNA to RNA<a class="anchor" aria-label="anchor" href="#transcription-dna-to-rna"><i class="fas fa-link"></i></a>
+</h3>
+<p>Using <strong>BStrings</strong> we start with a short DNA sequence saved in a <code>DNAString</code> object. Then, transcription is the process in which a particular segment of DNA is copied into RNA. Using <code>RNAString</code>, it will change all of the T’s from the <code>dna_seq</code> to U’s in the <code>rna_seq</code>, keeping the same sequence length.</p>
+<div class="sourceCode" id="cb410"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://bioconductor.org/packages/Biostrings">Biostrings</a></span><span class="op">)</span>
+<span class="va">dna_seq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/DNAString-class.html">DNAString</a></span><span class="op">(</span><span class="st">"ATGATCTCGTAA"</span><span class="op">)</span> <span class="co"># DNA single string</span>
+<span class="va">dna_seq</span>
+<span class="co">#&gt; 12-letter DNAString object</span>
+<span class="co">#&gt; seq: ATGATCTCGTAA</span>
+<span class="co"># transcription DNA to RNA string</span>
+<span class="va">rna_seq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/RNAString-class.html">RNAString</a></span><span class="op">(</span><span class="va">dna_seq</span><span class="op">)</span>   <span class="co"># T -&gt; U</span>
+<span class="va">rna_seq</span>
+<span class="co">#&gt; 12-letter RNAString object</span>
+<span class="co">#&gt; seq: AUGAUCUCGUAA</span></code></pre></div>
+<p>Remember, you could also begin with a Set if you want to transcribe multiple sequences at the same time.</p>
+</div>
+<div id="translation-rna-to-amino-acids" class="section level3" number="12.3.2">
+<h3>
+<span class="header-section-number">12.3.2</span> Translation RNA to amino acids<a class="anchor" aria-label="anchor" href="#translation-rna-to-amino-acids"><i class="fas fa-link"></i></a>
+</h3>
+<p>To translate RNA sequences into Amino Acid sequences, we need the translation codes stored in <code>RNA_GENETIC_CODE</code> and applied by the <code><a href="https://rdrr.io/pkg/Biostrings/man/translate.html">translate()</a></code> function. In the example, <code>rna_seq</code> is translated into MIS*. Where three RNA bases return one Amino Acid. Hence, translation always returns a shorter sequence.</p>
+<div class="sourceCode" id="cb411"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">RNA_GENETIC_CODE</span>
+<span class="co">#&gt; UUU UUC UUA UUG UCU UCC UCA UCG UAU UAC UAA UAG UGU UGC UGA </span>
+<span class="co">#&gt; "F" "F" "L" "L" "S" "S" "S" "S" "Y" "Y" "*" "*" "C" "C" "*" </span>
+<span class="co">#&gt; UGG CUU CUC CUA CUG CCU CCC CCA CCG CAU CAC CAA CAG CGU CGC </span>
+<span class="co">#&gt; "W" "L" "L" "L" "L" "P" "P" "P" "P" "H" "H" "Q" "Q" "R" "R" </span>
+<span class="co">#&gt; CGA CGG AUU AUC AUA AUG ACU ACC ACA ACG AAU AAC AAA AAG AGU </span>
+<span class="co">#&gt; "R" "R" "I" "I" "I" "M" "T" "T" "T" "T" "N" "N" "K" "K" "S" </span>
+<span class="co">#&gt; AGC AGA AGG GUU GUC GUA GUG GCU GCC GCA GCG GAU GAC GAA GAG </span>
+<span class="co">#&gt; "S" "R" "R" "V" "V" "V" "V" "A" "A" "A" "A" "D" "D" "E" "E" </span>
+<span class="co">#&gt; GGU GGC GGA GGG </span>
+<span class="co">#&gt; "G" "G" "G" "G" </span>
+<span class="co">#&gt; attr(,"alt_init_codons")</span>
+<span class="co">#&gt; [1] "UUG" "CUG"</span>
+<span class="va">rna_seq</span>
+<span class="co">#&gt; 12-letter RNAString object</span>
+<span class="co">#&gt; seq: AUGAUCUCGUAA</span>
+<span class="va">aa_seq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/translate.html">translate</a></span><span class="op">(</span><span class="va">rna_seq</span><span class="op">)</span>
+<span class="va">aa_seq</span>
+<span class="co">#&gt; 4-letter AAString object</span>
+<span class="co">#&gt; seq: MIS*</span></code></pre></div>
+</div>
+<div id="shortcut-translate-dna-to-amino-acids" class="section level3" number="12.3.3">
+<h3>
+<span class="header-section-number">12.3.3</span> Shortcut translate DNA to amino acids<a class="anchor" aria-label="anchor" href="#shortcut-translate-dna-to-amino-acids"><i class="fas fa-link"></i></a>
+</h3>
+<p>Transcription and translation are two separated processes in real life. But, in coding, there is a shortcut. The function <code><a href="https://rdrr.io/pkg/Biostrings/man/translate.html">translate()</a></code> also accepts DNA Strings and it automatically transcribes to RNA before translating the sequence to Amino Acids, providing the same results.</p>
+<div class="sourceCode" id="cb412"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">aa_seq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/translate.html">translate</a></span><span class="op">(</span><span class="va">dna_seq</span><span class="op">)</span>
+<span class="va">aa_seq</span>
+<span class="co">#&gt; 4-letter AAString object</span>
+<span class="co">#&gt; seq: MIS*</span></code></pre></div>
+</div>
+</div>
+<div id="the-zika-virus" class="section level2" number="12.4">
+<h2>
+<span class="header-section-number">12.4</span> The Zika virus<a class="anchor" aria-label="anchor" href="#the-zika-virus"><i class="fas fa-link"></i></a>
+</h2>
+<p>For this chapter, you will use the Zika Virus genome to interact with the package <strong>BStrings</strong>. The Zika virus genome is very small, of about 10 thousand base pairs. A virus needs a host to live in. The Zika virus is common in tropical areas around the world and it spreads through mosquitoes or blood.</p>
+<div id="exploring-the-zika-virus-sequence" class="section level3" number="12.4.1">
+<h3>
+<span class="header-section-number">12.4.1</span> Exploring the Zika virus sequence<a class="anchor" aria-label="anchor" href="#exploring-the-zika-virus-sequence"><i class="fas fa-link"></i></a>
+</h3>
+<p>To explore the Zika virus genome, which has been loaded in your workspace as <code>zikaVirus</code>. The genome was downloaded from NCBI and you can apply <strong>BStrings</strong> functions to learn more about it.</p>
+<p>Before exploring the Zika virus sequence, we need to asnwer the question: How do we store sequences? We do so, using text. There are two main text formats <code>fastQ</code> and <code>fastA</code>, the main difference is that <code>fastQ</code> files include quality encoding per sequenced letter. Both formats are used to store DNA or protein sequences together with sequence names. Now, we have a fasta file. A fasta file contains two lines per sequence read. The first line starts with the right arrow and a unique sequence identifier and the second line, the raw sequence string. Common file extensions are fasta, fa, or seq.</p>
+<p><strong>ShortRead</strong> package provides us with <code><a href="https://rdrr.io/pkg/ShortRead/man/readFasta.html">readFasta()</a></code> which reads all FASTA-formatted files in a directory Path followed by a pattern. It can read compressed or uncompressed files. It returns a single object representation of class <code>ShortRead</code>. This class stores and manipulates uniform-length short read sequences and their identifiers. Use <code><a href="https://rdrr.io/r/utils/methods.html">methods()</a></code> with class ShortRead to get a list of accessors. Lastly, <code><a href="https://rdrr.io/pkg/ShortRead/man/readFasta.html">writeFasta()</a></code> writes an object to a single file given a file name. It can also compress on the fly.</p>
+<div class="sourceCode" id="cb413"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># BiocManager::install("ShortRead")</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">ShortRead</span><span class="op">)</span>
+<span class="va">zika</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ShortRead/man/readFasta.html">readFasta</a></span><span class="op">(</span>dirPath <span class="op">=</span> <span class="st">"data/zika_genomic.fa.txt"</span><span class="op">)</span>
+<span class="va">zika</span>
+<span class="co">#&gt; class: ShortRead</span>
+<span class="co">#&gt; length: 1 reads; width: 10794 cycles</span>
+<span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">zika</span><span class="op">)</span>
+<span class="co">#&gt; [1] "ShortRead"</span>
+<span class="co">#&gt; attr(,"package")</span>
+<span class="co">#&gt; [1] "ShortRead"</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/methods.html">methods</a></span><span class="op">(</span>class <span class="op">=</span> <span class="st">"ShortRead"</span><span class="op">)</span> <span class="co"># methods accessors</span>
+<span class="co">#&gt;  [1] [                 alphabetByCycle   append           </span>
+<span class="co">#&gt;  [4] clean             coerce            detail           </span>
+<span class="co">#&gt;  [7] dustyScore        id                length           </span>
+<span class="co">#&gt; [10] narrow            pairwiseAlignment show             </span>
+<span class="co">#&gt; [13] srdistance        srduplicated      sread            </span>
+<span class="co">#&gt; [16] srorder           srrank            srsort           </span>
+<span class="co">#&gt; [19] tables            trimEnds          trimLRPatterns   </span>
+<span class="co">#&gt; [22] width             writeFasta       </span>
+<span class="co">#&gt; see '?methods' for accessing help and source code</span>
+<span class="va">zikaVirus</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ShortRead/man/ShortRead-class.html">sread</a></span><span class="op">(</span><span class="va">zika</span><span class="op">)</span> <span class="co"># slots from object of class "DNAStringSet"</span>
+<span class="va">zikaVirus</span>
+<span class="co">#&gt; DNAStringSet object of length 1:</span>
+<span class="co">#&gt;     width seq</span>
+<span class="co">#&gt; [1] 10794 AGTTGTTGATCTGTGTGAGTCAGA...GTGTGGGGAAATCCATGGTTTCT</span>
+<span class="fu"><a href="https://rdrr.io/pkg/ShortRead/man/readFasta.html">writeFasta</a></span><span class="op">(</span>object <span class="op">=</span> <span class="va">zika</span>, file <span class="op">=</span> <span class="st">"output/data/zv.fasta"</span><span class="op">)</span></code></pre></div>
+<p>Start by checking the alphabet of the sequence.</p>
+<div class="sourceCode" id="cb414"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/XString-class.html">alphabet</a></span><span class="op">(</span><span class="va">zikaVirus</span><span class="op">)</span> <span class="co"># Shows the letters included in the sequence</span>
+<span class="co">#&gt;  [1] "A" "C" "G" "T" "M" "R" "W" "S" "Y" "K" "V" "H" "D" "B"</span>
+<span class="co">#&gt; [15] "N" "-" "+" "."</span>
+<span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/letterFrequency.html">alphabetFrequency</a></span><span class="op">(</span><span class="va">zikaVirus</span><span class="op">)</span> <span class="co"># Shows the counts per letter</span>
+<span class="co">#&gt;         A    C    G    T M R W S Y K V H D B N - + .</span>
+<span class="co">#&gt; [1,] 2991 2359 3139 2305 0 0 0 0 0 0 0 0 0 0 0 0 0 0</span></code></pre></div>
+<p>Remember that each alphabet corresponds to a specific <strong>BString</strong> container, and each alphabet usually has extra code letters and symbols.</p>
+<p>Call <code><a href="https://rdrr.io/pkg/Biostrings/man/XString-class.html">alphabet()</a></code> with the attribute <code>baseOnly = TRUE</code>. What difference do you see when adding this optional argument?</p>
+<div class="sourceCode" id="cb415"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Check alphabet of the zikaVirus using baseOnly = TRUE</span>
+<span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/XString-class.html">alphabet</a></span><span class="op">(</span><span class="va">zikaVirus</span>, baseOnly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="co">#&gt; [1] "A" "C" "G" "T"</span></code></pre></div>
+<p>You’ve now discovered that the zikaVirus is a DNA sequence since it contains the 4 bases A, C, T, and G. The <code>zikaVirus</code> has been read into a <code>DNAStringSet</code>.</p>
+</div>
+<div id="manipulating-biostrings" class="section level3" number="12.4.2">
+<h3>
+<span class="header-section-number">12.4.2</span> Manipulating Biostrings<a class="anchor" aria-label="anchor" href="#manipulating-biostrings"><i class="fas fa-link"></i></a>
+</h3>
+<p>Using a short sequence (<code>dna_seq</code>) from the <code>zikaVirus</code> object, we are going with the two biological processes of transcription and translation.</p>
+<p>In the first two parts of this exercise, you will apply these processes separately. After using <code><a href="https://rdrr.io/r/base/unlist.html">unlist()</a></code> the zikaVirus we set and select the first 21 base pairs with <code>subseq()</code>. The resulting object will be a “DNAString” object. We transcribe the <code>dna_seq</code> into an “RNAString” and assign it to <code>rna_seq</code>. We translate the <code>rna_seq</code> into an “AAString” and assign it to <code>aa_seq</code>.</p>
+<div class="sourceCode" id="cb416"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Unlist the set, select the first 21 letters, and assign to dna_seq</span>
+<span class="va">dna_seq</span> <span class="op">&lt;-</span> <span class="fu">subseq</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="va">zikaVirus</span><span class="op">)</span>, end <span class="op">=</span> <span class="fl">21</span><span class="op">)</span>
+<span class="va">dna_seq</span>
+<span class="co">#&gt; 21-letter DNAString object</span>
+<span class="co">#&gt; seq: AGTTGTTGATCTGTGTGAGTC</span>
+
+<span class="co"># Transcribe dna_seq into an RNAString object and print it</span>
+<span class="va">rna_seq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/RNAString-class.html">RNAString</a></span><span class="op">(</span><span class="va">dna_seq</span><span class="op">)</span> 
+<span class="va">rna_seq</span>
+<span class="co">#&gt; 21-letter RNAString object</span>
+<span class="co">#&gt; seq: AGUUGUUGAUCUGUGUGAGUC</span>
+
+<span class="co"># Translate rna_seq into an AAString object and print it</span>
+<span class="va">aa_seq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/translate.html">translate</a></span><span class="op">(</span><span class="va">rna_seq</span><span class="op">)</span>
+<span class="va">aa_seq</span>
+<span class="co">#&gt; 7-letter AAString object</span>
+<span class="co">#&gt; seq: SC*SV*V</span></code></pre></div>
+<p>In the last part, we’ll apply them in one step. We complete the processes of transcription and translation on the “DNAString” object <code>dna_seq</code> in one step, converting it directly into an “AAString” object, <code>aa_seq</code>.</p>
+<div class="sourceCode" id="cb417"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Unlist the set, select the first 21 letters, and assign to dna_seq</span>
+<span class="va">dna_seq</span> <span class="op">&lt;-</span> <span class="fu">subseq</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="va">zikaVirus</span><span class="op">)</span>, end <span class="op">=</span> <span class="fl">21</span><span class="op">)</span>
+<span class="va">dna_seq</span>
+<span class="co">#&gt; 21-letter DNAString object</span>
+<span class="co">#&gt; seq: AGTTGTTGATCTGTGTGAGTC</span>
+
+<span class="co"># Transcribe and translate dna_seq into an AAString object and print it</span>
+<span class="va">aa_seq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/translate.html">translate</a></span><span class="op">(</span><span class="va">dna_seq</span><span class="op">)</span>
+<span class="va">aa_seq</span>
+<span class="co">#&gt; 7-letter AAString object</span>
+<span class="co">#&gt; seq: SC*SV*V</span></code></pre></div>
+<p>We used a very small sequence in this exercise, but remember that the power of <code>BStrings</code> comes to light when manipulating much larger sequences.</p>
+
+</div>
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="introducing-biology-of-genomic-datasets.html"><span class="header-section-number">11</span> Introducing biology of genomic datasets</a></div>
+<div class="next"><a href="rna-seq-an-example.html"><span class="header-section-number">13</span> RNA-Seq (an example)</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#introduction-to-biostrings"><span class="header-section-number">12</span> Introduction to Biostrings</a></li>
+<li><a class="nav-link" href="#biological-string-containers"><span class="header-section-number">12.1</span> Biological string containers</a></li>
+<li><a class="nav-link" href="#biostring-alphabets"><span class="header-section-number">12.2</span> Biostring alphabets</a></li>
+<li>
+<a class="nav-link" href="#transcription-and-translation"><span class="header-section-number">12.3</span> Transcription and translation</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#transcription-dna-to-rna"><span class="header-section-number">12.3.1</span> Transcription DNA to RNA</a></li>
+<li><a class="nav-link" href="#translation-rna-to-amino-acids"><span class="header-section-number">12.3.2</span> Translation RNA to amino acids</a></li>
+<li><a class="nav-link" href="#shortcut-translate-dna-to-amino-acids"><span class="header-section-number">12.3.3</span> Shortcut translate DNA to amino acids</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#the-zika-virus"><span class="header-section-number">12.4</span> The Zika virus</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#exploring-the-zika-virus-sequence"><span class="header-section-number">12.4.1</span> Exploring the Zika virus sequence</a></li>
+<li><a class="nav-link" href="#manipulating-biostrings"><span class="header-section-number">12.4.2</span> Manipulating Biostrings</a></li>
+</ul>
+</li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+<li><a id="book-source" href="https://github.com/abarik/advancedr_2021_22_1/blob/master/06-bioconductor.Rmd">View source <i class="fab fa-github"></i></a></li>
+          <li><a id="book-edit" href="https://github.com/abarik/advancedr_2021_22_1/edit/master/06-bioconductor.Rmd">Edit this page <i class="fab fa-github"></i></a></li>
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Advanced R</strong>" was written by Kálmán Abari. It was last built on 2021-10-29.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
+</body>
+</html>

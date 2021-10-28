@@ -6,14 +6,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Chapter 7 Bioconductor | Advanced R</title>
 <meta name="author" content="Kálmán Abari">
-<meta name="description" content="This is a small book for Adnvaced R course.">
+<meta name="description" content="7.1 Introduction The Bioconductor project is an open source repository for R packages, datasets and workflows that are specific for analyzing biological data. The Bioconductor project is a useful...">
 <meta name="generator" content="bookdown 0.24 with bs4_book()">
 <meta property="og:title" content="Chapter 7 Bioconductor | Advanced R">
 <meta property="og:type" content="book">
-<meta property="og:description" content="This is a small book for Adnvaced R course.">
+<meta property="og:description" content="7.1 Introduction The Bioconductor project is an open source repository for R packages, datasets and workflows that are specific for analyzing biological data. The Bioconductor project is a useful...">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Chapter 7 Bioconductor | Advanced R">
-<meta name="twitter:description" content="This is a small book for Adnvaced R course.">
+<meta name="twitter:description" content="7.1 Introduction The Bioconductor project is an open source repository for R packages, datasets and workflows that are specific for analyzing biological data. The Bioconductor project is a useful...">
 <!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/header-attrs-2.11/header-attrs.js"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
 <script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.3.0/transition.js"></script><script src="libs/bs3compat-0.3.0/tabs.js"></script><script src="libs/bs3compat-0.3.0/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
@@ -61,14 +61,981 @@
 <h1>
 <span class="header-section-number">7</span> Bioconductor<a class="anchor" aria-label="anchor" href="#bioconductor"><i class="fas fa-link"></i></a>
 </h1>
+<div id="introduction-1" class="section level2" number="7.1">
+<h2>
+<span class="header-section-number">7.1</span> Introduction<a class="anchor" aria-label="anchor" href="#introduction-1"><i class="fas fa-link"></i></a>
+</h2>
+<p>The Bioconductor project is an open source repository for R packages, datasets and workflows that are specific for analyzing biological data. The Bioconductor project is a useful extension on CRAN, the R Archive, because it provides us with the software tools to explore, understand, and solve simple and complex molecular biology questions. Hence, Bioconductor’s tagline is “open source software for bioinformatics.”</p>
+<p>Bioconductor site: <a href="https://www.bioconductor.org/">https://www.bioconductor.org/</a></p>
+</div>
+<div id="how-to-install-bioconductor-packages" class="section level2" number="7.2">
+<h2>
+<span class="header-section-number">7.2</span> How to install Bioconductor packages?<a class="anchor" aria-label="anchor" href="#how-to-install-bioconductor-packages"><i class="fas fa-link"></i></a>
+</h2>
+<p>The Bioconductor package collection forms its own repository and has a release schedule different from the R Archive. Because Bioconductor has it’s own base functions and updates, packages are installed differently. To install Bioconductor packages you need some lines of code, as shown below.</p>
+<div class="sourceCode" id="cb388"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html">requireNamespace</a></span><span class="op">(</span><span class="st">"BiocManager"</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
+    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"BiocManager"</span><span class="op">)</span>
+<span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span><span class="op">(</span><span class="op">)</span>                  <span class="co"># install core packages</span>
+<span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span><span class="op">(</span><span class="st">"GenomicFeatures"</span><span class="op">)</span> <span class="co"># install GenomicFeatures package</span></code></pre></div>
+<p>First, use the function <code><a href="https://rdrr.io/r/utils/install.packages.html">install.packages("BiocManager")</a></code>. This function will install the <strong>BiocInstaller</strong> package. Then, use the function <code><a href="https://rdrr.io/pkg/BiocManager/man/install.html">BiocManager::install()</a></code> with the name of the package you want to install. Once you use <code><a href="https://rdrr.io/pkg/BiocManager/man/install.html">BiocManager::install()</a></code>, you will be informed if any new versions of Bioconductor are available, and will also see a prompt to update your R version if needed. Updating packages, regularly, is important to get the new features. In case there are upgrades on packages or dependencies, you will be asked to update all, some, or none of the packages.</p>
+<div id="bioconductor-version-and-package-version" class="section level3" number="7.2.1">
+<h3>
+<span class="header-section-number">7.2.1</span> Bioconductor version and package version<a class="anchor" aria-label="anchor" href="#bioconductor-version-and-package-version"><i class="fas fa-link"></i></a>
+</h3>
+<p>Because Bioconductor is in constant development, you can check the version of Bioconductor using the syntax <code><a href="https://rdrr.io/pkg/BiocManager/man/version.html">BiocManager::version()</a></code>. To load a package use the function <code><a href="https://rdrr.io/r/base/library.html">library()</a></code> like with CRAN packages. It’s important for reproducibility to always check the versions of your packages. You can use the function <code><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo()</a></code> which gives you a list of all the loaded packages and their versions, or you can inquire the version of each package using <code><a href="https://rdrr.io/r/utils/packageDescription.html">packageVersion()</a></code> and the <code>packageName</code>. Finally, if you are interested to know if you have out-of-date packages, use the function <code><a href="https://rdrr.io/pkg/BiocManager/man/valid.html">BiocManager::valid()</a></code>.</p>
+<div class="sourceCode" id="cb389"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">version</span>                  <span class="co"># detailed information about the version of R running</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span>            <span class="co"># version information about R, the OS and attached or loaded packages</span>
+<span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/version.html">version</a></span><span class="op">(</span><span class="op">)</span>   <span class="co"># version of Bioconductor currently in use</span>
+<span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/valid.html">valid</a></span><span class="op">(</span><span class="op">)</span>     <span class="co"># Validate installed package versions against correct versions</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/packageDescription.html">packageVersion</a></span><span class="op">(</span><span class="st">"GenomicFeatures"</span><span class="op">)</span>  <span class="co"># package version</span>
 
+<span class="co"># to install some new packages</span>
+<span class="fu"><a href="https://rdrr.io/r/base/libPaths.html">.libPaths</a></span><span class="op">(</span><span class="op">)</span>
+<span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html">install</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>
+    <span class="st">"backports"</span>, <span class="st">"Cairo"</span>, <span class="st">"loo"</span>, <span class="st">"openssl"</span>, <span class="st">"Rcpp"</span>, <span class="st">"svglite"</span>, <span class="st">"vdiffr"</span>
+  <span class="op">)</span>, update <span class="op">=</span> <span class="cn">TRUE</span>, ask <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<p><strong>BSgenome</strong> is a Bioconductor data package that contains representations of several genomes. This package has already been installed for you, as installing the dependencies usually takes some time, using the following code:</p>
+<div class="sourceCode" id="cb390"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Installing and loading BSGenome package</span>
+<span class="co"># BiocManager::install("BSgenome", lib="C:/Program Files/R/R-4.1.1patched/library" )</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://bioconductor.org/packages/BSgenome">BSgenome</a></span><span class="op">)</span></code></pre></div>
+</div>
+</div>
+<div id="oo-systems" class="section level2" number="7.3">
+<h2>
+<span class="header-section-number">7.3</span> OO systems<a class="anchor" aria-label="anchor" href="#oo-systems"><i class="fas fa-link"></i></a>
+</h2>
+<p>R is a functional programming language, which means we are working with a series of functions. We achieve our goal by sequencing or nested function calls. The use of Tidyverse R and the pipe operator greatly facilitates the interpretation and modification of multiple nested functions.</p>
+<p>However, R also has object-oriented capabilities, so our capabilities expand greatly when using R.</p>
+<p>In R you can use several object-oriented systems in parallel (more details <a href="https://adv-r.hadley.nz/oo.html">https://adv-r.hadley.nz/oo.html</a>):</p>
+<ul>
+<li>S3 - the simplest OO system, tied to basic data types</li>
+<li>S4 - Bioconductor is being developed in this (details: <a href="http://www.bioconductor.org/help/course-materials/2010/AdvancedR/S4InBioconductor.pdf">S4 System Development in Bioconductor</a> and <a href="http://bioconductor.org/help/course-materials/2017/Zurich/S4-classes-and-methods.html">S4 classes and methods</a>
+</li>
+<li>RC - Reference classes, the latest OO system in R (from version 2.12 R)</li>
+</ul>
+<p>We review two object-oriented systems, systems S3 and S4. Most of the R packets use the S3 system, the Bioconductor handles the S4.</p>
+<div id="s3" class="section level3" number="7.3.1">
+<h3>
+<span class="header-section-number">7.3.1</span> S3<a class="anchor" aria-label="anchor" href="#s3"><i class="fas fa-link"></i></a>
+</h3>
+<p>Advantages of S3:</p>
+<ul>
+<li>simple but powerful</li>
+<li>flexible and interactive</li>
+<li>uses a generic function</li>
+<li>functionality depends on the first argument.</li>
+</ul>
+<p>A good example of S3 is the <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot ()</a></code> function, which can draw more than 30 different figures, depending on the input.</p>
+<div class="sourceCode" id="cb391"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/methods.html">methods</a></span><span class="op">(</span><span class="va">plot</span><span class="op">)</span> <span class="co"># List Methods for S3 Generic Functions or Classes of plot()</span>
+<span class="co">#&gt;  [1] plot,ANY,ANY-method            </span>
+<span class="co">#&gt;  [2] plot,profile.mle,missing-method</span>
+<span class="co">#&gt;  [3] plot.acf*                      </span>
+<span class="co">#&gt;  [4] plot.data.frame*               </span>
+<span class="co">#&gt;  [5] plot.decomposed.ts*            </span>
+<span class="co">#&gt;  [6] plot.default                   </span>
+<span class="co">#&gt;  [7] plot.dendrogram*               </span>
+<span class="co">#&gt;  [8] plot.density*                  </span>
+<span class="co">#&gt;  [9] plot.ecdf                      </span>
+<span class="co">#&gt; [10] plot.factor*                   </span>
+<span class="co">#&gt; [11] plot.formula*                  </span>
+<span class="co">#&gt; [12] plot.function                  </span>
+<span class="co">#&gt; [13] plot.hclust*                   </span>
+<span class="co">#&gt; [14] plot.histogram*                </span>
+<span class="co">#&gt; [15] plot.HoltWinters*              </span>
+<span class="co">#&gt; [16] plot.isoreg*                   </span>
+<span class="co">#&gt; [17] plot.lm*                       </span>
+<span class="co">#&gt; [18] plot.medpolish*                </span>
+<span class="co">#&gt; [19] plot.mlm*                      </span>
+<span class="co">#&gt; [20] plot.ppr*                      </span>
+<span class="co">#&gt; [21] plot.prcomp*                   </span>
+<span class="co">#&gt; [22] plot.princomp*                 </span>
+<span class="co">#&gt; [23] plot.profile.nls*              </span>
+<span class="co">#&gt; [24] plot.R6*                       </span>
+<span class="co">#&gt; [25] plot.raster*                   </span>
+<span class="co">#&gt; [26] plot.shingle*                  </span>
+<span class="co">#&gt; [27] plot.spec*                     </span>
+<span class="co">#&gt; [28] plot.stepfun                   </span>
+<span class="co">#&gt; [29] plot.stl*                      </span>
+<span class="co">#&gt; [30] plot.table*                    </span>
+<span class="co">#&gt; [31] plot.trellis*                  </span>
+<span class="co">#&gt; [32] plot.ts                        </span>
+<span class="co">#&gt; [33] plot.tskernel*                 </span>
+<span class="co">#&gt; [34] plot.TukeyHSD*                 </span>
+<span class="co">#&gt; see '?methods' for accessing help and source code</span>
+<span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Binomial.html">rbinom</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">10</span>, size <span class="op">=</span> <span class="fl">4</span>, prob <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="06-bioconductor_files/figure-html/unnamed-chunk-4-1.png" width="672"></div>
+<div class="sourceCode" id="cb392"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="06-bioconductor_files/figure-html/unnamed-chunk-4-2.png" width="672"></div>
+<div class="sourceCode" id="cb393"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<div class="inline-figure"><img src="06-bioconductor_files/figure-html/unnamed-chunk-4-3.png" width="672"></div>
+<p>However, the S3 is not strong in type evaluation and selection. For example, if you give a function the wrong type, it will try all of them before printing the error. Naming difficulties (dot or not dot) and inheritance work, but it depends on the input.</p>
+<div id="bases" class="section level4" number="7.3.1.1">
+<h4>
+<span class="header-section-number">7.3.1.1</span> Bases<a class="anchor" aria-label="anchor" href="#bases"><i class="fas fa-link"></i></a>
+</h4>
+<p>S3 is the most widely used object-oriented system in CRAN packages. The <strong>base</strong> and <strong>stats</strong> packages only use this system.</p>
+<p>Each S3 object has a <code>class</code> attribute, but of course it can have other attributes to store different information.</p>
+<div class="sourceCode" id="cb394"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">f</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"a"</span>, <span class="st">"b"</span>, <span class="st">"c"</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/typeof.html">typeof</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span>     <span class="co"># The Type of an Object</span>
+<span class="co">#&gt; [1] "integer"</span>
+<span class="fu"><a href="https://rdrr.io/r/base/attributes.html">attributes</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span> <span class="co"># Object Attribute Lists</span>
+<span class="co">#&gt; $levels</span>
+<span class="co">#&gt; [1] "a" "b" "c"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $class</span>
+<span class="co">#&gt; [1] "factor"</span>
+<span class="fu"><a href="https://rdrr.io/r/base/class.html">unclass</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span>    <span class="co"># returns f with its class attribute removed </span>
+<span class="co">#&gt; [1] 1 2 3</span>
+<span class="co">#&gt; attr(,"levels")</span>
+<span class="co">#&gt; [1] "a" "b" "c"</span>
+<span class="fu">sloop</span><span class="fu">::</span><span class="fu"><a href="https://sloop.r-lib.org/reference/otype.html">otype</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span> <span class="co"># Determine the type of an object</span>
+<span class="co">#&gt; [1] "S3"</span></code></pre></div>
+<p>There are generic functions in R that define an interface that uses a different implementation depending on the argument received. Most R functions are generic, such as <code><a href="https://rdrr.io/r/base/print.html">print ()</a></code> and the <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot ()</a></code> seen earlier.</p>
+<div class="sourceCode" id="cb395"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span>
+<span class="co">#&gt; [1] a b c</span>
+<span class="co">#&gt; Levels: a b c</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/class.html">unclass</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; [1] 1 2 3</span>
+<span class="co">#&gt; attr(,"levels")</span>
+<span class="co">#&gt; [1] "a" "b" "c"</span></code></pre></div>
+<p>We can know whether any function is generic or not.</p>
+<div class="sourceCode" id="cb396"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">sloop</span><span class="fu">::</span><span class="fu"><a href="https://sloop.r-lib.org/reference/ftype.html">ftype</a></span><span class="op">(</span><span class="va">str</span><span class="op">)</span>    <span class="co"># Determine function type.</span>
+<span class="co">#&gt; [1] "S3"      "generic"</span>
+<span class="fu">sloop</span><span class="fu">::</span><span class="fu"><a href="https://sloop.r-lib.org/reference/ftype.html">ftype</a></span><span class="op">(</span><span class="va">print</span><span class="op">)</span>
+<span class="co">#&gt; [1] "S3"      "generic"</span>
+<span class="fu">sloop</span><span class="fu">::</span><span class="fu"><a href="https://sloop.r-lib.org/reference/ftype.html">ftype</a></span><span class="op">(</span><span class="va">unclass</span><span class="op">)</span>
+<span class="co">#&gt; [1] "primitive"</span>
+<span class="fu">sloop</span><span class="fu">::</span><span class="fu"><a href="https://sloop.r-lib.org/reference/ftype.html">ftype</a></span><span class="op">(</span><span class="va">mean</span><span class="op">)</span>
+<span class="co">#&gt; [1] "S4"      "generic"</span></code></pre></div>
+<p>The class of the S3 object is printed by <code><a href="https://rdrr.io/r/base/class.html">class ()</a></code>, but <code><a href="https://rdrr.io/r/base/class.html">inherits ()</a></code> provides a logical value if the object is an instance of that class.</p>
+<p>The job of an S3 generic is to perform method dispatch, i.e. find the specific implementation for a class. Method dispatch is performed by <code><a href="https://rdrr.io/r/base/UseMethod.html">UseMethod()</a></code>, which every generic calls. How does <code><a href="https://rdrr.io/r/base/UseMethod.html">UseMethod()</a></code> work? It basically creates a vector of method names, <code><a href="https://rdrr.io/r/base/paste.html">paste0("generic", ".", c(class(x), "default"))</a></code>, and then looks for each potential method in turn. We can see this in action with <code><a href="https://sloop.r-lib.org/reference/s3_dispatch.html">sloop::s3_dispatch()</a></code>. You give it a call to an S3 generic, and it lists all the possible methods.</p>
+<div class="sourceCode" id="cb397"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">sloop</span><span class="fu">::</span><span class="fu"><a href="https://sloop.r-lib.org/reference/s3_dispatch.html">s3_dispatch</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">f</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; =&gt; print.factor</span>
+<span class="co">#&gt;  * print.default</span></code></pre></div>
+</div>
+<div id="classes" class="section level4" number="7.3.1.2">
+<h4>
+<span class="header-section-number">7.3.1.2</span> Classes<a class="anchor" aria-label="anchor" href="#classes"><i class="fas fa-link"></i></a>
+</h4>
+<p>In the S3 system, there is no formal definition of objects. If you want to create your own class, you need to specify the <code>class</code> attribute. You can also create an object of a class with the <code><a href="https://rdrr.io/r/base/structure.html">structure ()</a></code> function or later with the <code><a href="https://rdrr.io/r/base/class.html">class ()</a></code> function.</p>
+<div class="sourceCode" id="cb398"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/structure.html">structure</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, class<span class="op">=</span><span class="st">"my_class"</span><span class="op">)</span>
+<span class="fu">sloop</span><span class="fu">::</span><span class="fu"><a href="https://sloop.r-lib.org/reference/otype.html">otype</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
+<span class="co">#&gt; [1] "S3"</span>
+
+<span class="va">x</span> <span class="op">&lt;-</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span>
+<span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"my_class"</span>
+<span class="va">x</span>
+<span class="co">#&gt;  [1]  1  2  3  4  5  6  7  8  9 10</span>
+<span class="co">#&gt; attr(,"class")</span>
+<span class="co">#&gt; [1] "my_class"</span>
+<span class="fu">sloop</span><span class="fu">::</span><span class="fu"><a href="https://sloop.r-lib.org/reference/otype.html">otype</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
+<span class="co">#&gt; [1] "S3"</span></code></pre></div>
+<p>The class of the S3 object is printed by <code><a href="https://rdrr.io/r/base/class.html">class ()</a></code>, but <code><a href="https://rdrr.io/r/base/class.html">inherits ()</a></code> provides a logical value if the object is an instance of that class.</p>
+<div class="sourceCode" id="cb399"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
+<span class="co">#&gt; [1] "my_class"</span>
+<span class="fu"><a href="https://rdrr.io/r/base/class.html">inherits</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"my_class"</span><span class="op">)</span>
+<span class="co">#&gt; [1] TRUE</span></code></pre></div>
+<p>It is very easy to ruin an existing object by modifying the class.</p>
+<div class="sourceCode" id="cb400"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span>
+<span class="va">x</span>
+<span class="co">#&gt;  [1] 1  2  3  4  5  6  7  8  9  10</span>
+<span class="co">#&gt; Levels: 1 2 3 4 5 6 7 8 9 10</span>
+<span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span>
+<span class="co">#&gt; [1] "factor"</span>
+<span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="st">"lm"</span>
+<span class="co"># x  hibaüzenet</span></code></pre></div>
+</div>
+</div>
+<div id="s4" class="section level3" number="7.3.2">
+<h3>
+<span class="header-section-number">7.3.2</span> S4<a class="anchor" aria-label="anchor" href="#s4"><i class="fas fa-link"></i></a>
+</h3>
+<p>The S4 system motivation is to implement an object-oriented style of programming. The base concept is to define the data first and then work on it. Once an object is defined, it is generalized to a class by defining the kind of data it contains and any actions or functions to manipulate it. As you will see in more detail in the coming chapters, biological representations are complex and very often interconnected. Bioconductor then, recommends re-using methods and classes before implementing new representations. S4 classes have a formal definition, hence are a lot better to check input types, because of their definition and inheritance. You can create a new object from a class like in the example. We created a new genome description. This object will contain slots to describe it. S4 requires a bit more work to implement, but it serves to extend the code so that others can reuse the framework.</p>
+<p>Benefits of S4</p>
+<ul>
+<li>formal definition of classes</li>
+<li>Bioconductor reusability</li>
+<li>has validation of types</li>
+<li>naming conventions.</li>
+</ul>
+<p>Use the <code>new ()</code> function to create a new object. The object will contain slots to describe the data. The S4 system is a bit more complex than the S3.</p>
+<p>It is easy to decide whether an object is an object defined in S4 or not. This can also be said by the <code><a href="https://rdrr.io/r/base/isS4.html">isS4 ()</a></code> or <code><a href="https://rdrr.io/r/utils/str.html">str ()</a></code> functions. In the first case <code>TRUE</code> is displayed and in the second case<code>Formal class</code>.</p>
+<div class="sourceCode" id="cb401"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">mydescr</span> <span class="op">&lt;-</span> <span class="fu">new</span><span class="op">(</span><span class="st">"GenomeDescription"</span><span class="op">)</span> <span class="co"># create a new object from a class</span>
+<span class="fu"><a href="https://rdrr.io/r/base/isS4.html">isS4</a></span><span class="op">(</span><span class="va">mydescr</span><span class="op">)</span>
+<span class="co">#&gt; [1] TRUE</span>
+<span class="fu"><a href="https://rdrr.io/r/base/isS4.html">isS4</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; [1] FALSE</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">mydescr</span><span class="op">)</span>
+<span class="co">#&gt; Formal class 'GenomeDescription' [package "GenomeInfoDb"] with 7 slots</span>
+<span class="co">#&gt;   ..@ organism        : chr(0) </span>
+<span class="co">#&gt;   ..@ common_name     : chr(0) </span>
+<span class="co">#&gt;   ..@ provider        : chr(0) </span>
+<span class="co">#&gt;   ..@ provider_version: chr(0) </span>
+<span class="co">#&gt;   ..@ release_date    : chr(0) </span>
+<span class="co">#&gt;   ..@ release_name    : chr(0) </span>
+<span class="co">#&gt;   ..@ seqinfo         :Formal class 'Seqinfo' [package "GenomeInfoDb"] with 4 slots</span>
+<span class="co">#&gt;   .. .. ..@ seqnames   : chr(0) </span>
+<span class="co">#&gt;   .. .. ..@ seqlengths : int(0) </span>
+<span class="co">#&gt;   .. .. ..@ is_circular: logi(0) </span>
+<span class="co">#&gt;   .. .. ..@ genome     : chr(0)</span></code></pre></div>
+<p>We can use the function <code><a href="https://sloop.r-lib.org/reference/otype.html">sloop::otype()</a></code>.</p>
+<div class="sourceCode" id="cb402"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">sloop</span><span class="fu">::</span><span class="fu"><a href="https://sloop.r-lib.org/reference/otype.html">otype</a></span><span class="op">(</span><span class="va">mydescr</span><span class="op">)</span>
+<span class="co">#&gt; [1] "S4"</span>
+<span class="fu"><a href="https://rdrr.io/r/base/attributes.html">attributes</a></span><span class="op">(</span><span class="va">mydescr</span><span class="op">)</span>
+<span class="co">#&gt; $organism</span>
+<span class="co">#&gt; character(0)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $common_name</span>
+<span class="co">#&gt; character(0)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $provider</span>
+<span class="co">#&gt; character(0)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $provider_version</span>
+<span class="co">#&gt; character(0)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $release_date</span>
+<span class="co">#&gt; character(0)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $release_name</span>
+<span class="co">#&gt; character(0)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $seqinfo</span>
+<span class="co">#&gt; Seqinfo object with no sequences:</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $class</span>
+<span class="co">#&gt; [1] "GenomeDescription"</span>
+<span class="co">#&gt; attr(,"package")</span>
+<span class="co">#&gt; [1] "GenomeInfoDb"</span></code></pre></div>
+<div id="s4-class-definition" class="section level4" number="7.3.2.1">
+<h4>
+<span class="header-section-number">7.3.2.1</span> S4 class definition<a class="anchor" aria-label="anchor" href="#s4-class-definition"><i class="fas fa-link"></i></a>
+</h4>
+<p>An S4 class describes a representation of an object with a <code>name</code> and <code>slots</code> (also called methods or fields). A class optionally describes its inheritance. A class allows us to define all the characteristics concerning an object and it gives us code reusability. For example, we create a class using <code>setClass()</code>. Its name is <code>MyEpicProject</code> with three slots: <code>ini</code>, <code>end</code> and <code>milestone</code>. This class inherits from the class <code>MyProject</code>. This means we can reuse slots from it.</p>
+<div class="sourceCode" id="cb403"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">MyEpicProject</span> <span class="op">&lt;-</span> <span class="kw">setClass</span><span class="op">(</span>
+  <span class="st">"MyEpicProject"</span>,        <span class="co"># define class name with UpperCamelCase</span>
+  slots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>ini <span class="op">=</span> <span class="st">"Date"</span>, <span class="co"># define slots, helpful for validation</span>
+            end <span class="op">=</span> <span class="st">"Date"</span>,
+            milestone <span class="op">=</span> <span class="st">"character"</span><span class="op">)</span>, 
+  contains <span class="op">=</span> <span class="st">"MyProject"</span> <span class="co"># define inheritance</span>
+<span class="op">)</span></code></pre></div>
+<p><strong>S4 class definition</strong></p>
+<p>A class describes a representation:</p>
+<ul>
+<li>name</li>
+<li>slots (methids/fields)</li>
+<li>contains (inheritance definition)</li>
+</ul>
+</div>
+<div id="s4-accessors" class="section level4" number="7.3.2.2">
+<h4>
+<span class="header-section-number">7.3.2.2</span> S4 accessors<a class="anchor" aria-label="anchor" href="#s4-accessors"><i class="fas fa-link"></i></a>
+</h4>
+<p>Basic information of an S4 object is accessed through accessor-functions, also called methods. As we have seen, a class definition includes slots for describing an object. The function <code>.S4methods()</code> used with main classes gives you a summary of its accessors. For other subclasses use the <code>showMethods()</code> function, but this gives you a breakdown, which might be a bit too long to look at. If you want an object summary, use the accessor function <code>show()</code>. You will use some of these accessors in the coming exercises.</p>
+<p>We will use the class <code>BSgenome</code>, which is already loaded for you. Let’s check the formal definition of this class by using the function <code>showClass("className")</code>. Check the <code>BSgenome</code> class results and find its parent classes (<strong>Extends</strong>) and the classes that inherit from it (<strong>Subclasses</strong>).</p>
+<div class="sourceCode" id="cb404"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://bioconductor.org/packages/BSgenome">BSgenome</a></span><span class="op">)</span> <span class="co"># load the package</span>
+<span class="fu">.S4methods</span><span class="op">(</span>class <span class="op">=</span> <span class="st">"BSgenome"</span><span class="op">)</span> <span class="co"># accessors from the main class</span>
+<span class="co">#&gt;  [1] $               [[              as.list        </span>
+<span class="co">#&gt;  [4] coerce          commonName      countPWM       </span>
+<span class="co">#&gt;  [7] export          extractAt       getSeq         </span>
+<span class="co">#&gt; [10] injectSNPs      length          masknames      </span>
+<span class="co">#&gt; [13] matchPWM        mseqnames       names          </span>
+<span class="co">#&gt; [16] organism        provider        providerVersion</span>
+<span class="co">#&gt; [19] releaseDate     releaseName     seqinfo        </span>
+<span class="co">#&gt; [22] seqinfo&lt;-       seqnames        seqnames&lt;-     </span>
+<span class="co">#&gt; [25] show            snpcount        snplocs        </span>
+<span class="co">#&gt; [28] SNPlocs_pkgname sourceUrl       vcountPattern  </span>
+<span class="co">#&gt; [31] Views           vmatchPattern   vcountPDict    </span>
+<span class="co">#&gt; [34] vmatchPDict     bsgenomeName    metadata       </span>
+<span class="co">#&gt; [37] metadata&lt;-     </span>
+<span class="co">#&gt; see '?methods' for accessing help and source code</span>
+<span class="co">#showMethods(classes = "BSgenome") # too long output</span>
+<span class="fu">showClass</span><span class="op">(</span><span class="st">"BSgenome"</span><span class="op">)</span> <span class="co"># parents and children</span>
+<span class="co">#&gt; Class "BSgenome" [package "BSgenome"]</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Slots:</span>
+<span class="co">#&gt;                                                 </span>
+<span class="co">#&gt; Name:               pkgname     single_sequences</span>
+<span class="co">#&gt; Class:            character OnDiskNamedSequences</span>
+<span class="co">#&gt;                                                 </span>
+<span class="co">#&gt; Name:    multiple_sequences              seqinfo</span>
+<span class="co">#&gt; Class:        RdaCollection              Seqinfo</span>
+<span class="co">#&gt;                                                 </span>
+<span class="co">#&gt; Name:         user_seqnames   injectSNPs_handler</span>
+<span class="co">#&gt; Class:            character    InjectSNPsHandler</span>
+<span class="co">#&gt;                                                 </span>
+<span class="co">#&gt; Name:           .seqs_cache         .link_counts</span>
+<span class="co">#&gt; Class:          environment          environment</span>
+<span class="co">#&gt;                            </span>
+<span class="co">#&gt; Name:              metadata</span>
+<span class="co">#&gt; Class:                 list</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Extends: "Annotated"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Known Subclasses: "MaskedBSgenome"</span>
+
+<span class="co"># new object and object summary</span>
+<span class="kw">setClass</span><span class="op">(</span><span class="st">"track"</span>, slots <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span>x<span class="op">=</span><span class="st">"numeric"</span>, y<span class="op">=</span><span class="st">"numeric"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">t1</span> <span class="op">&lt;-</span> <span class="fu">new</span><span class="op">(</span><span class="st">"track"</span>, x<span class="op">=</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span>, y<span class="op">=</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">20</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span>
+<span class="fu">show</span><span class="op">(</span><span class="va">t1</span><span class="op">)</span> 
+<span class="co">#&gt; An object of class "track"</span>
+<span class="co">#&gt; Slot "x":</span>
+<span class="co">#&gt;  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18</span>
+<span class="co">#&gt; [19] 19 20</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Slot "y":</span>
+<span class="co">#&gt;  [1]   1   4   9  16  25  36  49  64  81 100 121 144 169 196</span>
+<span class="co">#&gt; [15] 225 256 289 324 361 400</span></code></pre></div>
+<p>The <code>BSgenome</code> is a powerful class and inherits from <code>Annotated</code>, which you will see later on, and has <code>MaskedBSgenome</code> as subclass.</p>
+</div>
+</div>
+</div>
+<div id="introducing-genomic-datasets" class="section level2" number="7.4">
+<h2>
+<span class="header-section-number">7.4</span> Introducing genomic datasets<a class="anchor" aria-label="anchor" href="#introducing-genomic-datasets"><i class="fas fa-link"></i></a>
+</h2>
+<p>All organisms have a genome which makes up what they are, and it dictates responses to external influences. A genome is the complete genetic material of an organism stored mostly in the chromosomes, it’s known as the blueprint of the living. A genome is made of long sequences of DNA, based on a four-letter-alphabet, T, A, G and C.</p>
+<p>We are interested in locating and describing specific locations in a genome because this allows us to learn about diversity, evolution, hereditary changes, and more. To understand this better we subdivide a genome. The written information in a genome uses the DNA alphabet. Think of a genome as a set of books and each book is a chromosome. Chromosome numbers on each genome are highly variable. Usually, chromosomes come in pairs, but multiple sets are very common too. Each chromosome has ordered genetic sequences, think of chapters in a book. To find specific genetic instructions we look at genes. These are like the pages in a book, containing a recipe to make proteins. Some genes will produce proteins but some won’t. These are called coding and non-coding genes. Coding genes are expressed through proteins responsible for specific functions. Proteins come up following a two-step process, DNA-to-RNA, a step known as transcription, while the RNA-to-protein is a step called translation.</p>
+<p>As an example, we are going to study the Yeast genome, a single cell microorganism. The fungus that people love. Yeast is used for fermentation and production of beer, bread, kefir, kombucha and other foods, as well as used for bioremediation. Its scientific name is Saccharomyces cerevisiae or s. cerevisiae. Yeast is a very well studied organism, due to its fast development, many experiments use it as model.</p>
+<div id="yeast-genome" class="section level3" number="7.4.1">
+<h3>
+<span class="header-section-number">7.4.1</span> Yeast genome<a class="anchor" aria-label="anchor" href="#yeast-genome"><i class="fas fa-link"></i></a>
+</h3>
+<p>The yeast genome is a dataset available from UCSC. We have picked this genome because it has a small size. The <strong>BSgenome</strong> package provides us with many genome datasets. To get a list of the BSgenome available datasets, use the function <code><a href="https://rdrr.io/pkg/BSgenome/man/available.genomes.html">available.genomes()</a></code>. Then, using common accessors functions, you can learn about the genome, for example, the number of chromosomes using <code><a href="https://rdrr.io/r/base/length.html">length()</a></code>, the names of the chromosomes using <code><a href="https://rdrr.io/r/base/names.html">names()</a></code>, and the length of each chromosome by DNA base pairs, using <code>seqlengths()</code>.</p>
+<div class="sourceCode" id="cb405"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># BiocManager::install("BSgenome.Scerevisiae.UCSC.sacCer3")</span>
+<span class="co"># Load the yeast genome</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">BSgenome.Scerevisiae.UCSC.sacCer3</span><span class="op">)</span>
+
+<span class="co"># Assign data to the yeastGenome object</span>
+<span class="va">yeastGenome</span> <span class="op">&lt;-</span> <span class="va">BSgenome.Scerevisiae.UCSC.sacCer3</span>
+
+<span class="co"># interested in other genomes</span>
+<span class="fu"><a href="https://rdrr.io/pkg/BSgenome/man/available.genomes.html">available.genomes</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">#&gt;   [1] "BSgenome.Alyrata.JGI.v1"                   </span>
+<span class="co">#&gt;   [2] "BSgenome.Amellifera.BeeBase.assembly4"     </span>
+<span class="co">#&gt;   [3] "BSgenome.Amellifera.NCBI.AmelHAv3.1"       </span>
+<span class="co">#&gt;   [4] "BSgenome.Amellifera.UCSC.apiMel2"          </span>
+<span class="co">#&gt;   [5] "BSgenome.Amellifera.UCSC.apiMel2.masked"   </span>
+<span class="co">#&gt;   [6] "BSgenome.Aofficinalis.NCBI.V1"             </span>
+<span class="co">#&gt;   [7] "BSgenome.Athaliana.TAIR.04232008"          </span>
+<span class="co">#&gt;   [8] "BSgenome.Athaliana.TAIR.TAIR9"             </span>
+<span class="co">#&gt;   [9] "BSgenome.Btaurus.UCSC.bosTau3"             </span>
+<span class="co">#&gt;  [10] "BSgenome.Btaurus.UCSC.bosTau3.masked"      </span>
+<span class="co">#&gt;  [11] "BSgenome.Btaurus.UCSC.bosTau4"             </span>
+<span class="co">#&gt;  [12] "BSgenome.Btaurus.UCSC.bosTau4.masked"      </span>
+<span class="co">#&gt;  [13] "BSgenome.Btaurus.UCSC.bosTau6"             </span>
+<span class="co">#&gt;  [14] "BSgenome.Btaurus.UCSC.bosTau6.masked"      </span>
+<span class="co">#&gt;  [15] "BSgenome.Btaurus.UCSC.bosTau8"             </span>
+<span class="co">#&gt;  [16] "BSgenome.Btaurus.UCSC.bosTau9"             </span>
+<span class="co">#&gt;  [17] "BSgenome.Carietinum.NCBI.v1"               </span>
+<span class="co">#&gt;  [18] "BSgenome.Celegans.UCSC.ce10"               </span>
+<span class="co">#&gt;  [19] "BSgenome.Celegans.UCSC.ce11"               </span>
+<span class="co">#&gt;  [20] "BSgenome.Celegans.UCSC.ce2"                </span>
+<span class="co">#&gt;  [21] "BSgenome.Celegans.UCSC.ce6"                </span>
+<span class="co">#&gt;  [22] "BSgenome.Cfamiliaris.UCSC.canFam2"         </span>
+<span class="co">#&gt;  [23] "BSgenome.Cfamiliaris.UCSC.canFam2.masked"  </span>
+<span class="co">#&gt;  [24] "BSgenome.Cfamiliaris.UCSC.canFam3"         </span>
+<span class="co">#&gt;  [25] "BSgenome.Cfamiliaris.UCSC.canFam3.masked"  </span>
+<span class="co">#&gt;  [26] "BSgenome.Cjacchus.UCSC.calJac3"            </span>
+<span class="co">#&gt;  [27] "BSgenome.Creinhardtii.JGI.v5.6"            </span>
+<span class="co">#&gt;  [28] "BSgenome.Dmelanogaster.UCSC.dm2"           </span>
+<span class="co">#&gt;  [29] "BSgenome.Dmelanogaster.UCSC.dm2.masked"    </span>
+<span class="co">#&gt;  [30] "BSgenome.Dmelanogaster.UCSC.dm3"           </span>
+<span class="co">#&gt;  [31] "BSgenome.Dmelanogaster.UCSC.dm3.masked"    </span>
+<span class="co">#&gt;  [32] "BSgenome.Dmelanogaster.UCSC.dm6"           </span>
+<span class="co">#&gt;  [33] "BSgenome.Drerio.UCSC.danRer10"             </span>
+<span class="co">#&gt;  [34] "BSgenome.Drerio.UCSC.danRer11"             </span>
+<span class="co">#&gt;  [35] "BSgenome.Drerio.UCSC.danRer5"              </span>
+<span class="co">#&gt;  [36] "BSgenome.Drerio.UCSC.danRer5.masked"       </span>
+<span class="co">#&gt;  [37] "BSgenome.Drerio.UCSC.danRer6"              </span>
+<span class="co">#&gt;  [38] "BSgenome.Drerio.UCSC.danRer6.masked"       </span>
+<span class="co">#&gt;  [39] "BSgenome.Drerio.UCSC.danRer7"              </span>
+<span class="co">#&gt;  [40] "BSgenome.Drerio.UCSC.danRer7.masked"       </span>
+<span class="co">#&gt;  [41] "BSgenome.Dvirilis.Ensembl.dvircaf1"        </span>
+<span class="co">#&gt;  [42] "BSgenome.Ecoli.NCBI.20080805"              </span>
+<span class="co">#&gt;  [43] "BSgenome.Gaculeatus.UCSC.gasAcu1"          </span>
+<span class="co">#&gt;  [44] "BSgenome.Gaculeatus.UCSC.gasAcu1.masked"   </span>
+<span class="co">#&gt;  [45] "BSgenome.Ggallus.UCSC.galGal3"             </span>
+<span class="co">#&gt;  [46] "BSgenome.Ggallus.UCSC.galGal3.masked"      </span>
+<span class="co">#&gt;  [47] "BSgenome.Ggallus.UCSC.galGal4"             </span>
+<span class="co">#&gt;  [48] "BSgenome.Ggallus.UCSC.galGal4.masked"      </span>
+<span class="co">#&gt;  [49] "BSgenome.Ggallus.UCSC.galGal5"             </span>
+<span class="co">#&gt;  [50] "BSgenome.Ggallus.UCSC.galGal6"             </span>
+<span class="co">#&gt;  [51] "BSgenome.Hsapiens.1000genomes.hs37d5"      </span>
+<span class="co">#&gt;  [52] "BSgenome.Hsapiens.NCBI.GRCh38"             </span>
+<span class="co">#&gt;  [53] "BSgenome.Hsapiens.UCSC.hg17"               </span>
+<span class="co">#&gt;  [54] "BSgenome.Hsapiens.UCSC.hg17.masked"        </span>
+<span class="co">#&gt;  [55] "BSgenome.Hsapiens.UCSC.hg18"               </span>
+<span class="co">#&gt;  [56] "BSgenome.Hsapiens.UCSC.hg18.masked"        </span>
+<span class="co">#&gt;  [57] "BSgenome.Hsapiens.UCSC.hg19"               </span>
+<span class="co">#&gt;  [58] "BSgenome.Hsapiens.UCSC.hg19.masked"        </span>
+<span class="co">#&gt;  [59] "BSgenome.Hsapiens.UCSC.hg38"               </span>
+<span class="co">#&gt;  [60] "BSgenome.Hsapiens.UCSC.hg38.dbSNP151.major"</span>
+<span class="co">#&gt;  [61] "BSgenome.Hsapiens.UCSC.hg38.dbSNP151.minor"</span>
+<span class="co">#&gt;  [62] "BSgenome.Hsapiens.UCSC.hg38.masked"        </span>
+<span class="co">#&gt;  [63] "BSgenome.Mdomestica.UCSC.monDom5"          </span>
+<span class="co">#&gt;  [64] "BSgenome.Mfascicularis.NCBI.5.0"           </span>
+<span class="co">#&gt;  [65] "BSgenome.Mfuro.UCSC.musFur1"               </span>
+<span class="co">#&gt;  [66] "BSgenome.Mmulatta.UCSC.rheMac10"           </span>
+<span class="co">#&gt;  [67] "BSgenome.Mmulatta.UCSC.rheMac2"            </span>
+<span class="co">#&gt;  [68] "BSgenome.Mmulatta.UCSC.rheMac2.masked"     </span>
+<span class="co">#&gt;  [69] "BSgenome.Mmulatta.UCSC.rheMac3"            </span>
+<span class="co">#&gt;  [70] "BSgenome.Mmulatta.UCSC.rheMac3.masked"     </span>
+<span class="co">#&gt;  [71] "BSgenome.Mmulatta.UCSC.rheMac8"            </span>
+<span class="co">#&gt;  [72] "BSgenome.Mmusculus.UCSC.mm10"              </span>
+<span class="co">#&gt;  [73] "BSgenome.Mmusculus.UCSC.mm10.masked"       </span>
+<span class="co">#&gt;  [74] "BSgenome.Mmusculus.UCSC.mm39"              </span>
+<span class="co">#&gt;  [75] "BSgenome.Mmusculus.UCSC.mm8"               </span>
+<span class="co">#&gt;  [76] "BSgenome.Mmusculus.UCSC.mm8.masked"        </span>
+<span class="co">#&gt;  [77] "BSgenome.Mmusculus.UCSC.mm9"               </span>
+<span class="co">#&gt;  [78] "BSgenome.Mmusculus.UCSC.mm9.masked"        </span>
+<span class="co">#&gt;  [79] "BSgenome.Osativa.MSU.MSU7"                 </span>
+<span class="co">#&gt;  [80] "BSgenome.Ppaniscus.UCSC.panPan1"           </span>
+<span class="co">#&gt;  [81] "BSgenome.Ppaniscus.UCSC.panPan2"           </span>
+<span class="co">#&gt;  [82] "BSgenome.Ptroglodytes.UCSC.panTro2"        </span>
+<span class="co">#&gt;  [83] "BSgenome.Ptroglodytes.UCSC.panTro2.masked" </span>
+<span class="co">#&gt;  [84] "BSgenome.Ptroglodytes.UCSC.panTro3"        </span>
+<span class="co">#&gt;  [85] "BSgenome.Ptroglodytes.UCSC.panTro3.masked" </span>
+<span class="co">#&gt;  [86] "BSgenome.Ptroglodytes.UCSC.panTro5"        </span>
+<span class="co">#&gt;  [87] "BSgenome.Ptroglodytes.UCSC.panTro6"        </span>
+<span class="co">#&gt;  [88] "BSgenome.Rnorvegicus.UCSC.rn4"             </span>
+<span class="co">#&gt;  [89] "BSgenome.Rnorvegicus.UCSC.rn4.masked"      </span>
+<span class="co">#&gt;  [90] "BSgenome.Rnorvegicus.UCSC.rn5"             </span>
+<span class="co">#&gt;  [91] "BSgenome.Rnorvegicus.UCSC.rn5.masked"      </span>
+<span class="co">#&gt;  [92] "BSgenome.Rnorvegicus.UCSC.rn6"             </span>
+<span class="co">#&gt;  [93] "BSgenome.Rnorvegicus.UCSC.rn7"             </span>
+<span class="co">#&gt;  [94] "BSgenome.Scerevisiae.UCSC.sacCer1"         </span>
+<span class="co">#&gt;  [95] "BSgenome.Scerevisiae.UCSC.sacCer2"         </span>
+<span class="co">#&gt;  [96] "BSgenome.Scerevisiae.UCSC.sacCer3"         </span>
+<span class="co">#&gt;  [97] "BSgenome.Sscrofa.UCSC.susScr11"            </span>
+<span class="co">#&gt;  [98] "BSgenome.Sscrofa.UCSC.susScr3"             </span>
+<span class="co">#&gt;  [99] "BSgenome.Sscrofa.UCSC.susScr3.masked"      </span>
+<span class="co">#&gt; [100] "BSgenome.Tgondii.ToxoDB.7.0"               </span>
+<span class="co">#&gt; [101] "BSgenome.Tguttata.UCSC.taeGut1"            </span>
+<span class="co">#&gt; [102] "BSgenome.Tguttata.UCSC.taeGut1.masked"     </span>
+<span class="co">#&gt; [103] "BSgenome.Tguttata.UCSC.taeGut2"            </span>
+<span class="co">#&gt; [104] "BSgenome.Vvinifera.URGI.IGGP12Xv0"         </span>
+<span class="co">#&gt; [105] "BSgenome.Vvinifera.URGI.IGGP12Xv2"         </span>
+<span class="co">#&gt; [106] "BSgenome.Vvinifera.URGI.IGGP8X"</span>
+<span class="co"># BiocManager::install("BSgenome.Vvinifera.URGI.IGGP8X")</span>
+
+<span class="co"># Object Classes</span>
+<span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">yeastGenome</span><span class="op">)</span>  <span class="co"># "BSgenome"</span>
+<span class="co">#&gt; [1] "BSgenome"</span>
+<span class="co">#&gt; attr(,"package")</span>
+<span class="co">#&gt; [1] "BSgenome"</span>
+
+<span class="co"># all classes</span>
+<span class="fu">is</span><span class="op">(</span><span class="va">yeastGenome</span><span class="op">)</span>  <span class="co"># "BSgenome", "Annotated"</span>
+<span class="co">#&gt; [1] "BSgenome"  "Annotated"</span>
+
+<span class="co"># S4 system?</span>
+<span class="fu"><a href="https://rdrr.io/r/base/isS4.html">isS4</a></span><span class="op">(</span><span class="va">yeastGenome</span><span class="op">)</span>  <span class="co"># TRUE</span>
+<span class="co">#&gt; [1] TRUE</span>
+
+<span class="co"># list accessors</span>
+<span class="fu">.S4methods</span><span class="op">(</span>class <span class="op">=</span> <span class="st">"BSgenome"</span><span class="op">)</span>
+<span class="co">#&gt;  [1] $               [[              as.list        </span>
+<span class="co">#&gt;  [4] coerce          commonName      countPWM       </span>
+<span class="co">#&gt;  [7] export          extractAt       getSeq         </span>
+<span class="co">#&gt; [10] injectSNPs      length          masknames      </span>
+<span class="co">#&gt; [13] matchPWM        mseqnames       names          </span>
+<span class="co">#&gt; [16] organism        provider        providerVersion</span>
+<span class="co">#&gt; [19] releaseDate     releaseName     seqinfo        </span>
+<span class="co">#&gt; [22] seqinfo&lt;-       seqnames        seqnames&lt;-     </span>
+<span class="co">#&gt; [25] show            snpcount        snplocs        </span>
+<span class="co">#&gt; [28] SNPlocs_pkgname sourceUrl       vcountPattern  </span>
+<span class="co">#&gt; [31] Views           vmatchPattern   vcountPDict    </span>
+<span class="co">#&gt; [34] vmatchPDict     bsgenomeName    metadata       </span>
+<span class="co">#&gt; [37] metadata&lt;-     </span>
+<span class="co">#&gt; see '?methods' for accessing help and source code</span>
+
+<span class="co"># examples for accessors</span>
+<span class="fu">organism</span><span class="op">(</span><span class="va">yeastGenome</span><span class="op">)</span>
+<span class="co">#&gt; [1] "Saccharomyces cerevisiae"</span>
+<span class="fu">provider</span><span class="op">(</span><span class="va">yeastGenome</span><span class="op">)</span>
+<span class="co">#&gt; [1] "UCSC"</span>
+<span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/seqinfo.html">seqinfo</a></span><span class="op">(</span><span class="va">yeastGenome</span><span class="op">)</span>
+<span class="co">#&gt; Seqinfo object with 17 sequences (1 circular) from sacCer3 genome:</span>
+<span class="co">#&gt;   seqnames seqlengths isCircular  genome</span>
+<span class="co">#&gt;   chrI         230218      FALSE sacCer3</span>
+<span class="co">#&gt;   chrII        813184      FALSE sacCer3</span>
+<span class="co">#&gt;   chrIII       316620      FALSE sacCer3</span>
+<span class="co">#&gt;   chrIV       1531933      FALSE sacCer3</span>
+<span class="co">#&gt;   chrV         576874      FALSE sacCer3</span>
+<span class="co">#&gt;   ...             ...        ...     ...</span>
+<span class="co">#&gt;   chrXIII      924431      FALSE sacCer3</span>
+<span class="co">#&gt;   chrXIV       784333      FALSE sacCer3</span>
+<span class="co">#&gt;   chrXV       1091291      FALSE sacCer3</span>
+<span class="co">#&gt;   chrXVI       948066      FALSE sacCer3</span>
+<span class="co">#&gt;   chrM          85779       TRUE sacCer3</span>
+
+<span class="co"># Chromosome numbers</span>
+<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">yeastGenome</span><span class="op">)</span>
+<span class="co">#&gt; [1] 17</span>
+
+<span class="co"># Chromosome names</span>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">yeastGenome</span><span class="op">)</span>
+<span class="co">#&gt;  [1] "chrI"    "chrII"   "chrIII"  "chrIV"   "chrV"   </span>
+<span class="co">#&gt;  [6] "chrVI"   "chrVII"  "chrVIII" "chrIX"   "chrX"   </span>
+<span class="co">#&gt; [11] "chrXI"   "chrXII"  "chrXIII" "chrXIV"  "chrXV"  </span>
+<span class="co">#&gt; [16] "chrXVI"  "chrM"</span>
+
+<span class="co"># length of each chromosome by DNA base pairs</span>
+<span class="fu">seqlengths</span><span class="op">(</span><span class="va">yeastGenome</span><span class="op">)</span>
+<span class="co">#&gt;    chrI   chrII  chrIII   chrIV    chrV   chrVI  chrVII </span>
+<span class="co">#&gt;  230218  813184  316620 1531933  576874  270161 1090940 </span>
+<span class="co">#&gt; chrVIII   chrIX    chrX   chrXI  chrXII chrXIII  chrXIV </span>
+<span class="co">#&gt;  562643  439888  745751  666816 1078177  924431  784333 </span>
+<span class="co">#&gt;   chrXV  chrXVI    chrM </span>
+<span class="co">#&gt; 1091291  948066   85779</span></code></pre></div>
+<p>Specific genes or regions are interesting because of their functions. You can retrieve sections of a genome with the function <code><a href="https://rdrr.io/pkg/Biostrings/man/getSeq.html">getSeq()</a></code>. The minimum argument required is a <code>BSgenome</code> object. The first example will give you all the sequences in the yeast genome. Then, you can specify some other parameters, to select sequences from chromosome M use “chrM.” Next, you can specify the locations of the subsequences to extract, using <code>start=</code>, <code>end=</code>, or <code>width=</code>. Using, <code>end=10</code>, it selects the first 10 base pairs of each chromosome of the genome.</p>
+<div class="sourceCode" id="cb406"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/BSgenome/man/getSeq-methods.html">getSeq</a></span><span class="op">(</span><span class="va">yeastGenome</span><span class="op">)</span>  <span class="co"># all sequencies</span>
+<span class="co">#&gt; DNAStringSet object of length 17:</span>
+<span class="co">#&gt;        width seq                        names               </span>
+<span class="co">#&gt;  [1]  230218 CCACACCACACC...GTGTGTGTGGG chrI</span>
+<span class="co">#&gt;  [2]  813184 AAATAGCCCTCA...TGTGGGTGTGT chrII</span>
+<span class="co">#&gt;  [3]  316620 CCCACACACCAC...TGGTGTGTGTG chrIII</span>
+<span class="co">#&gt;  [4] 1531933 ACACCACACCCA...GTAGCTTTTGG chrIV</span>
+<span class="co">#&gt;  [5]  576874 CGTCTCCTCCAA...TTTTTTTTTTT chrV</span>
+<span class="co">#&gt;  ...     ... ...</span>
+<span class="co">#&gt; [13]  924431 CCACACACACAC...TGTGTGTGGGG chrXIII</span>
+<span class="co">#&gt; [14]  784333 CCGGCTTTCTGA...GTGGTGTGGGT chrXIV</span>
+<span class="co">#&gt; [15] 1091291 ACACCACACCCA...GTGTGGTGTGT chrXV</span>
+<span class="co">#&gt; [16]  948066 AAATAGCCCTCA...TCGGTCAGAAA chrXVI</span>
+<span class="co">#&gt; [17]   85779 TTCATAATTAAT...TAATATCCATA chrM</span>
+<span class="fu"><a href="https://rdrr.io/pkg/BSgenome/man/getSeq-methods.html">getSeq</a></span><span class="op">(</span><span class="va">yeastGenome</span>, names<span class="op">=</span><span class="st">"chrM"</span><span class="op">)</span> <span class="co"># only one, chromosome M</span>
+<span class="co">#&gt; 85779-letter DNAString object</span>
+<span class="co">#&gt; seq: TTCATAATTAATTTTTTATATATATA...TGCTTAATTATAATATAATATCCATA</span>
+<span class="fu"><a href="https://rdrr.io/pkg/BSgenome/man/getSeq-methods.html">getSeq</a></span><span class="op">(</span><span class="va">yeastGenome</span>, end<span class="op">=</span><span class="fl">10</span><span class="op">)</span> <span class="co"># selects first 10 base pairs of each chromosome</span>
+<span class="co">#&gt; DNAStringSet object of length 17:</span>
+<span class="co">#&gt;      width seq                          names               </span>
+<span class="co">#&gt;  [1]    10 CCACACCACA                   chrI</span>
+<span class="co">#&gt;  [2]    10 AAATAGCCCT                   chrII</span>
+<span class="co">#&gt;  [3]    10 CCCACACACC                   chrIII</span>
+<span class="co">#&gt;  [4]    10 ACACCACACC                   chrIV</span>
+<span class="co">#&gt;  [5]    10 CGTCTCCTCC                   chrV</span>
+<span class="co">#&gt;  ...   ... ...</span>
+<span class="co">#&gt; [13]    10 CCACACACAC                   chrXIII</span>
+<span class="co">#&gt; [14]    10 CCGGCTTTCT                   chrXIV</span>
+<span class="co">#&gt; [15]    10 ACACCACACC                   chrXV</span>
+<span class="co">#&gt; [16]    10 AAATAGCCCT                   chrXVI</span>
+<span class="co">#&gt; [17]    10 TTCATAATTA                   chrM</span>
+<span class="fu"><a href="https://rdrr.io/pkg/BSgenome/man/getSeq-methods.html">getSeq</a></span><span class="op">(</span><span class="va">yeastGenome</span>, start<span class="op">=</span><span class="fl">3</span>, end<span class="op">=</span><span class="fl">10</span><span class="op">)</span> <span class="co"># 8 base pairs of of each chromosome</span>
+<span class="co">#&gt; DNAStringSet object of length 17:</span>
+<span class="co">#&gt;      width seq                          names               </span>
+<span class="co">#&gt;  [1]     8 ACACCACA                     chrI</span>
+<span class="co">#&gt;  [2]     8 ATAGCCCT                     chrII</span>
+<span class="co">#&gt;  [3]     8 CACACACC                     chrIII</span>
+<span class="co">#&gt;  [4]     8 ACCACACC                     chrIV</span>
+<span class="co">#&gt;  [5]     8 TCTCCTCC                     chrV</span>
+<span class="co">#&gt;  ...   ... ...</span>
+<span class="co">#&gt; [13]     8 ACACACAC                     chrXIII</span>
+<span class="co">#&gt; [14]     8 GGCTTTCT                     chrXIV</span>
+<span class="co">#&gt; [15]     8 ACCACACC                     chrXV</span>
+<span class="co">#&gt; [16]     8 ATAGCCCT                     chrXVI</span>
+<span class="co">#&gt; [17]     8 CATAATTA                     chrM</span>
+<span class="fu"><a href="https://rdrr.io/pkg/BSgenome/man/getSeq-methods.html">getSeq</a></span><span class="op">(</span><span class="va">yeastGenome</span>, names<span class="op">=</span><span class="st">"chrM"</span>, start<span class="op">=</span><span class="fl">3</span>, end<span class="op">=</span><span class="fl">10</span><span class="op">)</span> <span class="co"># 8 base pairs of M chromosome</span>
+<span class="co">#&gt; 8-letter DNAString object</span>
+<span class="co">#&gt; seq: CATAATTA</span>
+<span class="co"># The following example will select the bases of "chrI" from 100 to 150</span>
+<span class="fu"><a href="https://rdrr.io/pkg/BSgenome/man/getSeq-methods.html">getSeq</a></span><span class="op">(</span><span class="va">yeastGenome</span>, names <span class="op">=</span> <span class="st">"chrI"</span>, start <span class="op">=</span> <span class="fl">100</span>, end <span class="op">=</span> <span class="fl">150</span><span class="op">)</span>
+<span class="co">#&gt; 51-letter DNAString object</span>
+<span class="co">#&gt; seq: GGCCAACCTGTCTCTCAACTTACCCTCCATTACCCTGCCTCCACTCGTTAC</span></code></pre></div>
+<p>Let’s continue exploring the possibilities of the <strong>BSgenome</strong> package. Each chromosome can also be referred to as <code>object name$chromosome.name</code>.</p>
+<div class="sourceCode" id="cb407"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># chromosome M, alias chrM </span>
+<span class="va">yeastGenome</span><span class="op">$</span><span class="va">chrM</span>
+<span class="co">#&gt; 85779-letter DNAString object</span>
+<span class="co">#&gt; seq: TTCATAATTAATTTTTTATATATATA...TGCTTAATTATAATATAATATCCATA</span>
+
+<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">yeastGenome</span><span class="op">)</span> <span class="co"># chromosome names</span>
+<span class="co">#&gt;  [1] "chrI"    "chrII"   "chrIII"  "chrIV"   "chrV"   </span>
+<span class="co">#&gt;  [6] "chrVI"   "chrVII"  "chrVIII" "chrIX"   "chrX"   </span>
+<span class="co">#&gt; [11] "chrXI"   "chrXII"  "chrXIII" "chrXIV"  "chrXV"  </span>
+<span class="co">#&gt; [16] "chrXVI"  "chrM"</span>
+<span class="fu">seqnames</span><span class="op">(</span><span class="va">yeastGenome</span><span class="op">)</span> <span class="co"># chromosome names</span>
+<span class="co">#&gt;  [1] "chrI"    "chrII"   "chrIII"  "chrIV"   "chrV"   </span>
+<span class="co">#&gt;  [6] "chrVI"   "chrVII"  "chrVIII" "chrIX"   "chrX"   </span>
+<span class="co">#&gt; [11] "chrXI"   "chrXII"  "chrXIII" "chrXIV"  "chrXV"  </span>
+<span class="co">#&gt; [16] "chrXVI"  "chrM"</span>
+<span class="fu">seqlengths</span><span class="op">(</span><span class="va">yeastGenome</span><span class="op">)</span> <span class="co"># length of chromosomes</span>
+<span class="co">#&gt;    chrI   chrII  chrIII   chrIV    chrV   chrVI  chrVII </span>
+<span class="co">#&gt;  230218  813184  316620 1531933  576874  270161 1090940 </span>
+<span class="co">#&gt; chrVIII   chrIX    chrX   chrXI  chrXII chrXIII  chrXIV </span>
+<span class="co">#&gt;  562643  439888  745751  666816 1078177  924431  784333 </span>
+<span class="co">#&gt;   chrXV  chrXVI    chrM </span>
+<span class="co">#&gt; 1091291  948066   85779</span>
+
+<span class="co"># Get the head of seqnames and tail of seqlengths for yeastGenome</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fu">seqnames</span><span class="op">(</span><span class="va">yeastGenome</span><span class="op">)</span><span class="op">)</span>   
+<span class="co">#&gt; [1] "chrI"   "chrII"  "chrIII" "chrIV"  "chrV"   "chrVI"</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">tail</a></span><span class="op">(</span><span class="fu">seqlengths</span><span class="op">(</span><span class="va">yeastGenome</span><span class="op">)</span><span class="op">)</span> 
+<span class="co">#&gt;  chrXII chrXIII  chrXIV   chrXV  chrXVI    chrM </span>
+<span class="co">#&gt; 1078177  924431  784333 1091291  948066   85779</span>
+
+<span class="fu"><a href="https://rdrr.io/r/base/nchar.html">nchar</a></span><span class="op">(</span><span class="va">yeastGenome</span><span class="op">$</span><span class="va">chrM</span><span class="op">)</span>  <span class="co"># Count characters of the chrM sequence</span>
+<span class="co">#&gt; [1] 85779</span></code></pre></div>
+</div>
+</div>
+<div id="introduction-to-biostrings" class="section level2" number="7.5">
+<h2>
+<span class="header-section-number">7.5</span> Introduction to Biostrings<a class="anchor" aria-label="anchor" href="#introduction-to-biostrings"><i class="fas fa-link"></i></a>
+</h2>
+<p>Bioconductor is all about handling biological datasets in the most efficient way. As you get more familiar with your biological project and/or experiment, you will notice how big datasets can be. The <strong>Biostrings</strong> package came to Bioconductor 13 years ago, and it implements algorithms for fast manipulation of large biological sequences. It is so important, that more than 200 Bioconductor packages depend on it. Hence, <strong>Biostrings</strong> is at the top 5% of Bioconductor downloads.</p>
+<div id="biological-string-containers" class="section level3" number="7.5.1">
+<h3>
+<span class="header-section-number">7.5.1</span> Biological string containers<a class="anchor" aria-label="anchor" href="#biological-string-containers"><i class="fas fa-link"></i></a>
+</h3>
+<p>Biological datasets are represented by characters, and these sequences can be extremely large. <strong>Biostrings</strong> is a useful package because it implements memory efficient containers, especially for sub-setting and matching. Also, these containers can have subclasses. For example, a <code>BString</code> subclass for Big String can store a big sequence of strings as single object or collection. The package <strong>Biostrings</strong> implements two generic containers, also known as virtual classes; these are <code>XString</code> and <code>XStringSet</code>, from which other subclasses will inherit. To learn more about these classes and how they connect to one another, use the function <code>showClass()</code>, like in the example.</p>
+<div class="sourceCode" id="cb408"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://bioconductor.org/packages/Biostrings">Biostrings</a></span><span class="op">)</span>
+
+<span class="fu">showClass</span><span class="op">(</span><span class="st">"XString"</span><span class="op">)</span>
+<span class="co">#&gt; Virtual Class "XString" [package "Biostrings"]</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Slots:</span>
+<span class="co">#&gt;                                           </span>
+<span class="co">#&gt; Name:             shared            offset</span>
+<span class="co">#&gt; Class:         SharedRaw           integer</span>
+<span class="co">#&gt;                                           </span>
+<span class="co">#&gt; Name:             length   elementMetadata</span>
+<span class="co">#&gt; Class:           integer DataFrame_OR_NULL</span>
+<span class="co">#&gt;                         </span>
+<span class="co">#&gt; Name:           metadata</span>
+<span class="co">#&gt; Class:              list</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Extends: </span>
+<span class="co">#&gt; Class "XRaw", directly</span>
+<span class="co">#&gt; Class "XVector", by class "XRaw", distance 2</span>
+<span class="co">#&gt; Class "Vector", by class "XRaw", distance 3</span>
+<span class="co">#&gt; Class "Annotated", by class "XRaw", distance 4</span>
+<span class="co">#&gt; Class "vector_OR_Vector", by class "XRaw", distance 4</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Known Subclasses: "BString", "DNAString", "RNAString", "AAString"</span>
+<span class="fu">showClass</span><span class="op">(</span><span class="st">"XStringSet"</span><span class="op">)</span>
+<span class="co">#&gt; Virtual Class "XStringSet" [package "Biostrings"]</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Slots:</span>
+<span class="co">#&gt;                                           </span>
+<span class="co">#&gt; Name:               pool            ranges</span>
+<span class="co">#&gt; Class:    SharedRaw_Pool    GroupedIRanges</span>
+<span class="co">#&gt;                                           </span>
+<span class="co">#&gt; Name:        elementType   elementMetadata</span>
+<span class="co">#&gt; Class:         character DataFrame_OR_NULL</span>
+<span class="co">#&gt;                         </span>
+<span class="co">#&gt; Name:           metadata</span>
+<span class="co">#&gt; Class:              list</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Extends: </span>
+<span class="co">#&gt; Class "XRawList", directly</span>
+<span class="co">#&gt; Class "XVectorList", by class "XRawList", distance 2</span>
+<span class="co">#&gt; Class "List", by class "XRawList", distance 3</span>
+<span class="co">#&gt; Class "Vector", by class "XRawList", distance 4</span>
+<span class="co">#&gt; Class "list_OR_List", by class "XRawList", distance 4</span>
+<span class="co">#&gt; Class "Annotated", by class "XRawList", distance 5</span>
+<span class="co">#&gt; Class "vector_OR_Vector", by class "XRawList", distance 5</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Known Subclasses: </span>
+<span class="co">#&gt; Class "BStringSet", directly</span>
+<span class="co">#&gt; Class "DNAStringSet", directly</span>
+<span class="co">#&gt; Class "RNAStringSet", directly</span>
+<span class="co">#&gt; Class "AAStringSet", directly</span>
+<span class="co">#&gt; Class "QualityScaledXStringSet", directly</span>
+<span class="co">#&gt; Class "XStringQuality", by class "BStringSet", distance 2</span>
+<span class="co">#&gt; Class "PhredQuality", by class "BStringSet", distance 3</span>
+<span class="co">#&gt; Class "SolexaQuality", by class "BStringSet", distance 3</span>
+<span class="co">#&gt; Class "IlluminaQuality", by class "BStringSet", distance 3</span>
+<span class="co">#&gt; Class "QualityScaledBStringSet", by class "BStringSet", distance 2</span>
+<span class="co">#&gt; Class "QualityScaledDNAStringSet", by class "DNAStringSet", distance 2</span>
+<span class="co">#&gt; Class "QualityScaledRNAStringSet", by class "RNAStringSet", distance 2</span>
+<span class="co">#&gt; Class "QualityScaledAAStringSet", by class "AAStringSet", distance 2</span>
+<span class="fu">showClass</span><span class="op">(</span><span class="st">"BString"</span><span class="op">)</span>
+<span class="co">#&gt; Class "BString" [package "Biostrings"]</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Slots:</span>
+<span class="co">#&gt;                                           </span>
+<span class="co">#&gt; Name:             shared            offset</span>
+<span class="co">#&gt; Class:         SharedRaw           integer</span>
+<span class="co">#&gt;                                           </span>
+<span class="co">#&gt; Name:             length   elementMetadata</span>
+<span class="co">#&gt; Class:           integer DataFrame_OR_NULL</span>
+<span class="co">#&gt;                         </span>
+<span class="co">#&gt; Name:           metadata</span>
+<span class="co">#&gt; Class:              list</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Extends: </span>
+<span class="co">#&gt; Class "XString", directly</span>
+<span class="co">#&gt; Class "XRaw", by class "XString", distance 2</span>
+<span class="co">#&gt; Class "XVector", by class "XString", distance 3</span>
+<span class="co">#&gt; Class "Vector", by class "XString", distance 4</span>
+<span class="co">#&gt; Class "Annotated", by class "XString", distance 5</span>
+<span class="co">#&gt; Class "vector_OR_Vector", by class "XString", distance 5</span>
+<span class="fu">showClass</span><span class="op">(</span><span class="st">"BStringSet"</span><span class="op">)</span>
+<span class="co">#&gt; Class "BStringSet" [package "Biostrings"]</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Slots:</span>
+<span class="co">#&gt;                                           </span>
+<span class="co">#&gt; Name:               pool            ranges</span>
+<span class="co">#&gt; Class:    SharedRaw_Pool    GroupedIRanges</span>
+<span class="co">#&gt;                                           </span>
+<span class="co">#&gt; Name:        elementType   elementMetadata</span>
+<span class="co">#&gt; Class:         character DataFrame_OR_NULL</span>
+<span class="co">#&gt;                         </span>
+<span class="co">#&gt; Name:           metadata</span>
+<span class="co">#&gt; Class:              list</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Extends: </span>
+<span class="co">#&gt; Class "XStringSet", directly</span>
+<span class="co">#&gt; Class "XRawList", by class "XStringSet", distance 2</span>
+<span class="co">#&gt; Class "XVectorList", by class "XStringSet", distance 3</span>
+<span class="co">#&gt; Class "List", by class "XStringSet", distance 4</span>
+<span class="co">#&gt; Class "Vector", by class "XStringSet", distance 5</span>
+<span class="co">#&gt; Class "list_OR_List", by class "XStringSet", distance 5</span>
+<span class="co">#&gt; Class "Annotated", by class "XStringSet", distance 6</span>
+<span class="co">#&gt; Class "vector_OR_Vector", by class "XStringSet", distance 6</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Known Subclasses: </span>
+<span class="co">#&gt; Class "XStringQuality", directly</span>
+<span class="co">#&gt; Class "QualityScaledBStringSet", directly</span>
+<span class="co">#&gt; Class "PhredQuality", by class "XStringQuality", distance 2</span>
+<span class="co">#&gt; Class "SolexaQuality", by class "XStringQuality", distance 2</span>
+<span class="co">#&gt; Class "IlluminaQuality", by class "XStringQuality", distance 2</span></code></pre></div>
+</div>
+<div id="biostring-alphabets" class="section level3" number="7.5.2">
+<h3>
+<span class="header-section-number">7.5.2</span> Biostring alphabets<a class="anchor" aria-label="anchor" href="#biostring-alphabets"><i class="fas fa-link"></i></a>
+</h3>
+<p>BioStrings are biology-oriented containers and use a predefined alphabet for storing a DNA sequence, an RNA sequence, or a sequence of amino acids. The <code>DNA_BASES</code> alphabet has the four bases (A, C, G and T) The <code>RNA_BASES</code> replace the T for U) and the Amoni Acid standard (<code>AA_STANDARD</code>) contains the 20 Amino Acid letters, each is built from 3 consecutive RNA bases. In addition, Biostrings alphabets are based on two code representations: <code>IUPAC_CODE_MAP</code> and <code>AMINO_ACID_CODE</code> which contains the bases plus extra characters and symbols. It is important to know these code representations so you know which kind of string you are using or need to use depending on the sequence alphabet.</p>
+<div class="sourceCode" id="cb409"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">DNA_BASES</span>     <span class="co"># DNA 4 bases</span>
+<span class="co">#&gt; [1] "A" "C" "G" "T"</span>
+<span class="va">RNA_BASES</span>     <span class="co"># RNA 4 bases</span>
+<span class="co">#&gt; [1] "A" "C" "G" "U"</span>
+<span class="va">AA_STANDARD</span>   <span class="co"># 20 Amino acids</span>
+<span class="co">#&gt;  [1] "A" "R" "N" "D" "C" "Q" "E" "G" "H" "I" "L" "K" "M" "F"</span>
+<span class="co">#&gt; [15] "P" "S" "T" "W" "Y" "V"</span>
+<span class="va">DNA_ALPHABET</span>  <span class="co"># IUPAC_CODE_MAP</span>
+<span class="co">#&gt;  [1] "A" "C" "G" "T" "M" "R" "W" "S" "Y" "K" "V" "H" "D" "B"</span>
+<span class="co">#&gt; [15] "N" "-" "+" "."</span>
+<span class="va">RNA_ALPHABET</span>  <span class="co"># IUPAC_CODE_MAP</span>
+<span class="co">#&gt;  [1] "A" "C" "G" "U" "M" "R" "W" "S" "Y" "K" "V" "H" "D" "B"</span>
+<span class="co">#&gt; [15] "N" "-" "+" "."</span>
+<span class="va">AA_ALPHABET</span>   <span class="co"># AMINO_ACID_CODE</span>
+<span class="co">#&gt;  [1] "A" "R" "N" "D" "C" "Q" "E" "G" "H" "I" "L" "K" "M" "F"</span>
+<span class="co">#&gt; [15] "P" "S" "T" "W" "Y" "V" "U" "O" "B" "J" "Z" "X" "*" "-"</span>
+<span class="co">#&gt; [29] "+" "."</span></code></pre></div>
+<p>For more information IUPAC DNA codes <a href="http://genome.ucsc.edu/goldenPath/help/iupac.html">http://genome.ucsc.edu/goldenPath/help/iupac.html</a></p>
+</div>
+<div id="transcription-and-translation" class="section level3" number="7.5.3">
+<h3>
+<span class="header-section-number">7.5.3</span> Transcription and translation<a class="anchor" aria-label="anchor" href="#transcription-and-translation"><i class="fas fa-link"></i></a>
+</h3>
+<p>Now that we now the alphabets, let’s talk about the two processes that convert sequences from one alphabet to the other. First, a double-stranded DNA gets split. This single strand gets transcribed into RNA, complementing each base. But remember, RNA uses U instead of T. Every three RNA bases translate to a new amino acid. This translation follows the genetic code table to produce new molecules.</p>
+<div id="transcription-dna-to-rna" class="section level4" number="7.5.3.1">
+<h4>
+<span class="header-section-number">7.5.3.1</span> Transcription DNA to RNA<a class="anchor" aria-label="anchor" href="#transcription-dna-to-rna"><i class="fas fa-link"></i></a>
+</h4>
+<p>Using <strong>BStrings</strong> we start with a short DNA sequence saved in a <code>DNAString</code> object. Then, transcription is the process in which a particular segment of DNA is copied into RNA. Using <code>RNAString</code>, it will change all of the T’s from the <code>dna_seq</code> to U’s in the <code>rna_seq</code>, keeping the same sequence length.</p>
+<div class="sourceCode" id="cb410"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://bioconductor.org/packages/Biostrings">Biostrings</a></span><span class="op">)</span>
+<span class="va">dna_seq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/DNAString-class.html">DNAString</a></span><span class="op">(</span><span class="st">"ATGATCTCGTAA"</span><span class="op">)</span> <span class="co"># DNA single string</span>
+<span class="va">dna_seq</span>
+<span class="co">#&gt; 12-letter DNAString object</span>
+<span class="co">#&gt; seq: ATGATCTCGTAA</span>
+<span class="co"># transcription DNA to RNA string</span>
+<span class="va">rna_seq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/RNAString-class.html">RNAString</a></span><span class="op">(</span><span class="va">dna_seq</span><span class="op">)</span>   <span class="co"># T -&gt; U</span>
+<span class="va">rna_seq</span>
+<span class="co">#&gt; 12-letter RNAString object</span>
+<span class="co">#&gt; seq: AUGAUCUCGUAA</span></code></pre></div>
+<p>Remember, you could also begin with a Set if you want to transcribe multiple sequences at the same time.</p>
+</div>
+<div id="translation-rna-to-amino-acids" class="section level4" number="7.5.3.2">
+<h4>
+<span class="header-section-number">7.5.3.2</span> Translation RNA to amino acids<a class="anchor" aria-label="anchor" href="#translation-rna-to-amino-acids"><i class="fas fa-link"></i></a>
+</h4>
+<p>To translate RNA sequences into Amino Acid sequences, we need the translation codes stored in <code>RNA_GENETIC_CODE</code> and applied by the <code><a href="https://rdrr.io/pkg/Biostrings/man/translate.html">translate()</a></code> function. In the example, <code>rna_seq</code> is translated into MIS*. Where three RNA bases return one Amino Acid. Hence, translation always returns a shorter sequence.</p>
+<div class="sourceCode" id="cb411"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">RNA_GENETIC_CODE</span>
+<span class="co">#&gt; UUU UUC UUA UUG UCU UCC UCA UCG UAU UAC UAA UAG UGU UGC UGA </span>
+<span class="co">#&gt; "F" "F" "L" "L" "S" "S" "S" "S" "Y" "Y" "*" "*" "C" "C" "*" </span>
+<span class="co">#&gt; UGG CUU CUC CUA CUG CCU CCC CCA CCG CAU CAC CAA CAG CGU CGC </span>
+<span class="co">#&gt; "W" "L" "L" "L" "L" "P" "P" "P" "P" "H" "H" "Q" "Q" "R" "R" </span>
+<span class="co">#&gt; CGA CGG AUU AUC AUA AUG ACU ACC ACA ACG AAU AAC AAA AAG AGU </span>
+<span class="co">#&gt; "R" "R" "I" "I" "I" "M" "T" "T" "T" "T" "N" "N" "K" "K" "S" </span>
+<span class="co">#&gt; AGC AGA AGG GUU GUC GUA GUG GCU GCC GCA GCG GAU GAC GAA GAG </span>
+<span class="co">#&gt; "S" "R" "R" "V" "V" "V" "V" "A" "A" "A" "A" "D" "D" "E" "E" </span>
+<span class="co">#&gt; GGU GGC GGA GGG </span>
+<span class="co">#&gt; "G" "G" "G" "G" </span>
+<span class="co">#&gt; attr(,"alt_init_codons")</span>
+<span class="co">#&gt; [1] "UUG" "CUG"</span>
+<span class="va">rna_seq</span>
+<span class="co">#&gt; 12-letter RNAString object</span>
+<span class="co">#&gt; seq: AUGAUCUCGUAA</span>
+<span class="va">aa_seq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/translate.html">translate</a></span><span class="op">(</span><span class="va">rna_seq</span><span class="op">)</span>
+<span class="va">aa_seq</span>
+<span class="co">#&gt; 4-letter AAString object</span>
+<span class="co">#&gt; seq: MIS*</span></code></pre></div>
+</div>
+<div id="shortcut-translate-dna-to-amino-acids" class="section level4" number="7.5.3.3">
+<h4>
+<span class="header-section-number">7.5.3.3</span> Shortcut translate DNA to amino acids<a class="anchor" aria-label="anchor" href="#shortcut-translate-dna-to-amino-acids"><i class="fas fa-link"></i></a>
+</h4>
+<p>Transcription and translation are two separated processes in real life. But, in coding, there is a shortcut. The function <code><a href="https://rdrr.io/pkg/Biostrings/man/translate.html">translate()</a></code> also accepts DNA Strings and it automatically transcribes to RNA before translating the sequence to Amino Acids, providing the same results.</p>
+<div class="sourceCode" id="cb412"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">aa_seq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/translate.html">translate</a></span><span class="op">(</span><span class="va">dna_seq</span><span class="op">)</span>
+<span class="va">aa_seq</span>
+<span class="co">#&gt; 4-letter AAString object</span>
+<span class="co">#&gt; seq: MIS*</span></code></pre></div>
+</div>
+</div>
+<div id="the-zika-virus" class="section level3" number="7.5.4">
+<h3>
+<span class="header-section-number">7.5.4</span> The Zika virus<a class="anchor" aria-label="anchor" href="#the-zika-virus"><i class="fas fa-link"></i></a>
+</h3>
+<p>For this chapter, you will use the Zika Virus genome to interact with the package <strong>BStrings</strong>. The Zika virus genome is very small, of about 10 thousand base pairs. A virus needs a host to live in. The Zika virus is common in tropical areas around the world and it spreads through mosquitoes or blood.</p>
+<div id="exploring-the-zika-virus-sequence" class="section level4" number="7.5.4.1">
+<h4>
+<span class="header-section-number">7.5.4.1</span> Exploring the Zika virus sequence<a class="anchor" aria-label="anchor" href="#exploring-the-zika-virus-sequence"><i class="fas fa-link"></i></a>
+</h4>
+<p>To explore the Zika virus genome, which has been loaded in your workspace as <code>zikaVirus</code>. The genome was downloaded from NCBI and you can apply <strong>BStrings</strong> functions to learn more about it.</p>
+<p>Before exploring the Zika virus sequence, we need to asnwer the question: How do we store sequences? We do so, using text. There are two main text formats <code>fastQ</code> and <code>fastA</code>, the main difference is that <code>fastQ</code> files include quality encoding per sequenced letter. Both formats are used to store DNA or protein sequences together with sequence names. Now, we have a fasta file. A fasta file contains two lines per sequence read. The first line starts with the right arrow and a unique sequence identifier and the second line, the raw sequence string. Common file extensions are fasta, fa, or seq.</p>
+<p><strong>ShortRead</strong> package provides us with <code><a href="https://rdrr.io/pkg/ShortRead/man/readFasta.html">readFasta()</a></code> which reads all FASTA-formatted files in a directory Path followed by a pattern. It can read compressed or uncompressed files. It returns a single object representation of class <code>ShortRead</code>. This class stores and manipulates uniform-length short read sequences and their identifiers. Use <code><a href="https://rdrr.io/r/utils/methods.html">methods()</a></code> with class ShortRead to get a list of accessors. Lastly, <code><a href="https://rdrr.io/pkg/ShortRead/man/readFasta.html">writeFasta()</a></code> writes an object to a single file given a file name. It can also compress on the fly.</p>
+<div class="sourceCode" id="cb413"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># BiocManager::install("ShortRead")</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">ShortRead</span><span class="op">)</span>
+<span class="va">zika</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ShortRead/man/readFasta.html">readFasta</a></span><span class="op">(</span>dirPath <span class="op">=</span> <span class="st">"data/zika_genomic.fa.txt"</span><span class="op">)</span>
+<span class="va">zika</span>
+<span class="co">#&gt; class: ShortRead</span>
+<span class="co">#&gt; length: 1 reads; width: 10794 cycles</span>
+<span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">zika</span><span class="op">)</span>
+<span class="co">#&gt; [1] "ShortRead"</span>
+<span class="co">#&gt; attr(,"package")</span>
+<span class="co">#&gt; [1] "ShortRead"</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/methods.html">methods</a></span><span class="op">(</span>class <span class="op">=</span> <span class="st">"ShortRead"</span><span class="op">)</span> <span class="co"># methods accessors</span>
+<span class="co">#&gt;  [1] [                 alphabetByCycle   append           </span>
+<span class="co">#&gt;  [4] clean             coerce            detail           </span>
+<span class="co">#&gt;  [7] dustyScore        id                length           </span>
+<span class="co">#&gt; [10] narrow            pairwiseAlignment show             </span>
+<span class="co">#&gt; [13] srdistance        srduplicated      sread            </span>
+<span class="co">#&gt; [16] srorder           srrank            srsort           </span>
+<span class="co">#&gt; [19] tables            trimEnds          trimLRPatterns   </span>
+<span class="co">#&gt; [22] width             writeFasta       </span>
+<span class="co">#&gt; see '?methods' for accessing help and source code</span>
+<span class="va">zikaVirus</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/ShortRead/man/ShortRead-class.html">sread</a></span><span class="op">(</span><span class="va">zika</span><span class="op">)</span> <span class="co"># slots from object of class "DNAStringSet"</span>
+<span class="va">zikaVirus</span>
+<span class="co">#&gt; DNAStringSet object of length 1:</span>
+<span class="co">#&gt;     width seq</span>
+<span class="co">#&gt; [1] 10794 AGTTGTTGATCTGTGTGAGTCAGA...GTGTGGGGAAATCCATGGTTTCT</span>
+<span class="fu"><a href="https://rdrr.io/pkg/ShortRead/man/readFasta.html">writeFasta</a></span><span class="op">(</span>object <span class="op">=</span> <span class="va">zika</span>, file <span class="op">=</span> <span class="st">"output/data/zv.fasta"</span><span class="op">)</span></code></pre></div>
+<p>Start by checking the alphabet of the sequence.</p>
+<div class="sourceCode" id="cb414"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/XString-class.html">alphabet</a></span><span class="op">(</span><span class="va">zikaVirus</span><span class="op">)</span> <span class="co"># Shows the letters included in the sequence</span>
+<span class="co">#&gt;  [1] "A" "C" "G" "T" "M" "R" "W" "S" "Y" "K" "V" "H" "D" "B"</span>
+<span class="co">#&gt; [15] "N" "-" "+" "."</span>
+<span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/letterFrequency.html">alphabetFrequency</a></span><span class="op">(</span><span class="va">zikaVirus</span><span class="op">)</span> <span class="co"># Shows the counts per letter</span>
+<span class="co">#&gt;         A    C    G    T M R W S Y K V H D B N - + .</span>
+<span class="co">#&gt; [1,] 2991 2359 3139 2305 0 0 0 0 0 0 0 0 0 0 0 0 0 0</span></code></pre></div>
+<p>Remember that each alphabet corresponds to a specific <strong>BString</strong> container, and each alphabet usually has extra code letters and symbols.</p>
+<p>Call <code><a href="https://rdrr.io/pkg/Biostrings/man/XString-class.html">alphabet()</a></code> with the attribute <code>baseOnly = TRUE</code>. What difference do you see when adding this optional argument?</p>
+<div class="sourceCode" id="cb415"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Check alphabet of the zikaVirus using baseOnly = TRUE</span>
+<span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/XString-class.html">alphabet</a></span><span class="op">(</span><span class="va">zikaVirus</span>, baseOnly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="co">#&gt; [1] "A" "C" "G" "T"</span></code></pre></div>
+<p>You’ve now discovered that the zikaVirus is a DNA sequence since it contains the 4 bases A, C, T, and G. The <code>zikaVirus</code> has been read into a <code>DNAStringSet</code>.</p>
+</div>
+<div id="manipulating-biostrings" class="section level4" number="7.5.4.2">
+<h4>
+<span class="header-section-number">7.5.4.2</span> Manipulating Biostrings<a class="anchor" aria-label="anchor" href="#manipulating-biostrings"><i class="fas fa-link"></i></a>
+</h4>
+<p>Using a short sequence (<code>dna_seq</code>) from the <code>zikaVirus</code> object, we are going with the two biological processes of transcription and translation.</p>
+<p>In the first two parts of this exercise, you will apply these processes separately. After using <code><a href="https://rdrr.io/r/base/unlist.html">unlist()</a></code> the zikaVirus we set and select the first 21 base pairs with <code>subseq()</code>. The resulting object will be a “DNAString” object. We transcribe the <code>dna_seq</code> into an “RNAString” and assign it to <code>rna_seq</code>. We translate the <code>rna_seq</code> into an “AAString” and assign it to <code>aa_seq</code>.</p>
+<div class="sourceCode" id="cb416"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Unlist the set, select the first 21 letters, and assign to dna_seq</span>
+<span class="va">dna_seq</span> <span class="op">&lt;-</span> <span class="fu">subseq</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="va">zikaVirus</span><span class="op">)</span>, end <span class="op">=</span> <span class="fl">21</span><span class="op">)</span>
+<span class="va">dna_seq</span>
+<span class="co">#&gt; 21-letter DNAString object</span>
+<span class="co">#&gt; seq: AGTTGTTGATCTGTGTGAGTC</span>
+
+<span class="co"># Transcribe dna_seq into an RNAString object and print it</span>
+<span class="va">rna_seq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/RNAString-class.html">RNAString</a></span><span class="op">(</span><span class="va">dna_seq</span><span class="op">)</span> 
+<span class="va">rna_seq</span>
+<span class="co">#&gt; 21-letter RNAString object</span>
+<span class="co">#&gt; seq: AGUUGUUGAUCUGUGUGAGUC</span>
+
+<span class="co"># Translate rna_seq into an AAString object and print it</span>
+<span class="va">aa_seq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/translate.html">translate</a></span><span class="op">(</span><span class="va">rna_seq</span><span class="op">)</span>
+<span class="va">aa_seq</span>
+<span class="co">#&gt; 7-letter AAString object</span>
+<span class="co">#&gt; seq: SC*SV*V</span></code></pre></div>
+<p>In the last part, we’ll apply them in one step. We complete the processes of transcription and translation on the “DNAString” object <code>dna_seq</code> in one step, converting it directly into an “AAString” object, <code>aa_seq</code>.</p>
+<div class="sourceCode" id="cb417"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Unlist the set, select the first 21 letters, and assign to dna_seq</span>
+<span class="va">dna_seq</span> <span class="op">&lt;-</span> <span class="fu">subseq</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="va">zikaVirus</span><span class="op">)</span>, end <span class="op">=</span> <span class="fl">21</span><span class="op">)</span>
+<span class="va">dna_seq</span>
+<span class="co">#&gt; 21-letter DNAString object</span>
+<span class="co">#&gt; seq: AGTTGTTGATCTGTGTGAGTC</span>
+
+<span class="co"># Transcribe and translate dna_seq into an AAString object and print it</span>
+<span class="va">aa_seq</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/Biostrings/man/translate.html">translate</a></span><span class="op">(</span><span class="va">dna_seq</span><span class="op">)</span>
+<span class="va">aa_seq</span>
+<span class="co">#&gt; 7-letter AAString object</span>
+<span class="co">#&gt; seq: SC*SV*V</span></code></pre></div>
+<p>We used a very small sequence in this exercise, but remember that the power of <code>BStrings</code> comes to light when manipulating much larger sequences.</p>
+
+</div>
+</div>
+</div>
 </div>
   <div class="chapter-nav">
 <div class="prev"><a href="modern-graphics.html"><span class="header-section-number">6</span> Modern graphics</a></div>
 <div class="next"><a href="rna-seq-an-example.html"><span class="header-section-number">8</span> RNA-Seq (an example)</a></div>
 </div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
     <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
-      <ul class="nav navbar-nav"><li><a class="nav-link" href="#bioconductor"><span class="header-section-number">7</span> Bioconductor</a></li></ul>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#bioconductor"><span class="header-section-number">7</span> Bioconductor</a></li>
+<li><a class="nav-link" href="#introduction-1"><span class="header-section-number">7.1</span> Introduction</a></li>
+<li>
+<a class="nav-link" href="#how-to-install-bioconductor-packages"><span class="header-section-number">7.2</span> How to install Bioconductor packages?</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#bioconductor-version-and-package-version"><span class="header-section-number">7.2.1</span> Bioconductor version and package version</a></li></ul>
+</li>
+<li>
+<a class="nav-link" href="#oo-systems"><span class="header-section-number">7.3</span> OO systems</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#s3"><span class="header-section-number">7.3.1</span> S3</a></li>
+<li><a class="nav-link" href="#s4"><span class="header-section-number">7.3.2</span> S4</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#introducing-genomic-datasets"><span class="header-section-number">7.4</span> Introducing genomic datasets</a><ul class="nav navbar-nav"><li><a class="nav-link" href="#yeast-genome"><span class="header-section-number">7.4.1</span> Yeast genome</a></li></ul>
+</li>
+<li>
+<a class="nav-link" href="#introduction-to-biostrings"><span class="header-section-number">7.5</span> Introduction to Biostrings</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#biological-string-containers"><span class="header-section-number">7.5.1</span> Biological string containers</a></li>
+<li><a class="nav-link" href="#biostring-alphabets"><span class="header-section-number">7.5.2</span> Biostring alphabets</a></li>
+<li><a class="nav-link" href="#transcription-and-translation"><span class="header-section-number">7.5.3</span> Transcription and translation</a></li>
+<li><a class="nav-link" href="#the-zika-virus"><span class="header-section-number">7.5.4</span> The Zika virus</a></li>
+</ul>
+</li>
+</ul>
 
       <div class="book-extra">
         <ul class="list-unstyled">
@@ -85,7 +1052,7 @@
 <footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
 
   <div class="col-12 col-md-6 mt-3">
-    <p>"<strong>Advanced R</strong>" was written by Kálmán Abari. It was last built on 2021-10-22.</p>
+    <p>"<strong>Advanced R</strong>" was written by Kálmán Abari. It was last built on 2021-10-29.</p>
   </div>
 
   <div class="col-12 col-md-6 mt-3">
@@ -93,6 +1060,34 @@
   </div>
 
 </div></div>
-</footer>
+</footer><!-- dynamically load mathjax for compatibility with self-contained --><script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script><script type="text/x-mathjax-config">const popovers = document.querySelectorAll('a.footnote-ref[data-toggle="popover"]');
+for (let popover of popovers) {
+  const div = document.createElement('div');
+  div.setAttribute('style', 'position: absolute; top: 0, left:0; width:0, height:0, overflow: hidden; visibility: hidden;');
+  div.innerHTML = popover.getAttribute('data-content');
+
+  var has_math = div.querySelector("span.math");
+  if (has_math) {
+    document.body.appendChild(div);
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, div]);
+    MathJax.Hub.Queue(function() {
+      popover.setAttribute('data-content', div.innerHTML);
+      document.body.removeChild(div);
+    })
+  }
+}
+</script>
 </body>
 </html>
